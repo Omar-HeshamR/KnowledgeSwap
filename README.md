@@ -32,7 +32,7 @@ The application can be used in the following but not limited to cases of utiliza
 - Entrepreneurs, developers, or creative thinkers aspiring to generate a multitude of ideas on an upcoming project or development. 
 
 ## How we built it
-We utilized HyperText Markup Language, Cascading style sheets, and React JS for our application front end. We established NextJS as our framework to organize our web application structure. We administered the backend with NodeJS, Metamask, Ethers, and Hardhat.
+We utilized HyperText Markup Language, Cascading style sheets, and React JS for our application front end. We established NextJS as our framework to organize our web application structure. We administered the backend with NodeJS, Metamask, Ethers, and Hardhat. Developed on the blockchain using solidity.
 
 ## Challenges we ran into
 - We also ran into many challenges regarding making the app have a successful business model. For example, how to always keep high incentives for users to answer inquiries, prevent users from not rewarding the correct answer, and ensure that the user will not cycle tokens to himself or gain fake credibility. All those issues were addressed and solved either live or in the what’s next section.
