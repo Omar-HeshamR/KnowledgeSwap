@@ -1,7 +1,12 @@
 # KnowledgeSwap
-KnowledgeSwap Live Repository. Project will be working on the BTTC and MATIC mainnets.
 
-BTTC TESTNET Version: https://knowledgeswap-app-btt-testnet.vercel.app/
+KnowledgeSwap Live Repository. 
+
+Project will be tested on the BTTC and MATIC testnets before going live.
+
+BTTC TESTNET Version: https://knowledgeswap-app-btt-testnet.vercel.app/ [ an intial demo prototype ]
+
+BTTC TESTNET Git Repo: https://github.com/Omar-HeshamR/KnowledgeSwap_BTTC_testnet
 
 ## Inspiration
 Sometimes, information must be received immediately with no strings attached. Even though the Internet has made attaining information much easier, this process is filled with a multitude of issues. For starters, when you create an inquiry that hasn’t been asked before, it can take a very long time to get an appropriate and engaging response. This is simply because users on the internet are simply not incentivized to answer your inquiry and the inquiry hasn’t reached many users who may be willing to offer input; there is no way to guarantee your inquiry will reach all corners of the globe. Additionally, individuals seeking to ask a sensitive question may feel intimidated since their identity is attached to the question; there is no guaranteed anonymity when asking for such information. 
