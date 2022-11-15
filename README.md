@@ -8,6 +8,9 @@ BTTC TESTNET Version: https://knowledgeswap-app-btt-testnet.vercel.app/ [ an int
 
 BTTC TESTNET Git Repo: https://github.com/Omar-HeshamR/KnowledgeSwap_BTTC_testnet
 
+## Project Info 
+Meet KnowledgeSwap, the solution to all the problems stated above and many more. In essence, KnowledgeSwap is a decentralized application in which users can ask questions, solve asked questions, and learn by viewing previously asked questions on the blockchain. Whenever a user creates an inquiry, a bounty of KnowledgeSwap Tokens (the token of the platform) is attached to that specific inquiry. The most compelling answer (which is determined by the inquirer) is awarded that bounty; this in return, incentives users all across the blockchain to share information in the most compelling and engaging way, creating a self-sustaining decentralized platform.
+
 ## Inspiration
 Sometimes, information must be received immediately with no strings attached. Even though the Internet has made attaining information much easier, this process is filled with a multitude of issues. For starters, when you create an inquiry that hasn’t been asked before, it can take a very long time to get an appropriate and engaging response. This is simply because users on the internet are simply not incentivized to answer your inquiry and the inquiry hasn’t reached many users who may be willing to offer input; there is no way to guarantee your inquiry will reach all corners of the globe. Additionally, individuals seeking to ask a sensitive question may feel intimidated since their identity is attached to the question; there is no guaranteed anonymity when asking for such information. 
 
@@ -35,6 +38,11 @@ The application can be used in the following but not limited to cases of utiliza
 - Users who intend to ask sensitive questions whilst also wanting to remain completely anonymous, or users who just wish to remain anonymous in general.
 - Individuals who are knowledgeable or experts in certain fields looking for a quick side gig.
 - Entrepreneurs, developers, or creative thinkers aspiring to generate a multitude of ideas on an upcoming project or development. 
+
+## Project Goals
+* KnowledgeSwap intends to be the first Web3.0 decentralized platform in which users who know information and can communicate it clearly by answering questions on the application are actively rewarded. In other words, a massive incentive to teach other users is established within the frameworks of the platform. By creating an enormous supply of answered questions and inquiries, KnowledgeSwap intends to become a large online platform for homework help, bug catching, useful tips/advice, studying for exams, and sharing all important knowledge. With such an extensive amount of information in many fields of education, KnowledgeSwap will be a student’s best friend regarding homework and studying.
+* Not only will this incentive to share information become an extensive library and compilation of data, but KnowledgeSwap will also undoubtedly accelerate the speed of learners. Since users can attain all sorts of information on the same platform, this will save time compared to the traditional learning method, in which learners would have to go to multiple centralized platforms to acquire content. In this regard, a decentralized platform in which all users can access data globalizes the access to information, helping dismantle centralized institutions of education that unfairly favor one group or region over another.
+* A large user base on a Web3.0 application will mean that, at the same time, KnowledgeSwap supports the migration to Web3.0. Users are given the best flavors and splendors of decentralization of the internet, as those who share information are guaranteed rewards through smart contract(s). Furthermore, those who receive information will own it and have full rights over it. In essence, KnowledgeSwap is a decentralized application centered around education that also implements the newest technologies of blockchain and Web3.0.
 
 ## How we built it
 We utilized HyperText Markup Language, Cascading style sheets, and React JS for our application front end. We established NextJS as our framework to organize our web application structure. We administered the backend with NodeJS, Metamask, Ethers, and Hardhat. Developed on the blockchain using solidity.
