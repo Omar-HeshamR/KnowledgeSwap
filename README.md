@@ -46,10 +46,10 @@ The application can be used in the following but not limited to cases of utiliza
 * Not only will this incentive to share information become an extensive library and compilation of data, but KnowledgeSwap will also undoubtedly accelerate the speed of learners. Since users can attain all sorts of information on the same platform, this will save time compared to the traditional learning method, in which learners would have to go to multiple centralized platforms to acquire content. In this regard, a decentralized platform in which all users can access data globalizes the access to information, helping dismantle centralized institutions of education that unfairly favor one group or region over another.
 * A large user base on a Web3.0 application will mean that, at the same time, KnowledgeSwap supports the migration to Web3.0. Users are given the best flavors and splendors of decentralization of the internet, as those who share information are guaranteed rewards through smart contract(s). Furthermore, those who receive information will own it and have full rights over it. In essence, KnowledgeSwap is a decentralized application centered around education that also implements the newest technologies of blockchain and Web3.0.
 
-## How we built it
+## How we are building it
 We utilized HyperText Markup Language, Cascading style sheets, and React JS for our application front end. We established NextJS as our framework to organize our web application structure. We administered the backend with NodeJS, Metamask, Ethers, and Hardhat. Developed on the blockchain using solidity.
 
-## Challenges we ran into
+## Challenges we ran into so far
 - We also ran into many challenges regarding making the app have a successful business model. For example, how to always keep high incentives for users to answer inquiries, prevent users from not rewarding the correct answer, and ensure that the user will not cycle tokens to himself or gain fake credibility. All those issues were addressed and solved either live or in the what’s next section.
 - We ran into multiple challenges when it came to integrating all the functionalities into a straightforward and user-friendly user interface that runs smoothly. We also ran into many problems that reduced the simplicity of the user experience. We were able to overcome all the difficulties we have run into so far.
 
@@ -57,9 +57,6 @@ We utilized HyperText Markup Language, Cascading style sheets, and React JS for 
 - We are very proud of completing this significant progress in a brief period, and with this rate, we can push the product to a great level as time goes on.
 - We are proud that our self-sustaining application can still dodge many problems that prevent it from succeeding. Still, we were able to come up with ideas and creative solutions that would make the app as viable as possible.
 - We are incredibly proud that we created a decentralized protocol solution that solves many significant problems and unlocks global access to knowledge.
-
-## What we learned
-- We learned that creating a new solution that beats existing products takes time and effort. But we also learned that this challenge could be overcome by using fresh, modern, and revolutionary technologies. In addition to utilizing new technologies, we also learned that you need to critically analyze and problem-solve all the unique issues that arise with your new solution, especially if it's going to be decentralized; there will be a need to predict all possible forms of malicious activities and put prevention methods to it.
 
 ## What's next for KnowledgeSwap
 - Data compress all the replies so that the transaction fees of questions and replies are as little as possible. Potentially upgrade it so that it only holds a URI on the blockchain, and the URI will decentralized store it on IPFS, hence reducing cost.
