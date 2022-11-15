@@ -1,5 +1,8 @@
 import Layout from "../components/Layout"
 import styled from "styled-components"
+import { ThemeProvider } from "styled-components";
+import {light} from "../styles/Themes.js"
+import {dark} from "../styles/Themes.js"
 import { createGlobalStyle } from 'styled-components'
 import "@fontsource/red-hat-display"
 import { StateContext } from "../context/StateContext"
@@ -20,10 +23,12 @@ function MyApp({ Component, pageProps }) {
     <>
     <StateContext>
       <GlobalStyle />
+      <ThemeProvider theme = {light}>
         <Layout>
           <Toaster />
           <Component {...pageProps} />
         </Layout>
+      </ThemeProvider>
     </StateContext>
     </>
   
