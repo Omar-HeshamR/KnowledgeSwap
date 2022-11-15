@@ -6,7 +6,7 @@ Project will be tested on the BTTC and MATIC testnets before going live untill a
 
 MATIC TESTNET Version: https://knowledgeswap.vercel.app 
 
-BTTC TESTNET Version: https://knowledgeswap-app-btt-testnet.vercel.app/ [ an intial demo prototype ]
+BTTC TESTNET Version: https://knowledgeswap-app-btt-testnet.vercel.app/ [ intial demo prototype v1 ]
 
 BTTC TESTNET Git Repo: https://github.com/Omar-HeshamR/KnowledgeSwap_BTTC_testnet
 
