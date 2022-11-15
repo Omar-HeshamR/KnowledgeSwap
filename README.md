@@ -2,7 +2,9 @@
 
 KnowledgeSwap Live Repository. 
 
-Project will be tested on the BTTC and MATIC testnets before going live.
+Project will be tested on the BTTC and MATIC testnets before going live untill a merge of all EVM compatible chains!
+
+MATIC TESTNET Version: https://knowledgeswap.vercel.app 
 
 BTTC TESTNET Version: https://knowledgeswap-app-btt-testnet.vercel.app/ [ an intial demo prototype ]
 
