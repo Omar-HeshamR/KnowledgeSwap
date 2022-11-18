@@ -24,22 +24,22 @@ const FreeMint = () => {
 }
 
 const Mint = styled.div`
-width: 3rem;
-height: 3rem;
+width: 3vw;
+height: 3vw;
 box-sizing: border-box;
 margin: 0;
 padding: 0;
-color: white;
-background-color: red;
+color:  ${props => props.theme.backgroundColor};
+background-color:  ${props => props.theme.textColor};
 font-size: 3.25vw;
 position: fixed;
-right: 1rem;
-bottom 1rem;
+right: 1vw;
+bottom 1vw;
 a{
     text-decoration: none;
-    color: white;
+    color:${props => props.theme.backgroundColor};
     &[aria-current] {
-      color: white;
+      color: ${props => props.theme.backgroundColor};
     }
   }
 cursor: pointer;

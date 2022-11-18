@@ -136,28 +136,25 @@ const Section = styled.section`
 display: flex;
 width: 100%;
 height: 40vw;
-background-color: #F7F0F5;
-// justify-content: center;
 align-items: center;
 flex-direction: column;
 text-align: center;
-// background-color: darkcyan;
+color: ${props => props.theme.textColor};
+background-color: ${props => props.theme.backgroundColor};
 `
 const Heading = styled.div`
-color: #FF0000;
 margin-top: 1.5vw;
 margin-bottom: 3vw;
 font-family: "Red Hat Display", sans-serif; 
-font-size: 4vw;
-font-weight: 900;
+font-size: ${props => props.theme.fontHeading_small};
+font-weight: ${props => props.theme.fontBold};
 `
 const Heading2 = styled.div`
-color: #FF0000;
 margin-top: 5.5vw;
 margin-bottom: 3vw;
 font-family: "Red Hat Display", sans-serif; 
-font-size: 3vw;
-font-weight: 900;
+font-size: ${props => props.theme.fontSubheading_small};
+font-weight: ${props => props.theme.fontBold};
 `
 
 const SubHeading = styled.div`
@@ -166,10 +163,9 @@ justify-content: center;
 align-items: center;
 text-align: center;
 margin-right: 1vw;
-color: #FF0000;
 font-family: "Red Hat Display", sans-serif; 
-font-weight: 100;
-font-size: 1.25vw;
+font-weight: ${props => props.theme.fontLight};
+font-size: ${props => props.theme.fontParagraph_medium};
 `
 const InputContainer = styled.div`
 margin-top: 1vw;
@@ -178,55 +174,52 @@ display: flex;
 flex-direction: row;
 `
 const QuestionInput = styled.textarea`
-border: 1px solid red;
+border: 0.15vw solid ${props => props.theme.textColor};
 width: 50vw;
 height: 10vw;
-font-size: 1.25vw;
-font-weight: 600;
-color: red;
+font-size: ${props => props.theme.fontParagraph_medium};
+font-weight: ${props => props.theme.fontLight};
+color:  ${props => props.theme.textColor};
 padding-top: 1vw;
 padding-left: 1vw;
 `
 
 const Input = styled.input`
-border: 1px solid red;
+border: 0.15vw solid  ${props => props.theme.textColor};
 width: 5vw;
-font-size: 1.25vw;
-font-weight: 600;
-color: red;
+font-size: ${props => props.theme.fontParagraph_medium};
+font-weight: ${props => props.theme.fontLight};
+color: ${props => props.theme.textColor};
 padding-left: 0.5vw;
 `
 
 const InputText = styled.div`
-color: #FF0000;
 font-family: "Red Hat Display", sans-serif; 
-font-size: 2.25vw;
-font-weight: 600;
+font-size: ${props => props.theme.fontSubheading_medium};
+font-weight: ${props => props.theme.fontLight};
 margin-right: 4vw;
 `
 
 const MintButton = styled.button`
 display: flex;
-background-color: #FF0000;
-color: #F7F0F5;
+background-color: ${props => props.theme.textColor};
+color: ${props => props.theme.backgroundColor};
 margin-bottom: auto;
 font-family: "Red Hat Display", sans-serif; 
-font-size: 2.25vw;
-font-weight: 900;
-padding 0.75vw 1vw;
+font-size: ${props => props.theme.fontButton_large};
+font-weight: ${props => props.themefontBold};
+padding ${props => props.theme.buttonPadding_large};
 border: none;
-background-color: ff0000;
 &:hover{
-    border: 5px solid #6610F2;
+    border: 0.4vw solid #6610F2;
     transform: scale(1.05);
     cursor: pointer;
 }
 `
 
 const PleaseWait = styled.div`
-color: #FF0000;
-font-size: 5vw;
-font-weight: 550;
+font-size: ${props => props.theme.fontHeading_large};
+font-weight: ${props => props.theme.fontBold};
 margin-bottom: 2vw;
 margin-top: 0vw;
 `

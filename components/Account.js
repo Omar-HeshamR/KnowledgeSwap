@@ -31,7 +31,7 @@ useEffect(() => {
         <AccountContainer>
 
         <HeadBack onClick={() => setShowAccount(false)}>
-            <AiOutlineLeft size={30} color={"red"}/>
+            <AiOutlineLeft size={30} color={"#A51C30"}/>
         </HeadBack>
         <InfoBox>
           <InfoContainer> <UserText><p><b>User:</b>{accounts[0]}</p></UserText>
@@ -90,16 +90,22 @@ const AccountWrapper = styled.div`
     transition: all 1s ease-in-out;
 `
 const AccountContainer = styled.div`
+    color: ${props => props.theme.textColor};
+    background-color: ${props => props.theme.backgroundColor};
     height: 100vh;
     flex-direction: column;
     width: 33.5vw;
-    background-color: #F7F0F5;
-    // background-color: aqua;
     float: right;
-    padding: 40px 10px;
+    padding: 4vw 1vw;
     overflow: auto;
     position: relative;
     animation: ${OpenUp} 1.25s ease;
+    a{
+      text-decoration: none;
+      color:  ${props => props.theme.backgroundColor};
+      &[aria-current] {
+        color:  ${props => props.theme.backgroundColor};
+    }
     @media (max-width: 1024px){
       width: 40vw;
     } 
@@ -131,11 +137,9 @@ const AccountContainer = styled.div`
 const HeadBack = styled.button`
 display: flex;
 align-items: center;
-font-size: 2vw;
-font-weight: 500;
+font-size: ${props => props.theme.fontSubheading_small};
+font-weight: ${props => props.theme.fontLight};
 cursor: pointer;
-gap: 0px;
-margin-left: 0vw;
 border: none;
 background-color: transparent;
 
@@ -148,41 +152,35 @@ flex-direction: column;
 align-items: center;
 justify-content: center;
 width: 100%;
-// min-height: 90%;
 height: 60%;
-// overflow-y: scroll;
-// background-color: blanchedalmond;
 `
 const InfoContainer = styled.div`
 display: flex;
 flex-direction: row;
 align-items: center;
 justify-content: center;
-
 width: 90%;
-// min-height: 15%;
-// height: auto;
 height: 15%;
-// background-color: coral;
 margin: 1vw auto;
 `
 const LogOutButton = styled.button`
 border: none;
-font-weight: 900;
-font-size: 2vw;
 margin-top: 3vw;
-background-color: #FF0000;
-color: #F7F0F5;
-padding: 0.75vw 1.5vw;
+font-size: ${props => props.theme.fontButton_large};
+padding: ${props => props.theme.buttonPadding_large};
+font-weight: ${props => props.theme.fontBold};
+background-color: ${props => props.theme.textColor};
+color: ${props => props.theme.backgroundColor};
 
 &:hover{
   cursor: pointer;
 }
 `
 const MyQuestionsHeader = styled.div`
-font-weight: 900;
-font-size: 3vw;
-color: #FF0000;
+display: flex;
+font-weight: ${props => props.theme.textBold};
+font-size: ${props => props.theme.fontSubheading_large};
+color: red;
 
 &:hover{
   cursor: pointer;
@@ -190,25 +188,15 @@ color: #FF0000;
 }
 `
 const InfoText = styled.div`
-// font-weight: 900;
-font-size: 1.5vw;
-color: #FF0000;
+font-size: ${props => props.theme.fontParagraph_large};
 margin-left: auto;
 margin-right: 0.5vw;
-// overflow-wrap: break-word;
-// background-color: aqua;
 text-align: right;
-// width: 75%;
-// &:hover{
-//   cursor: pointer;
-//   text-decoration: underline;
-// }
 `
 const TokenIcon = styled.div`
 display: flex;
 margin-right: auto;
 img{
-
   width: 1.5vw;
   height: 1.8vw;
 }
@@ -217,18 +205,14 @@ const CredIcon = styled.div`
 display: flex;
 margin-right: auto;
 img{
-
   width: 1.5vw;
   height: 1.5vw;
 }
 `
 const UserText = styled.div`
-// font-weight: 900;
-font-size: 2vw;
-color: #FF0000;
-border: 0.25vw double #F37933;
+font-size: ${props => props.theme.fontSubheading_small};
+border: 0.2vw solid ${props => props.theme.textColor};
 overflow-wrap: break-word;
-// background-color: aqua;
 text-align: center;
 width: 100%;
 

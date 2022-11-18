@@ -117,8 +117,8 @@ height: 100%;
 display: flex;
 align-items: center;
 justify-content: center;
-// background-color: chocolate;
-background-color: #F7F0F5;
+color: ${props => props.theme.textColor};
+background-color: ${props => props.theme.backgroundColor};
 `
 const Container = styled.div`
 width: 60%;
@@ -126,7 +126,6 @@ height: 90%;
 display: flex;
 align-items: center;
 justify-content: center;
-// background-color: ivory;
 flex-direction: column;
 `
 const Title = styled.div`
@@ -136,10 +135,8 @@ display: flex;
 align-items: center;
 justify-content: center;
 text-align: center;
-color: #FF0000;
-font-size: 5vw;
-font-weight: 900;
-// background-color: yellow;
+font-size: ${props => props.theme.fontHeading_large};
+font-weight: ${props => props.theme.fontBold};
 `
 const SearchContainer = styled.div`
 margin: 1vw 0;
@@ -147,19 +144,17 @@ width: 95%;
 height: 4vw;
 display: flex;
 align-items: center;
-// justify-content: center;
-// background-color: lightsteelblue;
 flex-direction: row;
 `
 const SearchBox = styled.input`
 margin-left: 2.5%;
-border: 0.1vw solid red;
+border: 0.1vw solid ${props => props.theme.textColor};
 display: flex;
 width: 90%;
 height: 90%;
-background-color: #F7F0F5;
-color: #FF0000;
-font-size: 2vw;
+color: ${props => props.theme.textColor};
+background-color: ${props => props.theme.backgroundColor};
+font-size: ${props => props.theme.fontSubheading_small};
 `
 const IconContainer = styled.div`
 display: flex;
@@ -182,7 +177,6 @@ height: 100%;
 display: flex;
 align-items: center;
 justify-content: center;
-// background-color: khaki;
 flex-direction: column;
 `
 const QuestionDiv = styled.div`
@@ -191,10 +185,8 @@ width: 95%;
 min-height: 12vw;
 height: auto;
 display: flex;
-// flex-direction: column;
-// background-color: purple;
 border-radius: 1vw;
-border: 0.5vw double red;
+border: 0.5vw double ${props => props.theme.fonttextColor};
 justify-content: center;
 align-items: center;
 `
@@ -202,7 +194,6 @@ const QuestionBox = styled.div`
 width: 95%;
 height: 100%;
 margin: 1vw 0;
-// background-color: blanchedalmond;
 display: flex;
 flex-direction: column;
 justify-content: center;
@@ -212,42 +203,31 @@ const MinorContainer = styled.div`
 height: auto;
 width: 100%;
 display: flex;
-// margin-bottom: auto;
-// background-color: blue;
 flex-direction: row;
 `
 const SubHeading = styled.div`
 display: flex;
-// width: 50%;
 align-items: center;
-font-size: 4vw;
-font-weight: 900;
-color: #FF0000;
-// background-color: ivory;
+font-size: ${props => props.theme.fontHeading_small};
+font-weight: ${props => props.theme.fontBold};
 `
 const Inquiry = styled.div`
 width: 100%;
-// min-height: 4vw;
 height: 100%;
 max-height: 30vw;
 overflow-y: scroll;
 margin-top: 1vw;
-font-size: 2vw;
+font-size: ${props => props.theme.fontSubheading_small};
 margin-bottom: auto;
 display: flex;
-// justify-content: center;
-// align-items: center;
 text-align: left;
-// background-color: orangered;
-color: #FF0000;
 
 &::-webkit-scrollbar {
   width: 1vw;
 }
 
 &::-webkit-scrollbar-thumb {
-  background: red; 
-}
+  background: ${props => props.theme.backgroundColor};
 
 `
 const ViewContainer = styled.div`
@@ -255,7 +235,6 @@ width: 30%;
 height: 6vw;
 flex-direction: row;
 display: flex;
-// background-color: orange;
 margin-bottom: auto;
 margin-left: auto;
 justify-content: center;
@@ -266,24 +245,20 @@ margin-top: auto;
 margin-bottom: auto;
 margin-left: auto;
 border: none;
-font-size: 2vw;
-padding: 0.5vw 1.5vw;
-
-// border-radius: 1vw;
-font-weight: 900;
-background-color: #FF0000;
-color: #F7F0F5;
+font-size: ${props => props.theme.fontButton_large};
+padding: ${props => props.theme.buttonPadding_small};
+font-weight: ${props => props.theme.fontBold};
+background-color: ${props => props.theme.textColor};
+color: ${props => props.theme.backgroundColor};
 &: hover{
   cursor: pointer;
 }
 `
 const WalletPlease = styled.div`
-font-size: 3.25vw;
-color: #FF0000;
+font-size: ${props => props.theme.fontSubheading_large};
 `
 const MinimumHold = styled.div`
-font-size: 2.25vw;
-color: #FF0000;
+font-size: ${props => props.theme.fontSubheading_small};
 `
 const Marginer = styled.div`
   margin-top: 3vw;

@@ -28,16 +28,14 @@ const Section = styled.div`
 height: 50vw;
 width: 100%;
 display: flex;
-background-color: brown;
 justify-content: center;
 align-items: center;
-background-color: #F7F0F5;
-// background-color: brown;
+color: ${props => props.theme.textColor};
+background-color: ${props => props.theme.backgroundColor};
 `
 const Container = styled.div`
 display: flex;
 flex-direction: column;
-// background-color: lightyellow;
 width: 95%;
 height: 90%;
 justify-content: center;
@@ -45,7 +43,6 @@ align-items: center;
 `
 const ContainerDiv = styled.div`
 display: flex;
-// background-color: coral;
 width: 95%;
 min-height: 18%;
 height: auto;
@@ -54,30 +51,24 @@ align-items: center;
 margin: auto 0;
 `
 const Title = styled.div`
-// background-color: yellow;
 display: flex;
 text-align: center;
-font-size: 5vw;
-font-weight: 900;
-color: #FF0000;
+font-size: ${props => props.theme.fontHeading_large};
+font-weight: ${props => props.theme.fontBold};
 `
 const Fact = styled.div`
-// background-color: yellow;
 width: 95%;
 display: flex;
 text-align: center;
-font-size: 2vw;
-font-weight: 100;
-color: #FF0000;
+font-size: ${props => props.theme.fontSubheading_small};
+font-weight: ${props => props.theme.fontLight};
 `
 const SuperFact = styled.div`
-// background-color: yellow;
 margin: auto auto;
 display: flex;
 text-align: center;
-font-size: 4vw;
-font-weight: 900;
-color: #FF0000;
+font-size: ${props => props.theme.fontSubheading_large};
+font-weight: ${props => props.theme.fontBold};
 `
 
 export default MainSection4

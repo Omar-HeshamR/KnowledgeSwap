@@ -52,13 +52,13 @@ const Particle = () => {
         },
         particles: {
             color: {
-                value: "#F37933",
+                value: "#EE964B",
             },
             links: {
-                color: "#F37933",
+                color: "#EE964B",
                 distance: 150,  
                 enable: true,
-                opacity: 0.35,
+                opacity: 0.5,
                 width: 0.5,
             },
             collisions: {
@@ -82,7 +82,7 @@ const Particle = () => {
                 value: 80,
             },
             opacity: {
-                value: 0.15,
+                value: 0,
             },
             shape: {
                 type: "circle",

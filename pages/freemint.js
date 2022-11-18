@@ -40,8 +40,6 @@ const FreeMint = () => {
   return (
     <Section>
 
-        <Particle />
-
         <Heading>Mint a 1500 Free KnowledgeSwap Test Tokens</Heading>
         <SubHeading>Since we want to test everything, then ship the best possible product!</SubHeading>
 
@@ -62,26 +60,23 @@ const Section = styled.div`
 display: flex;
 width: 100%;
 height: 40vw;
-background-color: #F7F0F5;
-// justify-content: center;
 align-items: center;
 flex-direction: column;
 text-align: center;
-// background-color: darkcyan;
+color: ${props => props.theme.textColor};
+background-color: ${props => props.theme.backgroundColor};
 `
 const Heading = styled.div`
-color: #FF0000;
 margin-top: 5.5vw;
 font-family: "Red Hat Display", sans-serif; 
-font-size: 4vw;
-font-weight: 900;
+font-size: ${props => props.theme.fontHeading_small};
+font-weight: ${props => props.theme.fontBold};
 `
 const SubHeading = styled.div`
-color: #FF0000;
 font-family: "Red Hat Display", sans-serif; 
-font-weight: 100;
+font-weight: ${props => props.theme.fontLight};
 width: 85%;
-font-size: 1.25vw;
+font-size: ${props => props.theme.fontParagraph_medium};
 `
 
 const InputContainer = styled.div`
@@ -95,34 +90,31 @@ const Input = styled.div`
 display: flex;
 justify-content: center;
 align-items: center;
-border: 1px solid red;
+border: 0.15vw solid ${props => props.theme.textColor};
 width: 32vw;
-font-size: 1.25vw;
-font-weight: 600;
-color: red;
+font-size: ${props => props.theme.fontParagraph_medium};
+font-weight: ${props => props.theme.fontBold};
 `
 
 const AddressText = styled.div`
-color: #FF0000;
 font-family: "Red Hat Display", sans-serif; 
-font-size: 2.25vw;
-font-weight: 600;
+font-size: ${props => props.theme.fontSubheading_medium};
+font-weight: ${props => props.theme.fontBold};
 margin-right: 4vw;
 `
 
 const MintButton = styled.button`
+color: ${props => props.theme.backgroundColor};
+background-color: ${props => props.theme.textColor};
 display: flex;
-background-color: #FF0000;
-color: #F7F0F5;
 margin-bottom: auto;
 font-family: "Red Hat Display", sans-serif; 
-font-size: 2.25vw;
-font-weight: 900;
-padding 0.75vw 1vw;
+font-size: ${props => props.theme.fontButton_large};
+font-weight: ${props => props.theme.fontBold};
+padding: ${props => props.theme.buttonPadding_medium};
 border: none;
-background-color: ff0000;
 &:hover{
-    border: 5px solid #6610F2;
+    border: 0.4vw solid #6610F2;
     transform: scale(1.05);
     cursor: pointer;
 }

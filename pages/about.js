@@ -5,7 +5,6 @@ import Particle from "../components/Particle"
 const About = () => {
   return (
     <Section>
-      <Particle />
       <Container><Title>About Us</Title>
         <BioDiv>KnowledgeSwap is the future of learning and the path to a better education. Explore new avenues of enlightenment and cultivation through a modern, global decentralized application. Join KnowledgeSwap to help spark a new revolution in knowledge sharing. </BioDiv>
         <ObjectivesContainer> <Header>Our Objectives</Header>
@@ -43,8 +42,8 @@ const Section = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #F7F0F5;
-  // background-color: navajowhite;
+  color: ${props => props.theme.textColor};
+  background-color: ${props => props.theme.backgroundColor};
 `
 const Container = styled.div`
   height: 90%;
@@ -52,14 +51,12 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  // background-color: beige;
   flex-direction: column;
 `
 const Title = styled.div`
-  font-size: 15vw;
-  font-weight: 900;
+  font-size: ${props => props.theme.fontTitle_xxlarge};
+  font-weight: ${props => props.theme.fontBold};
   text-align: center;
-  color: #FF0000;
 
 `
 const gradient = keyframes`
@@ -75,21 +72,20 @@ const gradient = keyframes`
 `
 
 const BioDiv = styled.div`
-  // height: 20%;
   width: 60%;
   padding: 2vw 2vw;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #FF0000;
-  color:  #F7F0F5;
+  background-color: ${props => props.theme.textColor};
+  color:  ${props => props.theme.backgroundColor};
   text-align: center;
-  font-size: 2vw;
-  font-weight: 100;
+  font-size: ${props => props.theme.fontSubheading_small};
+  font-weight: ${props => props.theme.fontLight};
   margin-bottom: auto;
   border-bottom: 1vw inset brown;
     border-left: 1vw inset brown;
-    background: linear-gradient(-45deg, red, brown, red, brown);
+    background: linear-gradient(-45deg, ${props => props.theme.textColor}, #D1233E, ${props => props.theme.textColor}, #D1233E);
     background-size: 400% 400%;
     animation-name: ${gradient};
     animation-duration: 8s;
@@ -109,27 +105,22 @@ const ObjectivesContainer = styled.div`
   min-height: 50vw;
   height: auto;
   margin: 4vw auto;
-  // background-color: yellow;
 `
 const Header = styled.div`
   display: flex;
   margin: 1vw 0;
   align-items: center;
   justify-content: center;
-  font-size: 6vw;
-  color: #FF0000;
-  font-weight: 900;
-  // background-color: azure;
+  font-size: ${props => props.theme.fontTitle_default};
+  font-weight: ${props => props.theme.fontBold};
 `
 const Objectives = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2vw;
-  color: #FF0000;
-  font-weight: 100;
+  font-size: ${props => props.theme.fontSubheading_small};
+  font-weight: ${props => props.theme.fontLight};
   text-align: center;
-  // background-color: orangered;
   width: 100%;
   margin: 1vw 0;
   min-height: 10%;

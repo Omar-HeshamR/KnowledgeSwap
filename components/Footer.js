@@ -46,14 +46,15 @@ const Footer = () => {
 }
 
 const Section = styled.div`
-border-top: 0.5vw dashed red;
-background-color: #F7F0F5;
+border-top: 0.5vw dashed white;
+
+color: ${props => props.theme.backgroundColor};
+background-color: ${props => props.theme.textColor};
 display: flex;
 width: 100%;
 height: 20vw;
 justify-content: center;
 align-items: center;
-// background-color: yellowgreen;
 `
 const Container = styled.div`
 display: flex;
@@ -61,7 +62,6 @@ width: 95%;
 height: 90%;
 justify-content: center;
 align-items: center;
-// background-color: lime;
 flex-direction: column;
 `
 const MainDiv = styled.div`
@@ -70,7 +70,6 @@ width: 95%;
 height: 65%;
 justify-content: center;
 align-items: center;
-// background-color: orangered;
 margin: auto 0;
 flex-direction: row;
 `
@@ -80,7 +79,6 @@ width: 29%;
 height: 30%;
 justify-content: center;
 align-items: center;
-// background-color: steelblue;
 margin: auto 0;
 flex-direction: row;
 &:hover{
@@ -90,15 +88,12 @@ flex-direction: row;
 `
 const LogoText = styled.div`
 display: flex;
-font-size: 3vw;
-font-weight: 900;
-// background-color: yellow;
-color: #FF0000;
+font-size: ${props => props.theme.fontSubheading_large};
+font-weight: ${props => props.theme.fontBold};
 font-family: "Red Hat Display", sans-serif; 
 margin: auto auto;
 &:hover{
   cursor: pointer;
-  // transform: scale(1.05);
 }
 `
 const LogoContainer = styled.div`
@@ -115,21 +110,20 @@ width: 33%;
 height: 95%;
 justify-content: center;
 align-items: center;
-// background-color: gold;
 margin: auto auto;
 `
 const FooterButton = styled.div`
 border: none;
-font-size: 3vw;
-font-weight: 900;
-// padding: 0.75vw 1.5vw;
+font-size: ${props => props.theme.fontButton_large};
+padding: ${props => props.theme.buttonPadding_large};
+font-weight: ${props => props.theme.fontBold};
 display: flex;
 justify-content: center;
 align-items: center;
-width: 18vw;
-height: 5vw;
-background-color: #FF0000;
-color: #F7F0F5;
+// width: 18vw;
+// height: 5vw;
+background-color: ${props => props.theme.backgroundColor};
+color: ${props => props.theme.textColor};
 
 &:hover{
   cursor: pointer;
@@ -137,17 +131,17 @@ color: #F7F0F5;
 `
 const FooterButton2 = styled.div`
 border: none;
-font-size: 3vw;
-letter-spacing: 0.25vw;
-font-weight: 900;
-// padding: 0.75vw 1.5vw;
+font-size: ${props => props.theme.fontButton_large};
+padding: ${props => props.theme.buttonPadding_large};
+// letter-spacing: 0.25vw;
+font-weight: ${props => props.theme.fontBold};
 display: flex;
 justify-content: center;
 align-items: center;
-width: 18vw;
-height: 5vw;
-background-color: #FF0000;
-color: #F7F0F5;
+// width: 18vw;
+// height: 5vw;
+background-color: ${props => props.theme.backgroundColor};
+color: ${props => props.theme.textColor};
 
 &:hover{
   cursor: pointer;
@@ -156,10 +150,8 @@ color: #F7F0F5;
 const IconButton = styled.div`
 border: none;
 margin: auto auto;
-// font-size: 3vw;
-font-weight: 900;
 padding: 1vw 1vw;
-background-color: #FF0000;
+background-color: ${props => props.theme.backgroundColor};
 justify-content: center;
 align-items: center;
 border-radius: 1vw;
