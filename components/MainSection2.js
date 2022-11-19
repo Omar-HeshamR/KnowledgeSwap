@@ -1,103 +1,108 @@
 import React from 'react'
 import styled, {keyframes} from 'styled-components';
 import Image from 'next/image';
-import MainSection2Image_left_light from '../assets/MainSection2Image_left_light.svg'
-import MainSection2Image_right_light from '../assets/MainSection2Image_right_light.svg'
+import { ST } from 'next/dist/shared/lib/utils';
+import { motion, useScroll } from "framer-motion"
+import Teachers from '../assets/Teachers.jpg'
+import Exams from '../assets/Exams.jpg'
+import Learning from '../assets/Learning.jpg'
 
 const MainSection2 = () => {
   return (
     <Section>
       <Container>
-        <LeftDiv> <Heading>Why does Education Matter?</Heading>
-            <InfoContainer>
-              <Paragraph>Education is the first step in bringing the world closer together. Access to education established a well-rooted foundation in which people can easily comprehend new information.</Paragraph>
-              <IconContainer><Image src={MainSection2Image_left_light} /></IconContainer>
-            </InfoContainer>
-        </LeftDiv>
 
-        <RightDiv> <Heading>Why is Eduaction the Future?</Heading>
-            <InfoContainer>
-              <Paragraph>As the world is immersed in the information age, embracing new methods, technologies, and ideas is essential. Undoubtedly, education is the latest tool of communication and power.</Paragraph>
-              <IconContainer><Image src={MainSection2Image_right_light} /></IconContainer>
-            </InfoContainer>
-        </RightDiv>
+        <StatDiv
+        as={motion.div}
+        initial = {{ x: -400, opacity: 0, scale: 2}}
+        transition = {{ duration: 2}}
+        animate = {{x: 0, opacity: 1, scale: 1}}
+        >
+          <TextDiv><StatText><p>Students who Actively Asked Questions Performed <b>200%</b> Better on Exams.</p></StatText></TextDiv>
+          <ImageDiv><Image src={Exams} alt="Exams" /></ImageDiv>
+        </StatDiv>
+
+
+        <StatDiv>
+          <TextDiv><StatText><p>Learning New Information Regularly Allows you Problem-Solve <b>45%</b> Faster.</p></StatText></TextDiv>
+          <ImageDiv><Image src={Learning} alt="Learning" /></ImageDiv>
+        </StatDiv>
+
+
+        <StatDiv>
+        <TextDiv><StatText><p>More than <b>90%</b> of Teachers Globally are Underpaid. </p></StatText></TextDiv>
+        <ImageDiv><Image src={Teachers} alt="Teachers" /></ImageDiv>
+        </StatDiv>
+      
+    
       </Container>
+
     </Section>
   )
 }
 
 const Section = styled.div`
-height: 30vw;
+height: 100vh;
 width: 100%;
 display: flex;
 justify-content: center;
 align-items: center;
 color: ${props => props.theme.textColor};
 background-color: ${props => props.theme.backgroundColor};
+// background-color: khaki;
 `
 const Container = styled.div`
+display: grid;
+grid-template-columns: 1fr;
+grid-template-rows: repeat(3, 1fr);
+flex-direction: comlumn;
+width: 90%;
+height: 80%;
+justify-content: center;
+align-items: center;
+// background-color: lavender;
+`
+const StatDiv = styled.div`
 display: flex;
 flex-direction: row;
-width: 90%;
-height: 90%;
 justify-content: center;
 align-items: center;
+width: 95%;
+height: 12vw;
+margin: auto auto;
+// background-color: orangered;
+box-shadow: 1vw 1vw 1vw grey;
+// border: 0.5vw solid ${props => props.theme.textColor};
 `
-const LeftDiv = styled.div`
+const TextDiv = styled.div`
 display: flex;
-width: 49%;
-height: 25vw;
 justify-content: center;
 align-items: center;
-margin-right: auto;
-flex-direction: column;
+width: 70%;
+// background-color: green;
+height: 100%;
 `
-const RightDiv = styled.div`
+const StatText = styled.header`
 display: flex;
-width: 49%;
-height: 25vw;
-justify-content: center;
-align-items: center;
+// background-color: yellow;
+width: 95%;
+font-size: 3vw;
+font-weight: 100;
+`
+
+
+const ImageDiv = styled.div`
+width: 30%;
+height: 100%;
 margin-left: auto;
-flex-direction: column;
-`
-const Heading = styled.div`
+// background-color: yellow;
 display: flex;
-font-size: ${props => props.theme.fontSubheading_large};
-font-weight: ${props => props.theme.fontBold};
-margin-bottom: auto;
-`
-const InfoContainer = styled.div`
-margin: auto 0;
-width: 90%;
-height: 60%;
-justify-content: space-between;
-align-items: center;
-flex-direction: row;
-display: flex;
-`
-const Paragraph = styled.div`
-width: 49%;
-height: 95%;
-justify-content: center;
-align-items: center;
-display: flex;
-font-weight: ${props => props.theme.fontLight};
-font-size: ${props => props.theme.fontParagraph_medium};
-text-align: center;
-`
-const IconContainer = styled.div`
-display: flex;
-width: 49%;
-height: 95%;
-justify-content: center;
-align-items: center;
 
 img{
-  width: 15vw;
+  margin: auto auto;
   height: 10vw;
+  width: 18vw;
 }
 `
-
 
 export default MainSection2
