@@ -244,9 +244,9 @@ const Section = styled.section`
 display: flex;
 width: 100%;
 min-height: 50vw;
-border-top: 0.05vw solid red;
 height: 100%;
 background-color: #F7F0F5;
+color: ${props => props.theme.textColor};
 // justify-content: center;
 align-items: center;
 flex-direction: column;
@@ -258,7 +258,6 @@ display: flex;
 text-align: center;
 justify-content: center;
 align-items: center;
-color: #FF0000;
 font-family: "Red Hat Display", sans-serif; 
 font-size: 4vw;
 font-weight: 900;
@@ -276,7 +275,6 @@ display: flex;
 text-align: center;
 justify-content: center;
 align-items: center;
-color: #FF0000;
 font-family: "Red Hat Display", sans-serif; 
 font-size: 1.5vw;
 font-weight: 600;
@@ -287,7 +285,6 @@ display: flex;
 text-align: center;
 justify-content: center;
 align-items: center;
-color: #FF0000;
 font-family: "Red Hat Display", sans-serif; 
 font-size: 1vw;
 font-weight: 600;
@@ -306,7 +303,6 @@ const Question = styled.div`
   display: flex;
   text-align: left;
   margin-top: 2vw;
-  color: #FF0000;
   width: 95%;
   font-size: 2vw;
 `
@@ -314,14 +310,14 @@ const Question = styled.div`
 const Divider = styled.div`
   margin-top: 2vw;
   margin-bottom: 3vw;
-  border-top: 0.25vw solid red;
-  border-bottom: 0.25vw solid red;
+  border-top: 0.25vw solid ${props => props.theme.textColor};
+  border-bottom: 0.25vw solid ${props => props.theme.textColor};
   width: 95%;
   height: 0.9vw;
 `
 const ReplyContainer = styled.div`
   width: 95%;
-  border: 0.5vw double red;
+  border: 0.5vw double ${props => props.theme.textColor};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -360,7 +356,6 @@ display: flex;
 
 const ReplyHeaderItem = styled.div`
 display: flex;
-color: #FF0000;
 font-size: 1.5vw;
 font-weight: 600;
 // background-color: blue;
@@ -390,7 +385,7 @@ flex-direction: row;
 
 const AwardButton = styled.button`
 display: flex;
-background-color: #FF0000;
+background-color: ${props => props.theme.textColor};
 color: #F7F0F5;
 margin-left: 0.25vw;
 margin-right: 0.25vw;

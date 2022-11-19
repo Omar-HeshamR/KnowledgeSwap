@@ -39,7 +39,8 @@ useEffect(() => {
             <AiOutlineLeft size={30} color={"#A51C30"}/>
         </HeadBack>
         <InfoBox>
-          <InfoContainer> <UserText><p><b>Account:</b>{accounts[0]}</p></UserText>
+          <InfoContainer> 
+            <UserText><p><b>Account: </b>{accounts[0]}</p></UserText>
           </InfoContainer>
 
           <Grid>
@@ -286,11 +287,18 @@ padding:  ${props => props.theme.buttonPadding_small};
 font-size: ${props => props.theme.fontParagraph_large};
 // border: 0.2vw ${props => props.theme.textColor};
 // border-style: solid;
-overflow-wrap: break-word;
 text-align: left;
+overflow-wrap: break-word;
 border-bottom: 0.5vw double ${props => props.theme.textColor};
 width: 100%;
-
+.text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* number of lines to show */
+          line-clamp: 2; 
+  -webkit-box-orient: vertical;
+}
 `
 
 export default Account
