@@ -7,13 +7,12 @@ import {ethers, BigNumber} from "ethers";
 import { useRouter } from 'next/router'
 import SearchIcon from '../assets/SearchIcon.png'
 
-const KSquestionNFTContractAddress = "0xb31db8a34Faa173df8Bc62e103827AFB00045FDF"
-
 const Learn = () => {
   
   const SearchRef = useRef()
   const router = useRouter()
-  const { accounts , isActive, questionToBeViewed, onLoad, userKStokenCount, setQuestionToBeViewed} = useStateContext();
+  const { accounts , isActive, questionToBeViewed, onLoad, userKStokenCount, 
+    setQuestionToBeViewed, KSquestionNFTContractAddress} = useStateContext();
   const [searchInput, setSearchInput] = useState("");
   const [ totalQuestions, setTotalQuestions] = useState([]);
   const [ questions, setQuestions] = useState([]);

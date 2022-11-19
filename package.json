@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chainlink/contracts": "^0.5.1",
     "@fontsource/noto-sans-javanese": "^4.5.9",
     "@fontsource/outfit": "^4.5.10",
     "@fontsource/red-hat-display": "^4.5.11",

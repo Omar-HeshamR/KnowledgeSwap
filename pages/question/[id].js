@@ -10,16 +10,14 @@ import KSquestionABI from "../../contracts/KSquestionNFT.json"
 import CredibilityIcon from '../../assets/CredibilityIcon.png'
 import { useRouter } from 'next/router'
 
-const KStokenContractAddress = "0xa918f9581f2d56224152DD7A26dd4A62E5b74D66"
-const KSanswerNFTContractAddress = "0xf27DEcD2065C30588197b68A5Bf02c785832829F"
-const KSquestionNFTContractAddress = "0xb31db8a34Faa173df8Bc62e103827AFB00045FDF"
-
 const QuestionDetails = () => {
 
   const router = useRouter()
 
-  const { accounts, questionToBeViewed, setQuestionToBeViewed, awardCredibility, getUserCredibility, AwardBounty } = useStateContext();
-  // const [currReplyerCred, setCurrReplyerCred] = useState(0);
+  const { accounts, questionToBeViewed, setQuestionToBeViewed, awardCredibility, getUserCredibility, 
+    AwardBounty, KStokenContractAddress, KSanswerNFTContractAddress,KSquestionNFTContractAddress
+   } = useStateContext();
+
   const [awardedAlready, setAwardedAlready ] = useState(false)
   const [tempLoader, setTempLoader] = useState(false)
   const [allRepliersAddresses, setAllRepliersAddressses] = useState([]);
