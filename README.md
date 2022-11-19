@@ -1,14 +1,9 @@
 # KnowledgeSwap
 
 KnowledgeSwap Live Repository. 
-
-Project will be tested on the BTTC and MATIC testnets before going live untill a merge of all EVM compatible chains!
-
-MATIC TESTNET Version: https://knowledgeswap.vercel.app 
-
-BTTC TESTNET Version: https://knowledgeswap-app-btt-testnet.vercel.app/ [ intial demo prototype v1 ]
-
-BTTC TESTNET Git Repo: https://github.com/Omar-HeshamR/KnowledgeSwap_BTTC_testnet
+* We are striving to create a platform that securely incentivizes knowledge globally. We want to allow anyone with an inquiry to get a fast response while rewarding those who share their knowledge with the inquirer, all through an extremely simple and good user interface.
+* MATIC TESTNET Version: https://knowledgeswap.vercel.app [ Test Instructions below ]
+* Project will be tested on the BTTC and MATIC testnets before going live untill a merge of all EVM compatible chains!
 
 ## Project Info 
 Meet KnowledgeSwap, the solution to all the problems stated above and many more. In essence, KnowledgeSwap is a decentralized application in which users can ask questions, solve asked questions, and learn by viewing previously asked questions on the blockchain. Whenever a user creates an inquiry, a bounty of KnowledgeSwap Tokens (the token of the platform) is attached to that specific inquiry. The most compelling answer (which is determined by the inquirer) is awarded that bounty; this in return, incentives users all across the blockchain to share information in the most compelling and engaging way, creating a self-sustaining decentralized platform.
@@ -71,3 +66,17 @@ We utilized HyperText Markup Language, Cascading style sheets, and React JS for 
 - Developing a smart contract for the credibility airdrops and giveaways for people who have worked hard and earned many credibility tokens. This will decentralize the reward of credible replies.
 - Redesigning the smart contracts into safe, non-outside executable smart contracts and auditing them to ensure their total safety and self-sustainability. 
 
+## Test Instructions
+
+* Add Mumbai Testnet to your wallet provider and connect to it [ Network configurations: https://medium.com/stakingbits/how-to-connect-polygon-mumbai-testnet-to-metamask-fc3487a3871f]
+* Get some Matic on the Mumbai test network [ use: https://faucet.polygon.technology/ ]
+* Go to the app's page, scroll down and click on the add symbol that shows a plus sign in the bottom right corner to get some free KS test tokens to be able to do actions on the application [Our app: https://knowledgeswap.vercel.app ]
+* Enjoy asking, solving, or learning questions! Good luck on your journey and have fun!
+* Side Notes: when you ask a question, it does not go to the learning feed until enough time has passed relative to how much bounty was placed on the question, you can immediately find it in solve, or find it on my questions when you click on your wallet on the top right corner.
+* **IMPORTANT:** You MUST be on the Mumbai test network for the application to work.
+
+## Other
+
+BTTC TESTNET Version: https://knowledgeswap-app-btt-testnet.vercel.app/ [ intial demo prototype v1 ][ Does not have chainlink verfication yet, solution underway]
+
+BTTC TESTNET Git Repo: https://github.com/Omar-HeshamR/KnowledgeSwap_BTTC_testnet
