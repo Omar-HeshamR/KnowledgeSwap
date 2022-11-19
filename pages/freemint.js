@@ -7,10 +7,8 @@ import { toast } from "react-hot-toast";
 import { useRouter } from 'next/router'
 import { useStateContext } from '../context/StateContext';
 
-const KStokenContractAddress = "0xa918f9581f2d56224152DD7A26dd4A62E5b74D66"
-
 const FreeMint = () => {
-    const { accounts } = useStateContext();
+    const { accounts, KStokenContractAddress } = useStateContext();
     const AddressRef = useRef();
     const router = useRouter();
 
@@ -24,12 +22,12 @@ const FreeMint = () => {
               signer
             );
             try{
-                    const response = await contract.mint(accounts[0] , 1500);
+                    const response = await contract.mint(accounts[0] , 1500 );
                     toast.success(`Succesfully Minted 1500 !`);   
                     router.push("./");
             }catch (err) {
                 // console.log("HELLO")
-                // console.log(err)
+                console.log(err)
                 toast.error('Error !', err);
             }
         }else{

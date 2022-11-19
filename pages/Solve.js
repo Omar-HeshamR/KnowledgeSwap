@@ -8,13 +8,12 @@ import Logo from '../assets/KnowledgeSwapLogo.png'
 import KSquestionABI from "../contracts/KSquestionNFT.json"
 import {ethers, BigNumber} from "ethers";
 
-const KSquestionNFTContractAddress = "0xb31db8a34Faa173df8Bc62e103827AFB00045FDF"
-
 const Solve = () => {
 
   const SearchRef = useRef()
   const router = useRouter()
-  const { accounts, questionToBeAnswered, setQuestionToBeAnswered} = useStateContext();
+  const { accounts, questionToBeAnswered, setQuestionToBeAnswered, 
+    KSquestionNFTContractAddress} = useStateContext();
   const [searchInput, setSearchInput] = useState("");
   const [ totalQuestions, setTotalQuestions] = useState([]);
   const [ questions, setQuestions] = useState([]);

@@ -7,14 +7,13 @@ import KSquestionABI from "../contracts/KSquestionNFT.json"
 import Logo from '../assets/KnowledgeSwapLogo.png'
 import {ethers, BigNumber} from "ethers";
 
-const KSquestionNFTContractAddress = "0xb31db8a34Faa173df8Bc62e103827AFB00045FDF"
-
 const Ask = () => {
 
   const QuestionRef = useRef();
   const BountyRef = useRef();
   const router = useRouter()
-  const { accounts, userKStokenCount, onLoad, HoldBounty , Test} = useStateContext();
+  const { accounts, userKStokenCount, onLoad, HoldBounty , KSquestionNFTContractAddress, 
+    Test} = useStateContext();
   const [loading, setLoading] = useState(false);
   const [checker, setChecker] = useState();
   

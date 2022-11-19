@@ -9,13 +9,11 @@ import {ethers, BigNumber} from "ethers";
 import { useRouter } from 'next/router'
 import KSquestionABI from "../../contracts/KSquestionNFT.json"
 
-const KSanswerNFTContractAddress = "0xf27DEcD2065C30588197b68A5Bf02c785832829F"
-const KSquestionNFTContractAddress = "0xb31db8a34Faa173df8Bc62e103827AFB00045FDF"
-
 const AsnweringDetails = () => {
 
   const router = useRouter()
-  const { accounts, questionToBeAnswered, setQuestionToBeAnswered } = useStateContext();
+  const { accounts, questionToBeAnswered, setQuestionToBeAnswered, KSanswerNFTContractAddress
+  ,  KSquestionNFTContractAddress} = useStateContext();
   const AsnwerRef = useRef();
 
   async function handleMint(){

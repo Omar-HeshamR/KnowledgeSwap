@@ -17,16 +17,17 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
+  defaultNetwork: "matic",
   solidity: "0.8.17",
   allowUnlimitedContractSize: true,
   networks: {
-    goerli: {
-      url: process.env.GOERLI_INFURA_KEY,
-      accounts: [process.env.PRIVATE_KEY],
+    matic: {
+      url: "https://rpc-mumbai.maticvigil.com",
+      accounts: [process.env.PRIVATE_KEY], 
       allowUnlimitedContractSize: true,
     },
 },  
   etherscan: {
-    apiKey: process.env.ETHERSCAN_KEY,
-  },
+    apiKey: process.env.POLYGONSCAN_API_KEY, 
+  }
 };

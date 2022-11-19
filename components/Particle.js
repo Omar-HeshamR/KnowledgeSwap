@@ -80,10 +80,10 @@ const Particle = () => {
                 value: 80,
             },
             opacity: {
-                value: 0,
+                value: 0.08,
             },
             shape: {
-                type: "circle",
+                type: "polygon",
             },
             size: {
                 value: { min: 1, max: 5 },
