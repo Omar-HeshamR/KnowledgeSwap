@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Logo from '../assets/KnowledgeSwapLogo.png'
 import "@fontsource/red-hat-display"
 import InstagramLogo from '../assets/InstagramIcon.png'
-import TronLogo from '../assets/TronLogo.png'
+import DiscordLogo from '../assets/DiscordFooterIcon.png'
 import TwitterLogo from '../assets/TwitterLogo.png'
 import Link from 'next/link';
 import { useRouter } from 'next/router'
@@ -24,7 +24,7 @@ const Footer = () => {
           <MainDiv>
             <Third>
               <IconButton><Image src={InstagramLogo} /></IconButton>
-              <IconButton><Image src={TronLogo} /></IconButton>
+              <IconButton><Image src={DiscordLogo} /></IconButton>
               <IconButton><Image src={TwitterLogo} /></IconButton>
             </Third>
 
