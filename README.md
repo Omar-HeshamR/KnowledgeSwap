@@ -2,7 +2,7 @@
 
 KnowledgeSwap Live Repository. 
 * We are striving to create a platform that securely incentivizes knowledge globally. We want to allow anyone with an inquiry to get a fast response while rewarding those who share their knowledge with the inquirer, all through an extremely simple and good user interface.
-* MATIC TESTNET Version: https://knowledgeswap.vercel.app 
+* MATIC TESTNET Version: https://knowledgeswap.vercel.app [ Test Instructions below ]
 * Project will be tested on the BTTC and MATIC testnets before going live untill a merge of all EVM compatible chains!
 
 ## Project Info 
