@@ -180,7 +180,7 @@ async function awardCredibility(_userToBeRewarded){
     KnowledgeSwapCredibilityToken.abi,
     signer
   )
-  KScredibility = await KScredibilityContract.mint(_userToBeRewarded, 1);
+  KScredibility = await KScredibilityContract.mint(_userToBeRewarded, 1000000000000000000);
   }catch(err){}
 
   toast.success(`Succesfully Awarded!`);   

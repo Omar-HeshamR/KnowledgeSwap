@@ -40,7 +40,7 @@ useEffect(() => {
         </HeadBack>
         <InfoBox>
           <InfoContainer> 
-            <UserText><p><b>Account: </b>{accounts[0]}</p></UserText>
+            <UserText><p><b>Account:</b>{accounts[0]}</p></UserText>
           </InfoContainer>
 
           <Grid>

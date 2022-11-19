@@ -7,7 +7,7 @@ import { useStateContext } from '../../context/StateContext';
 import { toast } from "react-hot-toast";
 import Image from 'next/image';
 import KSquestionABI from "../../contracts/KSquestionNFT.json"
-import CredibilityIcon from '../../assets/CredibilityIcon.png'
+import CredibilityIcon from '../../assets/RedCredibilityIcon.png'
 import { useRouter } from 'next/router'
 
 const QuestionDetails = () => {
@@ -365,7 +365,7 @@ text-align: left;
 margin-top: 1vw;
 margin-bottom: 1vw;
 width: 95%;
-color: #FF0000;
+color: ${props => props.theme.textColor};
 font-size: 1.25vw;
 `
 
@@ -396,7 +396,6 @@ font-weight: 900;
 margin-bottom: 0.25vw;
 padding 0.45vw 0.75vw;
 border: none;
-background-color: ff0000;
 &:hover{
     // border: 1px solid #6610F2;
     transform: scale(0.95);
