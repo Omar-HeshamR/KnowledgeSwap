@@ -89,13 +89,12 @@ flex-direciton: row;
 `
 const LogoContainer = styled.div`
 display: flex;
-height: 90%;
-width: 35%;
 justify-content: center;
 align-items: center;
 flex-direction: row;
 margin-right: auto;
 &:hover{
+  cursor: pointer;
   transform: scale(1.05);
 }
 `

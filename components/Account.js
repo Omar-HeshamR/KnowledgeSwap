@@ -4,12 +4,12 @@ import {ethers, BigNumber} from "ethers";
 import { useStateContext } from '../context/StateContext';
 import { AiOutlineLeft } from 'react-icons/ai'; 
 import Image from 'next/image';
-import Link from 'next/link';
+import { useRouter } from 'next/router'
 import Logo from '../assets/KnowledgeSwapLogo.png'
 import CredibilityIcon from '../assets/CredibilityIcon.png'  
 
 const Account = () => {
-
+const router = useRouter();
 const accountRef = useRef();
 const modalRef = useRef();
 
@@ -19,6 +19,11 @@ const { accounts, showAccount, setShowAccount, userKStokenCount, userKScredibili
   const closeModal = () => {
       setShowAccount(false);
   };  
+
+  const goToMyQuestion = () => {
+    setShowAccount(false)
+    router.push("/myquestions")
+  }
 
 useEffect(() => {
   onLoad()
@@ -46,7 +51,7 @@ useEffect(() => {
           </InfoContainer>
 
           <InfoContainer>
-            <MyQuestionsHeader onClick={() => setShowAccount(false)}><Link href ="/myquestions">Questions I asked</Link></MyQuestionsHeader>
+            <MyQuestionsHeader onClick={goToMyQuestion}>Questions I asked</MyQuestionsHeader>
           </InfoContainer>
           <LogOutButton onClick={disconnectAccount}>LOG OUT</LogOutButton>
         </InfoBox>
@@ -180,7 +185,7 @@ const MyQuestionsHeader = styled.div`
 display: flex;
 font-weight: ${props => props.theme.textBold};
 font-size: ${props => props.theme.fontSubheading_large};
-color: red;
+color: ${props => props.theme.textColor};;
 
 &:hover{
   cursor: pointer;
