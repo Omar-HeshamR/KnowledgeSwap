@@ -1,12 +1,12 @@
 import React from 'react'
-import styled, {keyframes} from 'styled-components';
-import Image from 'next/image';
+import styled from 'styled-components'
+import Image from 'next/image'
 import Logo from '../assets/KnowledgeSwapLogo.png'
 import "@fontsource/red-hat-display"
-import InstagramLogo from '../assets/InstagramIcon.png'
-import TronLogo from '../assets/TronLogo.png'
-import TwitterLogo from '../assets/TwitterLogo.png'
-import Link from 'next/link';
+import DiscordLogo from '../assets/FooterAssets/discord-icon.svg'
+import EmailLogo from '../assets/FooterAssets/mail-icon.svg'
+import GitHubLogo from '../assets/FooterAssets/github-icon.svg'
+import TwitterLogo from '../assets/FooterAssets/twitter-color-icon.svg'
 import { useRouter } from 'next/router'
 
 const Footer = () => {
@@ -21,153 +21,164 @@ const Footer = () => {
   return (
     <Section>
       <Container>
-          <MainDiv>
-            <Third>
-              <IconButton><Image src={InstagramLogo} /></IconButton>
-              <IconButton><Image src={TronLogo} /></IconButton>
-              <IconButton><Image src={TwitterLogo} /></IconButton>
-            </Third>
+        
+        <ThirdDiv>
 
-            <Third>
-              <FooterButton>Contact Us</FooterButton>
-            </Third>
+          <LogoContainer>
+            <LogoBox><Image src={Logo} alt="KnowledgeSwap"/></LogoBox>
+            <LogoText>KnowledgeSwap</LogoText>
+          </LogoContainer>
+          <Subheading>Solve Anything and Everything</Subheading>
 
-            <Third>
-              <FooterButton2>Donate!</FooterButton2>
-            </Third>
-          </MainDiv>
-          <MinorDiv onClick={goToHomePage}>
-              <LogoContainer><Image src={Logo} /></LogoContainer>
-              <LogoText>KnowledgeSwap</LogoText>
+        </ThirdDiv>
+
+        <ThirdDiv>
+
+          <ButtonBox>
+            <ButtonHalf>
+              <CTA>Need More Info?</CTA>
+              <Button>CONTACT US</Button>
+            </ButtonHalf>
+            <ButtonHalf>
+              <CTA>Want To Support?</CTA>
+              <Button>DONATE</Button>
+            </ButtonHalf>
+          </ButtonBox>
+
+        </ThirdDiv>
+
+        <ThirdDiv>
+
+          <MinorDiv>
+            <MinorContainer>
+              <IconDiv>
+                <Icon><Image src={DiscordLogo} alt="Discord"/></Icon>
+                <Icon><Image src={TwitterLogo} alt="Twitter"/></Icon>
+                <Icon><Image src={GitHubLogo} alt="GitHub"/></Icon>
+                <Icon><Image src={EmailLogo} alt="Email"/></Icon>
+              </IconDiv>
+            </MinorContainer>
+            <MinorContainer>
+              <SmallCTA>Connect Wallet</SmallCTA>
+              <SmallCTA>About</SmallCTA>
+              <SmallCTA>Learn</SmallCTA>
+              <SmallCTA>Solve</SmallCTA>
+              <SmallCTA>Ask</SmallCTA>
+            </MinorContainer>
           </MinorDiv>
+
+        </ThirdDiv>
+          
       </Container>
     </Section>
   )
 }
 
 const Section = styled.div`
-border-top: 0.5vw dashed white;
-
-color: ${props => props.theme.backgroundColor};
 background-color: ${props => props.theme.textColor};
+color: ${props => props.theme.backgroundColor};
 display: flex;
 width: 100%;
-height: 20vw;
+height: 15vw;
 justify-content: center;
 align-items: center;
 `
 const Container = styled.div`
 display: flex;
 width: 95%;
-height: 90%;
-justify-content: center;
+height: 95%;
+justify-content: space-between;
+align-items: center;
+`
+const ThirdDiv = styled.div`
+display: flex;
+width: 33%;
+height: 5.5vw;
+justify-content: space-between;
 align-items: center;
 flex-direction: column;
 `
-const MainDiv = styled.div`
+const LogoContainer = styled.div`
 display: flex;
-width: 95%;
-height: 65%;
-justify-content: center;
 align-items: center;
-margin: auto 0;
 flex-direction: row;
 `
-const MinorDiv = styled.div`
+const LogoBox = styled.div`
 display: flex;
-width: 29%;
-height: 30%;
-justify-content: center;
-align-items: center;
-margin: auto 0;
-flex-direction: row;
-&:hover{
-  cursor: pointer;
-  transform: scale(1.05);
+margin-right: 0.5vw;
+img{
+  width: 2vw;
+  height: 2.4vw;
 }
 `
 const LogoText = styled.div`
 display: flex;
-font-size: ${props => props.theme.fontSubheading_large};
+font-size: 2.4vw;
 font-weight: ${props => props.theme.fontBold};
-font-family: "Red Hat Display", sans-serif; 
-margin: auto auto;
+`
+const Subheading = styled.div`
+font-size: ${props => props.theme.fontParagraph_medium};
+font-weight: ${props => props.theme.fontLight};
+`
+const ButtonBox = styled.div`
+display: flex;
+width: 95%;
+height: 100%;
+justify-content: space-between;
+`
+const ButtonHalf = styled.div`
+display: flex;
+width: 45%;
+flex-direction: column;
+justify-content: space-between;
+align-items: center;
+`
+const CTA = styled.div`
+font-size: ${props => props.theme.fontParagraph_large};
+font-weight: ${props => props.theme.fontBold};
+`
+const Button = styled.div`
+border: none;
+font-size: ${props => props.theme.fontButton_small};
+font-weight: ${props => props.theme.fontBold};
+padding: ${props => props.theme.buttonPadding_medium};
+background-color: ${props => props.theme.backgroundColor};
+color:  ${props => props.theme.textColor};
 &:hover{
   cursor: pointer;
 }
 `
-const LogoContainer = styled.div`
+const MinorDiv = styled.div`
 display: flex;
-margin: auto auto;
+align-items: center;
+justify-content: space-between;
+height: 100%;   
+flex-direction: column;
+`
+const MinorContainer = styled.div`
+display: flex;
+`
+const SmallCTA = styled.div`
+font-size:  ${props => props.theme.fontParagraph_small};
+font-weight:  ${props => props.theme.fontBold};
+margin: 0 0.5vw;
+&:hover{
+  cursor: pointer;
+  text-decoration: underline;
+}
+`
+const IconDiv = styled.div`
+display: flex;
+`
+const Icon = styled.div`
+margin: 0 0.5vw;
 img{
-  width: 4vw;
-  height: 4.8vw;
+  width: 2.75vw;
+  height: 2.75vw;
+  &:hover{
+    cursor: pointer;
+    transform: scale(1.1);
+  }
 }
 `
-const Third = styled.div`
-display: flex;
-width: 33%;
-height: 95%;
-justify-content: center;
-align-items: center;
-margin: auto auto;
-`
-const FooterButton = styled.div`
-border: none;
-font-size: ${props => props.theme.fontButton_large};
-padding: ${props => props.theme.buttonPadding_large};
-font-weight: ${props => props.theme.fontBold};
-display: flex;
-justify-content: center;
-align-items: center;
-// width: 18vw;
-// height: 5vw;
-background-color: ${props => props.theme.backgroundColor};
-color: ${props => props.theme.textColor};
-
-&:hover{
-  cursor: pointer;
-}
-`
-const FooterButton2 = styled.div`
-border: none;
-font-size: ${props => props.theme.fontButton_large};
-padding: ${props => props.theme.buttonPadding_large};
-// letter-spacing: 0.25vw;
-font-weight: ${props => props.theme.fontBold};
-display: flex;
-justify-content: center;
-align-items: center;
-// width: 18vw;
-// height: 5vw;
-background-color: ${props => props.theme.backgroundColor};
-color: ${props => props.theme.textColor};
-
-&:hover{
-  cursor: pointer;
-}
-`
-const IconButton = styled.div`
-border: none;
-margin: auto auto;
-padding: 1vw 1vw;
-background-color: ${props => props.theme.backgroundColor};
-justify-content: center;
-align-items: center;
-border-radius: 1vw;
-
-&:hover{
-  cursor: pointer;
-  transform: scale(1.10);
-}
-
-img{
-  display: block;
-  margin: auto auto;
-  width: 3vw;
-  height: 3vw;
-
-}
-`
-
 export default Footer

@@ -13,6 +13,34 @@ const About = () => {
         <Objectives><p><b>Insuring the Self-Sustaining Decentralized Model: </b>Whether we would like to admit it or not, today&apos;s world is built against those who want to learn. Whether it is high subscription costs to service, rejection from an institution of higher education, or lack of adequate resources for meaningful comprehension, education is getting increasingly centralized every day. Whenever there is an opportunity to attain knowledge, centralized, overarching institutions slam the doors shut. And the ones that do information steal data from users, as was seen by certain centralized platforms sharing student information with academic faculties. This unwelcome status quo was the catalyst for establishing KnowledgeSwap so that an environment where users have the full right to their data and their received information is formed. As the world is progressing with respect to the rights of individuals at an unprecedented rate, now is the time to dismantle any association between users and data. In addition, the implementation of KnowledgeSwap Token allows users to have a full say within the community. As the future of education, KnowledgeSwap is the next-level platform; join it to attain new information and own your right to it forever.</p></Objectives>
         </ObjectivesContainer>
 
+        <ObjectivesSection>
+          <MiniContainer>
+
+            <RowContainer>
+
+              <RowDiv>
+                <TitleDiv>Spreading Education</TitleDiv>
+                <Paragraph>We aim to spread education across every subject, allowing users to share and receive information endlessly on a decentralized platform. Our goal is to have a thriving community across every significant education subject.</Paragraph>
+              </RowDiv>
+
+              <RowDiv>
+                <TitleDiv>Rewarding Teachers</TitleDiv>
+                <Paragraph>We thrive on rewarding teachers by incentivizing them to share vital information across our platform. We believe this separates KnowledgeSwap from the rest and gives us our cutting-edge.</Paragraph>
+              </RowDiv>
+
+            </RowContainer>
+
+            <RegularContainer>
+                <RegularDiv>
+                  <TitleDiv>Insuring the Self-Sustaining Decentralized Model</TitleDiv>
+                  <Paragraph>Whether we would like to admit it or not, today's world is built against those who want to learn. Whether it is high subscription costs to service, rejection from an institution of higher education, or lack of adequate resources for meaningful comprehension, education is getting increasingly centralized every day. Whenever there is an opportunity to attain knowledge, centralized, overarching institutions slam the doors shut. And the ones that do information steal data from users, as was seen by certain centralized platforms sharing student information with academic faculties.</Paragraph>
+                  <Paragraph>This unwelcome status quo was the catalyst for establishing KnowledgeSwap so that an environment where users have the full right to their data and their received information is formed. As the world is progressing with respect to the rights of individuals at an unprecedented rate, now is the time to dismantle any association between users and data. In addition, the implementation of KnowledgeSwap Token allows users to have a full say within the community. As the future of education, KnowledgeSwap is the next-level platform; join it to attain new information and own your right to it forever.</Paragraph>
+                </RegularDiv>
+            </RegularContainer>
+
+          </MiniContainer>
+        </ObjectivesSection>
+
         <ObjectivesContainer> <Header>Our Committments</Header>
           <Objectives>- Becoming the Largest Platform for Homework Help</Objectives>
           <Objectives>- Accelerating the Decentralization of the Internet</Objectives>
@@ -47,7 +75,7 @@ const Section = styled.section`
 `
 const Container = styled.div`
   height: 90%;
-  width: 95%;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -125,6 +153,81 @@ const Objectives = styled.div`
   margin: 1vw 0;
   min-height: 10%;
   height: auto;
+`
+
+const ObjectivesSection = styled.div`
+display: flex;
+align-items: center;
+justify-content: center;
+width: 100%;
+height: 60vw;
+background-color: khaki;
+`
+const MiniContainer = styled.div`
+display: flex;
+align-items: center;
+justify-content: center;
+width: 95%;
+height: 95%;
+background-color: lightblue;
+flex-direction: column;
+`
+const RowContainer = styled.div`
+display: flex;
+align-items: center;
+justify-content: center;
+width: 80%;
+height: 25vw;
+background-color: green;
+flex-direction: row;
+`
+const RegularContainer = styled.div`
+display: flex;
+align-items: center;
+justify-content: center;
+width: 80%;
+height: 50%;
+background-color: slateblue;
+// flex-direction: row;
+`
+const RowDiv = styled.div`
+display: flex;
+align-items: center;
+justify-content: center;
+width: 22vw;
+height: 22vw;
+margin: auto 0.5vw;
+background-color: turquoise;
+flex-direction: column;
+`
+const RegularDiv = styled.div`
+display: flex;
+align-items: center;
+justify-content: center;
+width: 45vw;
+height: 22vw;
+margin: auto 0.5vw;
+background-color: turquoise;
+flex-direction: column;
+`
+const TitleDiv = styled.div`
+display: flex;
+font-size: 2vw;
+font-weight: 900;
+color: black;
+// margin-bottom: 0.5vw;
+margin-bottom: auto;
+background-color: mediumspringgreen;
+`
+const Paragraph = styled.div`
+display: flex;
+font-size: 1.5vw;
+font-weight: 100;
+color: black;
+width: 90%;
+// margin-bottom: auto;
+margin: auto auto;
+background-color: mediumspringgreen;
 `
 
 export default About

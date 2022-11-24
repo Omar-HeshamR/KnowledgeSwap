@@ -2,7 +2,7 @@ import React from 'react'
 import Navbar from './Navbar';
 import Footer from "./Footer";
 import Head from 'next/head'
-import HeroNavbar from './HeroNavbar';
+import HeroNavbar from './MainPageComponents/HeroNavbar';
 
 const Layout = ({children, appProps}) => {
 
