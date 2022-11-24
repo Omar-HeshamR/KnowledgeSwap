@@ -1,6 +1,5 @@
 import React, {useLayoutEffect, useState} from "react"
 import { useWindowScroll } from "react-use"
-import styled from "styled-components"
 import Section1 from "../components/MainPageComponents/Section1"
 import Section2 from "../components/MainPageComponents/Section2"
 import Section3 from "../components/MainPageComponents/Section3"
@@ -45,3 +44,4 @@ export default function Home() {
     </>
   )
 }
+

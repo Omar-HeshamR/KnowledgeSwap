@@ -22,9 +22,7 @@ const Particle = () => {
     init={particlesInit}
     loaded={particlesLoaded}
     options={{
-        "full screen":{
-            "zIndex": 1
-        },
+        fullScreen: { enable: true, "zIndex":"0" },
         background: {
         },
         fpsLimit: 120,
@@ -52,13 +50,13 @@ const Particle = () => {
         },
         particles: {
             color: {
-                value: "#EE964B",
+                value: "#A51C30",
             },
             links: {
-                color: "#EE964B",
+                color: "#A51C30",
                 distance: 150,  
                 enable: true,
-                opacity: 0.5,
+                opacity: 0.3,
                 width: 0.5,
             },
             collisions: {
@@ -82,10 +80,10 @@ const Particle = () => {
                 value: 80,
             },
             opacity: {
-                value: 0,
+                value: 0.08,
             },
             shape: {
-                type: "circle",
+                type: "polygon",
             },
             size: {
                 value: { min: 1, max: 5 },

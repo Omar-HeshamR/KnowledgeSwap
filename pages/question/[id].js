@@ -7,19 +7,17 @@ import { useStateContext } from '../../context/StateContext';
 import { toast } from "react-hot-toast";
 import Image from 'next/image';
 import KSquestionABI from "../../contracts/KSquestionNFT.json"
-import CredibilityIcon from '../../assets/CredibilityIcon.png'
+import CredibilityIcon from '../../assets/RedCredibilityIcon.png'
 import { useRouter } from 'next/router'
-
-const KStokenContractAddress = "0xa918f9581f2d56224152DD7A26dd4A62E5b74D66"
-const KSanswerNFTContractAddress = "0xf27DEcD2065C30588197b68A5Bf02c785832829F"
-const KSquestionNFTContractAddress = "0xb31db8a34Faa173df8Bc62e103827AFB00045FDF"
 
 const QuestionDetails = () => {
 
   const router = useRouter()
 
-  const { accounts, questionToBeViewed, setQuestionToBeViewed, awardCredibility, getUserCredibility, AwardBounty } = useStateContext();
-  // const [currReplyerCred, setCurrReplyerCred] = useState(0);
+  const { accounts, questionToBeViewed, setQuestionToBeViewed, awardCredibility, getUserCredibility, 
+    AwardBounty, KStokenContractAddress, KSanswerNFTContractAddress,KSquestionNFTContractAddress
+   } = useStateContext();
+
   const [awardedAlready, setAwardedAlready ] = useState(false)
   const [tempLoader, setTempLoader] = useState(false)
   const [allRepliersAddresses, setAllRepliersAddressses] = useState([]);
@@ -246,9 +244,9 @@ const Section = styled.section`
 display: flex;
 width: 100%;
 min-height: 50vw;
-border-top: 0.05vw solid red;
 height: 100%;
 background-color: #F7F0F5;
+color: ${props => props.theme.textColor};
 // justify-content: center;
 align-items: center;
 flex-direction: column;
@@ -260,7 +258,6 @@ display: flex;
 text-align: center;
 justify-content: center;
 align-items: center;
-color: #FF0000;
 font-family: "Red Hat Display", sans-serif; 
 font-size: 4vw;
 font-weight: 900;
@@ -278,7 +275,6 @@ display: flex;
 text-align: center;
 justify-content: center;
 align-items: center;
-color: #FF0000;
 font-family: "Red Hat Display", sans-serif; 
 font-size: 1.5vw;
 font-weight: 600;
@@ -289,7 +285,6 @@ display: flex;
 text-align: center;
 justify-content: center;
 align-items: center;
-color: #FF0000;
 font-family: "Red Hat Display", sans-serif; 
 font-size: 1vw;
 font-weight: 600;
@@ -308,7 +303,6 @@ const Question = styled.div`
   display: flex;
   text-align: left;
   margin-top: 2vw;
-  color: #FF0000;
   width: 95%;
   font-size: 2vw;
 `
@@ -316,14 +310,14 @@ const Question = styled.div`
 const Divider = styled.div`
   margin-top: 2vw;
   margin-bottom: 3vw;
-  border-top: 0.25vw solid red;
-  border-bottom: 0.25vw solid red;
+  border-top: 0.25vw solid ${props => props.theme.textColor};
+  border-bottom: 0.25vw solid ${props => props.theme.textColor};
   width: 95%;
   height: 0.9vw;
 `
 const ReplyContainer = styled.div`
   width: 95%;
-  border: 0.5vw double red;
+  border: 0.5vw double ${props => props.theme.textColor};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -362,7 +356,6 @@ display: flex;
 
 const ReplyHeaderItem = styled.div`
 display: flex;
-color: #FF0000;
 font-size: 1.5vw;
 font-weight: 600;
 // background-color: blue;
@@ -372,7 +365,7 @@ text-align: left;
 margin-top: 1vw;
 margin-bottom: 1vw;
 width: 95%;
-color: #FF0000;
+color: ${props => props.theme.textColor};
 font-size: 1.25vw;
 `
 
@@ -392,7 +385,7 @@ flex-direction: row;
 
 const AwardButton = styled.button`
 display: flex;
-background-color: #FF0000;
+background-color: ${props => props.theme.textColor};
 color: #F7F0F5;
 margin-left: 0.25vw;
 margin-right: 0.25vw;
@@ -403,7 +396,6 @@ font-weight: 900;
 margin-bottom: 0.25vw;
 padding 0.45vw 0.75vw;
 border: none;
-background-color: ff0000;
 &:hover{
     // border: 1px solid #6610F2;
     transform: scale(0.95);

@@ -8,9 +8,11 @@ import KnowledgeSwapCredibilityToken from "../contracts/KnowledgeSwapCredibility
 import { useRouter } from 'next/router'
 const keccak256 = require('keccak256')
 
-const KStokenContractAddress = "0xa918f9581f2d56224152DD7A26dd4A62E5b74D66"
-const KScredibilityContractAddress = "0xEa7e336E929eb9D2B992B2531e4f94c5FB7A9259"
-const KSquestionNFTContractAddress = "0xb31db8a34Faa173df8Bc62e103827AFB00045FDF"
+const KStokenContractAddress = "0x164A5B05F1C10a3D6ebd48dc6f3949Dbb4102034"
+const KScredibilityContractAddress = "0xEaD7A0Cb8372B3F7B066a9859350D95Dc3678b73"
+const KSquestionNFTContractAddress = "0x90f78e92798E00D6e5527664A98A6949f9074480"
+const KSanswerNFTContractAddress = "0xB4Feb20Ab47944Fd82c25FAc8688B4f3ec110a52"
+
 const ERC20ABI = ERC20abi
 
 const Context = createContext();
@@ -178,7 +180,7 @@ async function awardCredibility(_userToBeRewarded){
     KnowledgeSwapCredibilityToken.abi,
     signer
   )
-  KScredibility = await KScredibilityContract.mint(_userToBeRewarded, 1);
+  KScredibility = await KScredibilityContract.mint(_userToBeRewarded, 1000000000000000000);
   }catch(err){}
 
   toast.success(`Succesfully Awarded!`);   
@@ -220,6 +222,13 @@ function Test(){
              AwardBounty,
              awardCredibility,
              Test,
+             
+            // CONTRACT ADDRESSES
+            KStokenContractAddress,
+            KScredibilityContractAddress ,
+            KSquestionNFTContractAddress ,
+            KSanswerNFTContractAddress,
+
         }}
         >
           {children}

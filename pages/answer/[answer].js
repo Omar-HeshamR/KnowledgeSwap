@@ -1,6 +1,6 @@
 import React, {useRef, useEffect}  from 'react'
 import styled from 'styled-components'
-import Logo from '../../assets/KnowledgeSwapLogo.png'
+import Logo from '../../assets/RedLogo.png'
 import KSanswerABI from "../../contracts/KSanswerNFT.json"
 import Image from 'next/image';
 import { toast } from "react-hot-toast";
@@ -9,13 +9,11 @@ import {ethers, BigNumber} from "ethers";
 import { useRouter } from 'next/router'
 import KSquestionABI from "../../contracts/KSquestionNFT.json"
 
-const KSanswerNFTContractAddress = "0xf27DEcD2065C30588197b68A5Bf02c785832829F"
-const KSquestionNFTContractAddress = "0xb31db8a34Faa173df8Bc62e103827AFB00045FDF"
-
 const AsnweringDetails = () => {
 
   const router = useRouter()
-  const { accounts, questionToBeAnswered, setQuestionToBeAnswered } = useStateContext();
+  const { accounts, questionToBeAnswered, setQuestionToBeAnswered, KSanswerNFTContractAddress
+  ,  KSquestionNFTContractAddress} = useStateContext();
   const AsnwerRef = useRef();
 
   async function handleMint(){
@@ -108,6 +106,7 @@ width: 100%;
 min-height: 50vw;
 height: 100%;
 background-color: #F7F0F5;
+color: ${props => props.theme.textColor};
 // justify-content: center;
 align-items: center;
 flex-direction: column;
@@ -115,7 +114,6 @@ text-align: center;
 // background-color: darkcyan;
 `
 const Heading = styled.div`
-color: #FF0000;
 margin-top: 5.5vw;
 margin-bottom: 3vw;
 font-family: "Red Hat Display", sans-serif; 
@@ -131,7 +129,7 @@ display: flex;
 // flex-direction: column;
 // background-color: purple;
 border-radius: 1vw;
-border: 0.5vw double red;
+border: 0.5vw double ${props => props.theme.textColor};
 justify-content: center;
 align-items: center;
 `
@@ -160,7 +158,6 @@ const Bounty = styled.div`
 font-size: 1.5vw;
 font-weight: 100;
 display: flex;
-color: #FF0000;
 `
 const BountyIcon = styled.div`
 display: flex;
@@ -183,7 +180,6 @@ width: 50%;
 align-items: center;
 font-size: 4vw;
 font-weight: 900;
-color: #FF0000;
 // background-color: ivory;
 `
 const YourReply = styled.div`
@@ -193,7 +189,6 @@ text-align: center;
 align-items: center;
 font-size: 4vw;
 font-weight: 900;
-color: #FF0000;
 margin-bottom: 1vw;
 // background-color: ivory;
 `
@@ -205,13 +200,13 @@ height: 100%;
 max-height: 30vw;
 overflow-y: scroll;
 margin-top: 1vw;
+font-size: 2vw;
 margin-bottom: auto;
 display: flex;
 // justify-content: center;
 // align-items: center;
 text-align: left;
 // background-color: orangered;
-color: #FF0000;
 
 &::-webkit-scrollbar {
   width: 1vw;
@@ -223,7 +218,7 @@ color: #FF0000;
 
 `
 const QuestionInput = styled.textarea`
-border: 1px solid red;
+border: 1px solid ${props => props.theme.textColor};;
 width: 95%;
 min-height: 10vw;
 height: 100%:
@@ -236,7 +231,7 @@ padding-left: 1vw;
 `
 const MintButton = styled.button`
 display: flex;
-background-color: #FF0000;
+background-color: ${props => props.theme.textColor};;
 color: #F7F0F5;
 margin-bottom: auto;
 font-family: "Red Hat Display", sans-serif; 

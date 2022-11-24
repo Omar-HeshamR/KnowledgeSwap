@@ -2,6 +2,21 @@
 
 pragma solidity ^0.8.0;
 
+/*
+---------------------------- 
+ __  __                               ___              __                      ____                                                         
+/\ \/\ \                             /\_ \            /\ \                    /\  _`\                                      
+\ \ \/'/'    ___     ___   __  __  __\//\ \      __   \_\ \     __      __    \ \,\L\_\  __  __  __     __     _____       
+ \ \ , <   /' _ `\  / __`\/\ \/\ \/\ \ \ \ \   /'__`\ /'_` \  /'_ `\  /'__`\   \/_\__ \ /\ \/\ \/\ \  /'__`\  /\ '__`\      
+  \ \ \\`\ /\ \/\ \/\ \L\ \ \ \_/ \_/ \ \_\ \_/\  __//\ \L\ \/\ \L\ \/\  __/     /\ \L\ \ \ \_/ \_/ \/\ \L\.\_\ \ \L\ \      
+   \ \_\ \_\ \_\ \_\ \____/\ \___x___/' /\____\ \____\ \___,_\ \____ \ \____\    \ `\____\ \___x___/'\ \__/.\_\\ \ ,__/      
+    \/_/\/_/\/_/\/_/\/___/  \/__//__/   \/____/\/____/\/__,_ /\/___L\ \/____/     \/_____/\/__//__/   \/__/\/_/ \ \ \/        
+                                                                /\____/                                          \ \_\                                           
+                                                                \_/__/                                            \/_/  
+ ---------------------------- 
+*/
+
+// ERC-20 settles
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/utils/Context.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
@@ -156,20 +171,63 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
 }
 
 contract KnowledgeSwapCredibilityToken is ERC20 {
-    address public Owner;
 
-    constructor() ERC20("Knowledge Swap Credibility Token", "KS-CRED") {
+    address public Owner;
+    // The higher the rank the higher the winning reward.
+    address[] Rank_A_Solvers;
+    address[] Rank_B_Solvers;
+    address[] Rank_C_Solvers;
+
+    constructor() 
+    ERC20("Knowledge Swap Credibility Token", "KS-CRED") 
+    {
         Owner = msg.sender;
     }
 
-    // will be signficintly enhanced in terms of security
+    // ERC20 Related Functions 
     function mint(address to, uint amount) external {
-        // require(msg.sender == Owner, 'only Owner');
-        _mint(to, amount * 1000000000000000000);
+        // require(msg.sender == Owner, 'only Owner'); will have an authorsized users systems soon
+        
+        _mint(to, amount ); // 1000000000000000000 = 1
+
+        // If user surpassed a certain amount of credibility, let him join the reward arrays
+        if(balanceOf(to) >= 300 * (10**18)){
+            _removeElement(Rank_B_Solvers, to);
+            Rank_A_Solvers.push(to);
+        } else if(balanceOf(to) >= 100 * (10**18)){
+            _removeElement(Rank_C_Solvers, to);
+            Rank_B_Solvers.push(to);
+        } else if(balanceOf(to) >= 30 * (10**18)){
+            Rank_C_Solvers.push(to);
+        }
+
     } 
 
     function burn(uint amount) external {
-        _burn(msg.sender, amount* 1000000000000000000);
-
+        _burn(msg.sender, amount);
     }
+
+    // View credible people
+    function getRankASolvers() public view returns(address[] memory){
+        return Rank_A_Solvers;
+    }
+    function getRankBSolvers() public view returns(address[] memory){
+        return Rank_B_Solvers;
+    }
+    function getRankCSolvers() public view returns(address[] memory){
+        return Rank_C_Solvers;
+    }
+
+    // Helper Method
+    function _removeElement(address[] storage _array, address _element) internal {
+        for (uint256 i; i<_array.length; i++) {
+            if (_array[i] == _element) {
+                _array[i] = _array[_array.length - 1];
+                _array.pop();
+                break;
+            }
+        }
+    }
+
+
 }

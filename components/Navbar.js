@@ -197,6 +197,7 @@ align-items: center;
 flex-direction: row;
 margin-right: auto;
 &:hover{
+  cursor: pointer;
   transform: scale(1.05);
   cursor: pointer;
 }
