@@ -106,30 +106,133 @@ const Ask = () => {
   }
 
   return (
-    <Section>
-      <Heading onClick={Test}>Ask A Question:</Heading>
-      {accounts[0] 
-      ? <>{userKStokenCount > 300 
-        ? <>
-              <InputContainer>
-                <InputText>Question: </InputText>
-                <QuestionInput  type={"text"} ref={QuestionRef}/>
-              </InputContainer>
+    <>
+{/* <Section>
+  <Heading onClick={Test}>Ask A Question:</Heading>
+  {accounts[0] 
+  ? <>{userKStokenCount > 300 
+    ? <>
+          <InputContainer>
+            <InputText>Question: </InputText>
+            <QuestionInput  type={"text"} ref={QuestionRef}/>
+          </InputContainer>
 
-              <InputContainer>
-              {/* <SubHeading>How much do you want to reward the solver?</SubHeading> */}
-              <InputText>Bounty: </InputText>
-                <Input  type={"number"} ref={BountyRef} defaultValue="1"/>
-              </InputContainer>
-              {loading ? <PleaseWait>Signing Transaction... </PleaseWait>:  
-              <MintButton onClick={handleMint} >Submit Question !</MintButton>}
-          </> 
-        : <><Heading2>Must Hold a minimum of 300 Tokens To Ask Questions!</Heading2>
-        </>}</>
-      : <Heading> Please Connect Wallet first !</Heading>}
-    </Section>
+          <InputContainer>
+          {/* <SubHeading>How much do you want to reward the solver?</SubHeading> */}
+          {/* <InputText>Bounty: </InputText>
+            <Input  type={"number"} ref={BountyRef} defaultValue="1"/>
+          </InputContainer>
+          {loading ? <PleaseWait>Signing Transaction... </PleaseWait>:  
+          <MintButton onClick={handleMint} >Submit Question !</MintButton>}
+      </> 
+    : <><Heading2>Must Hold a minimum of 300 Tokens To Ask Questions!</Heading2>
+    </>}</>
+  : <Heading> Please Connect Wallet first !</Heading>}
+</Section> */}
+
+    <NewSection>
+      <MainDiv>
+        {accounts[0] 
+        ? <>{userKStokenCount > 300 
+          ? <>
+          <Indicator><p><b>Enter Title: </b>(required)</p></Indicator>
+          <TitleInput type={"text"} ref={QuestionRef}/>
+          <Indicator><p><b>Enter Topic and/or Keyword: </b>(required)</p> </Indicator>
+          <MinorInput />
+          <Indicator><p><b>Enter Description: </b>(optional)</p></Indicator>
+          <DescInput />
+          <Indicator><p><b>Set Bounty: </b>(Enter any value including 0; make sure to adjust it based on your desired engagement level)</p></Indicator>
+          <MinorInput  type={"number"} ref={BountyRef} defaultValue="1"/>
+                {loading ? <PleaseWait>Signing Transaction... </PleaseWait>:  
+                <AskButton onClick={handleMint} >Ask</AskButton>}
+            </> 
+          : <><Heading2>Must Hold a Minimum of 300 Tokens to Ask Questions!</Heading2>
+          </>}</>
+        : <Heading> Please Connect Wallet First !</Heading>}
+      </MainDiv>
+    </NewSection>
+    </>
   )
 }
+const Heading = styled.div`
+height: 60vh;
+display: flex;
+align-items: center;
+font-family: "Red Hat Display", sans-serif; 
+font-size: ${props => props.theme.fontHeading_small};
+font-weight: ${props => props.theme.fontBold};
+`
+const Heading2 = styled.div`
+height: 60vh;
+display: flex;
+align-items: center;
+font-family: "Red Hat Display", sans-serif; 
+font-size: ${props => props.theme.fontSubheading_small};
+font-weight: ${props => props.theme.fontBold};
+`
+const PleaseWait = styled.div`
+font-size: ${props => props.theme.fontHeading_large};
+font-weight: ${props => props.theme.fontBold};
+margin-bottom: 2vw;
+margin-top: 0vw;
+`
+const NewSection = styled.div`
+`
+const MainDiv = styled.div` 
+display: flex;
+margin: 5vw auto;
+width: 80%;
+height: 100%;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+`
+const MinorInput = styled.input`
+border: 0.15vw solid  ${props => props.theme.textColor};
+width: 90%;
+height: 2.5vw;
+font-size: ${props => props.theme.fontParagraph_medium};
+font-weight: ${props => props.theme.fontLight};
+color:  ${props => props.theme.textColor};
+padding-left: 0.5vw;
+`
+const TitleInput = styled.textarea`
+border: 0.15vw solid  ${props => props.theme.textColor};
+width: 90%;
+height: 4vw;
+font-size: ${props => props.theme.fontParagraph_medium};
+font-weight: ${props => props.theme.fontLight};
+color:  ${props => props.theme.textColor};
+`
+const DescInput = styled.textarea`
+border: 0.15vw solid  ${props => props.theme.textColor};
+width: 90%;
+height: 12vw;
+font-size: ${props => props.theme.fontParagraph_medium};
+font-weight: ${props => props.theme.fontLight};
+color:  ${props => props.theme.textColor};
+`
+const Indicator = styled.div`
+font-size: ${props => props.theme.fontParagraph_medium};
+margin: 1vw auto 0.5vw 5%;
+`
+const AskButton = styled.button`
+color: ${props => props.theme.backgroundColor};
+background-color: ${props => props.theme.textColor};
+justify-content: center;
+align-items: center;
+font-weight: ${props => props.theme.fontBold};
+border: none;
+font-size: 5vw;
+width: 90%;
+height: 8vw;
+margin: 2vw 0;
+&:hover{
+  cursor: pointer;
+  transform: scale(0.95);
+}
+`
+
 
 const Section = styled.section`
 display: flex;
@@ -141,20 +244,20 @@ text-align: center;
 color: ${props => props.theme.textColor};
 background-color: ${props => props.theme.backgroundColor};
 `
-const Heading = styled.div`
-margin-top: 1.5vw;
-margin-bottom: 3vw;
-font-family: "Red Hat Display", sans-serif; 
-font-size: ${props => props.theme.fontHeading_small};
-font-weight: ${props => props.theme.fontBold};
-`
-const Heading2 = styled.div`
-margin-top: 5.5vw;
-margin-bottom: 3vw;
-font-family: "Red Hat Display", sans-serif; 
-font-size: ${props => props.theme.fontSubheading_small};
-font-weight: ${props => props.theme.fontBold};
-`
+// const Heading = styled.div`
+// margin-top: 1.5vw;
+// margin-bottom: 3vw;
+// font-family: "Red Hat Display", sans-serif; 
+// font-size: ${props => props.theme.fontHeading_small};
+// font-weight: ${props => props.theme.fontBold};
+// `
+// const Heading2 = styled.div`
+// margin-top: 5.5vw;
+// margin-bottom: 3vw;
+// font-family: "Red Hat Display", sans-serif; 
+// font-size: ${props => props.theme.fontSubheading_small};
+// font-weight: ${props => props.theme.fontBold};
+// `
 
 const SubHeading = styled.div`
 display: flex;
@@ -216,11 +319,11 @@ border: none;
 }
 `
 
-const PleaseWait = styled.div`
-font-size: ${props => props.theme.fontHeading_large};
-font-weight: ${props => props.theme.fontBold};
-margin-bottom: 2vw;
-margin-top: 0vw;
-`
+// const PleaseWait = styled.div`
+// font-size: ${props => props.theme.fontHeading_large};
+// font-weight: ${props => props.theme.fontBold};
+// margin-bottom: 2vw;
+// margin-top: 0vw;
+// `
 
 export default Ask

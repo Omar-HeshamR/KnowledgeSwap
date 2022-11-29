@@ -1,14 +1,13 @@
 import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
 import KSanswerABI from "../../contracts/KSanswerNFT.json"
-import {ethers, BigNumber} from "ethers";
+import {ethers} from "ethers"
 import KStokenABI from "../../contracts/KStoken.json"
-import { useStateContext } from '../../context/StateContext';
-import { toast } from "react-hot-toast";
-import Image from 'next/image';
+import { useStateContext } from '../../context/StateContext'
+import Image from 'next/image'
 import KSquestionABI from "../../contracts/KSquestionNFT.json"
-import CredibilityIcon from '../../assets/RedCredibilityIcon.png'
 import { useRouter } from 'next/router'
+import RedCredLogo from '../../assets/RedCredibilityIcon.png'
 
 const QuestionDetails = () => {
 
@@ -177,39 +176,44 @@ async function checkIFAwardedAlready(_questionID){
   }
 
   return (
-    <Section onMouseOver={refresh} onMouseMove={refresh}>
+    <>
+
+    <NewSection onMouseOver={refresh} onMouseMove={refresh}>
+      <NewContainer>
       {accounts[0] ?
       <>
       {questionToBeViewed ? <>
-      <HeaderDiv>
-        <Heading>Question: </Heading>
-        <QuestionDetailsContainer>
-          <Asker>Asker: {questionToBeViewed[1]} </Asker>
-          <TimeAsked>Asked On: {convertToNormalTime(questionToBeViewed[4])}</TimeAsked>
-        </QuestionDetailsContainer>
-      </HeaderDiv>
 
-      <Question>{questionToBeViewed[2]}</Question>
-
-      <Divider></Divider>
+      <TextContainer>
+        <HeaderBox>
+          <WalletID><p><b>Asker:</b> {questionToBeViewed[1]}</p></WalletID>
+          <DateOfInquiry>Asked On: {convertToNormalTime(questionToBeViewed[4])}</DateOfInquiry>
+        </HeaderBox>
+        <Title>Insert Your Title</Title>
+        <Description>{questionToBeViewed[2]} </Description>
+      </TextContainer>
 
       {questionReplies.length === 0 ? <Heading>No Answers yet !</Heading> : <></>}
-
+   
       {questionReplies?.map((reply) => 
-          <ReplyContainer key={reply.id}>
-              <ReplyContainerHeader>
-                  <ReplyHeaderItem>Replier: {String(reply[2])}</ReplyHeaderItem>
-
-                  <CredibilityDiv>
-                  <ReplyHeaderItem>User Credibility: {String(repliesDictionary[reply[2]])}</ReplyHeaderItem>
-                  <CredibilityIconContainer><Image src={CredibilityIcon} alt="" /></CredibilityIconContainer>
-                  </CredibilityDiv>
-
-              </ReplyContainerHeader>
-
-              <MainReplyContainer>{String(reply[3])}</MainReplyContainer>
-              {String(accounts[0]) === String(questionToBeViewed[1]) && 
-                  <LeftLeanerDiv>
+        <ThreadDiv key={reply.id}>
+          <ThreadContent>
+            <ThreadText>
+              <InfoRow>
+                  <ReplierID>Replier: {String(reply[2])} 
+                  <BountyDiv>
+                    {String(repliesDictionary[reply[2]])}
+                    <CredLogoDiv><Image src={RedCredLogo} alt="Credibility Icon"/></CredLogoDiv>
+                  </BountyDiv> 
+                  </ReplierID>  
+                      
+              </InfoRow>
+              <ThreadDesc>{String(reply[3])}</ThreadDesc>
+            </ThreadText>
+            
+            </ThreadContent> 
+            {String(accounts[0]) === String(questionToBeViewed[1]) && 
+                    <LeftLeanerDiv>
                     {awardedAlready ? <></> : 
                     <>
       {tempLoader ?
@@ -217,190 +221,153 @@ async function checkIFAwardedAlready(_questionID){
       : <AwardButton onClick={() => onClickBountyAward(String(reply[2]))}>Award Bounty !</AwardButton>}
                     </>
       }
-                    {/* <AwardButton>Award Credibility !</AwardButton> */}
-                    </LeftLeanerDiv>
-              }
-          </ReplyContainer>
+                    </LeftLeanerDiv>            
+                   }   
+          </ThreadDiv>
       )}
-
-    <ExtraMargin></ExtraMargin>
         </> // refreshed
-        : <>        <ExtraMargin />
+        : <>        
                     <Heading> Loading ... </Heading> 
                     </>}
        </> 
        :     // NOT CONNECTED
        <>
-        <ExtraMargin />
         <Heading>Connect Wallet First Please !</Heading>
         </>
     }
-    </Section>
+    </NewContainer>
+    </NewSection>
+    </>
   )
 }
 
-
-const Section = styled.section`
-display: flex;
-width: 100%;
-min-height: 50vw;
-height: 100%;
-background-color: #F7F0F5;
-color: ${props => props.theme.textColor};
-// justify-content: center;
-align-items: center;
-flex-direction: column;
-text-align: center;
-// background-color: darkcyan;
-`
 const Heading = styled.div`
-display: flex;
-text-align: center;
-justify-content: center;
-align-items: center;
-font-family: "Red Hat Display", sans-serif; 
-font-size: 4vw;
-font-weight: 900;
+font-size: ${props => props.theme.fontHeading_small};
+font-weight: ${props => props.theme.fontBold};
 `
-
-const QuestionDetailsContainer = styled.div`
-  display: flex;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-`
-const Asker = styled.div`
-display: flex;
-text-align: center;
-justify-content: center;
-align-items: center;
-font-family: "Red Hat Display", sans-serif; 
-font-size: 1.5vw;
-font-weight: 600;
-`
-
-const TimeAsked = styled.div`
-display: flex;
-text-align: center;
-justify-content: center;
-align-items: center;
-font-family: "Red Hat Display", sans-serif; 
-font-size: 1vw;
-font-weight: 600;
-`
-
-const HeaderDiv = styled.div`
-  // background-color: yellow;
-  display: flex;
-  justify-content: space-between;
-  margin-top: 1vw;
-  width: 95%;
-  flex-direction: row;
-`
-
-const Question = styled.div`
-  display: flex;
-  text-align: left;
-  margin-top: 2vw;
-  width: 95%;
-  font-size: 2vw;
-`
-
-const Divider = styled.div`
-  margin-top: 2vw;
-  margin-bottom: 3vw;
-  border-top: 0.25vw solid ${props => props.theme.textColor};
-  border-bottom: 0.25vw solid ${props => props.theme.textColor};
-  width: 95%;
-  height: 0.9vw;
-`
-const ReplyContainer = styled.div`
-  width: 95%;
-  border: 0.5vw double ${props => props.theme.textColor};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  margin-top: 1vw;
-  margin-bottom: 1vw;
-  // background-color: yellow;
-`
-
-const ReplyContainerHeader = styled.div`
-display: flex;
-width: 95%;
-margin-top: 1vw;
-justify-content: space-between;
-align-items: center;
-flex-direction: row;
-// background-color: orange;
-`
-const CredibilityIconContainer = styled.div`
-display: flex;
-margin-left: 0.25vw;
-justify-content: center;
-align-items: center;
-img{
-  width: 1.5vw;
-  height: 1.5vw;
-}
-`
-const CredibilityDiv = styled.div`
-// width: 40%;
-// background-color: navajowhite;
-flex-direction: row;
-// height: 100%;
-display: flex;
-`
-
 const ReplyHeaderItem = styled.div`
 display: flex;
-font-size: 1.5vw;
-font-weight: 600;
-// background-color: blue;
+font-size: ${props => props.theme.fontParagraph_large};
+font-weight: ${props => props.theme.fontBold};
 `
-const MainReplyContainer = styled.div`
-text-align: left;
-margin-top: 1vw;
-margin-bottom: 1vw;
-width: 95%;
-color: ${props => props.theme.textColor};
-font-size: 1.25vw;
-`
-
 const ExtraMargin = styled.div`
-margin-bottom: 5vw;
-`
 
+`
 const LeftLeanerDiv = styled.div`
-display: flex;
-width: 95%;
-height: 100%;
-justify-content: right;
-align-items: center;
-// background-color: yellow;
-flex-direction: row;
+margin-bottom: 1vw;
 `
-
 const AwardButton = styled.button`
-display: flex;
 background-color: ${props => props.theme.textColor};
-color: #F7F0F5;
-margin-left: 0.25vw;
-margin-right: 0.25vw;
-// margin-left: auto;
-font-family: "Red Hat Display", sans-serif; 
-font-size: 1.5vw;
-font-weight: 900;
-margin-bottom: 0.25vw;
-padding 0.45vw 0.75vw;
+color: ${props => props.theme.backgroundColor};
+font-size: ${props => props.theme.fontButton_small};
+font-weight: ${props => props.theme.fontBold};
+padding: ${props => props.theme.buttonPadding_small};
 border: none;
 &:hover{
-    // border: 1px solid #6610F2;
     transform: scale(0.95);
     cursor: pointer;
 }
 `
-
+const NewSection = styled.div`
+display: flex;
+align-items: center;
+justify-content: center;
+min-height: 61.5vh;
+height: 100%;
+`
+const NewContainer = styled.div`
+display: flex;
+align-items: center;
+margin: 5vw 0;
+height: 100%;
+width: 97%;
+flex-direction: column;
+`
+const HeaderBox = styled.div`
+display: flex;
+height: 2vw;
+justify-content: space-between;
+align-items: center;
+`
+const TextContainer = styled.div`
+display: flex;
+width: 95%;
+flex-direction: column;
+margin-bottom: 2vw;
+border-bottom: 0.2vw solid gainsboro;
+`
+const WalletID = styled.div`
+font-size: ${props => props.theme.fontParagraph_small};
+font-weight: ${props => props.theme.fontLight};
+`
+const DateOfInquiry = styled.div`
+font-size: ${props => props.theme.fontParagraph_small};
+font-weight: ${props => props.theme.fontLight};
+`
+const Title = styled.text`
+text-align: justify;  
+min-height: 2.0vw;
+font-size: ${props => props.theme.fontSubheading_small};
+font-weight: ${props => props.theme.fontBold};
+margin-bottom: 0.5vw;
+`
+const Description = styled.text`
+text-align: justify;
+font-size: ${props => props.theme.fontParagraph_medium};
+min-height: 1.5vw;
+margin-bottom: 2vw;
+`
+const ThreadDiv = styled.div`
+display: flex;
+width: 100%;
+min-height: 8vw;
+height: 100%;
+align-items: center;
+box-shadow: 0.5vw 0.5vw 1vw gainsboro; 
+margin-bottom: 1vw;
+flex-direction: column;
+`
+const ThreadContent = styled.div`
+display: flex;
+width: 95%;
+margin-top: 1vw;
+justify-content: space-between;
+`
+const InfoRow = styled.div`
+`
+const ReplierID = styled.div`
+display: flex;
+justify-content: space-between;
+align-items: center;
+font-size: ${props => props.theme.fontParagraph_medium};
+`
+const BountyDiv = styled.div`
+display: flex;
+font-size: ${props => props.theme.fontParagraph_medium};
+font-weight: ${props => props.theme.fontBold};
+align-items: center;
+margin-bottom: auto;
+color: ${props => props.theme.textColor};
+`
+const ThreadText = styled.div`
+display: flex;
+margin: 0.5vw 0;
+font-weight: ${props => props.theme.fontBold};
+width: 100%;
+flex-direction: column;
+`
+const ThreadDesc = styled.text`
+font-size: ${props => props.theme.fontParagraph_medium};
+font-weight: ${props => props.theme.fontLight};
+text-align: justify;
+margin: 0.5vw 0;
+`
+const CredLogoDiv = styled.div`
+display: flex;
+margin-left: 0.25vw;
+img{
+width: 1.25vw;
+height: 1.25vw;
+}
+`
 export default QuestionDetails

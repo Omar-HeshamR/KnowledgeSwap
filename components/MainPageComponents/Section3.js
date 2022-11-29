@@ -15,22 +15,22 @@ const Section3 = () => {
                 <IconDiv>
 
                     <ItemDiv>
-                        <Circle as={motion.div} variants ={farLeft_icon} initial="a" whileInView="b"><Image src={QuestionIcon}/></Circle>
+                        <Circle><Icon as={motion.div} variants={farLeft_icon} initial="a" whileInView="b"><Image src={QuestionIcon}/></Icon></Circle>
                         <Possibility>Solve all Inquiries + Problems</Possibility>
                     </ItemDiv>
                     
                     <ItemDiv>
-                        <Circle as={motion.div} variants={nearLeft_icon} initial="a" whileInView="b"><Image src={RapidIcon}/></Circle>
+                        <Circle><Icon as={motion.div} variants={nearLeft_icon} initial="a" whileInView="b"><Image src={RapidIcon}/></Icon></Circle>
                         <Possibility>Receive Answers Rapidly</Possibility>
                     </ItemDiv>
 
                     <ItemDiv>
-                        <Circle as={motion.div} variants={nearRight_icon} initial="a" whileInView="b"><Image src={EarnIcon}/></Circle>
+                        <Circle><Icon as={motion.div} variants={nearRight_icon} initial="a" whileInView="b"><Image src={EarnIcon}/></Icon></Circle>
                         <Possibility>Earn for your Knowledge</Possibility>
                     </ItemDiv>
 
                     <ItemDiv>
-                        <Circle as={motion.div} variants={farRight_icon} initial="a" whileInView="b"><Image src={GraspIcon}/></Circle>
+                        <Circle><Icon as={motion.div} variants={farRight_icon} initial="a" whileInView="b"><Image src={GraspIcon}/></Icon></Circle>
                         <Possibility>Grasp New Content + Information</Possibility>
                     </ItemDiv>
 
@@ -83,10 +83,17 @@ height: 18vw;
 justify-content: center;
 align-items: center;
 border-radius: 5%;
-background-color: black;
+background-color: grey;
+// img{
+//     width: 10vw;
+//     height: 10vw;
+// }
+`
+const Icon = styled.div`
+// background-color: yellow;
 img{
-    width: 10vw;
-    height: 10vw;
+  width: 10vw;
+  height: 10vw;
 }
 `
 const Possibility = styled.text`
@@ -103,10 +110,10 @@ font-weight: ${props => props.theme.fontBold};
 `
 const farLeft_icon = {
     a: {
-      opacity: 1, y:"2vw", 
+      opacity: 0,
     },
     b: { 
-      opacity: 1, y:0, 
+      opacity: 1, 
       transition: {
         duration: 0.5
       }
@@ -114,10 +121,10 @@ const farLeft_icon = {
 }
 const nearLeft_icon = {
     a: {
-      opacity: 1, y:"2vw", 
+      opacity: 0,
     },
     b: { 
-      opacity: 1, y:0, 
+      opacity: 1,
       transition: {
         duration: 1
       }
@@ -125,10 +132,10 @@ const nearLeft_icon = {
 }
 const nearRight_icon = {
     a: {
-      opacity: 1, y:"2vw", 
+      opacity: 0, 
     },
     b: { 
-      opacity: 1, y:0,
+      opacity: 1, 
       transition: {
         duration: 1.5,
       }
@@ -136,10 +143,10 @@ const nearRight_icon = {
 }
 const farRight_icon = {
   a: {
-    opacity: 1, y: "2vw", 
+    opacity: 0, 
   },
   b: { 
-    opacity: 1, y:0, 
+    opacity: 1, 
     transition: {
       duration: 2,
     }

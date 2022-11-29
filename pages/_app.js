@@ -8,6 +8,7 @@ import "@fontsource/red-hat-display"
 import { StateContext } from "../context/StateContext"
 import { Toaster } from 'react-hot-toast';
 
+
 const GlobalStyle = createGlobalStyle`
   * 
     {

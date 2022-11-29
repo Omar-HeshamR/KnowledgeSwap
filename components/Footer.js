@@ -79,7 +79,7 @@ background-color: ${props => props.theme.textColor};
 color: ${props => props.theme.backgroundColor};
 display: flex;
 width: 100%;
-height: 15vw;
+height: 28vh;
 justify-content: center;
 align-items: center;
 `

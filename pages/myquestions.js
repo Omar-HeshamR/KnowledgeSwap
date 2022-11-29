@@ -17,10 +17,27 @@ const Myquestions = () => {
     const [ totalQuestions, setTotalQuestions] = useState([]);
     const [ questions, setQuestions] = useState([]);
 
+    const [input, setInput] = useState("");
+    const formRef = useRef();
+    const inputFocus = useRef();
+
+    const [secondinput, setsecondInput] = useState("");
+    const secondformRef = useRef();
+    const secondinputFocus = useRef();
+
     function ViewQuestion(question){
       setQuestionToBeViewed(question)
       router.push(`/question/${question[0]}`)
     }
+    function goToQuestionReply(question){
+      setQuestionToBeAnswered(question)
+      router.push(`./answer/${question[0]}`);
+    }
+
+    // function goToQuestionReply(question){
+    //   setQuestionToBeAnswered(question)
+    //   router.push(`./answer/${question[0]}`);
+    // }
 
     async function VeiwAllQuestions(){
       if(accounts[0]){
@@ -50,6 +67,8 @@ const Myquestions = () => {
     function searchedFor(questionText, string){
       return Boolean(String(questionText.toLowerCase()).indexOf(string.toLowerCase()) >= 0)
     }
+
+    
   
     useEffect(() => {
       VeiwAllQuestions()
@@ -74,84 +93,60 @@ const Myquestions = () => {
     }
   
     return (
-      <Section>
-        <Container>
-          <Title>My Questions</Title>
-          <SearchContainer>
-          <SearchBox type="text" ref={SearchRef} />
-          <IconContainer onClick={() => Search(SearchRef.current.value)}><Image src={SearchIcon} alt="search icon"/></IconContainer>
-        </SearchContainer>
+      <NewSection>
+        <NewContainer>
+          <TitleContainer>My Questions</TitleContainer>
+          <SearchBarsContainer>
+          <Form>
+            <Input onChange={e => setInput(e.target.value)} ref={inputFocus} value={input} placeholder= "Search by title....." />
+            <IconContainer onClick={() => Search(SearchRef.current.value)}><Image src={SearchIcon} alt="search icon"/></IconContainer>
+          </Form>
+          <SecondForm>
+            <SecondInput onChange={e => setsecondInput(e.target.value)} ref={secondinputFocus} value={secondinput} placeholder= "Filter by topic....."/>
+            <IconContainer onClick={() => Search(SearchRef.current.value)}><Image src={SearchIcon} alt="search icon"/></IconContainer>
+          </SecondForm>
+        </SearchBarsContainer>
+
+        <FilterContainer>
+          <QuestionText>Question</QuestionText>
+          <ThreadInfo>
+            <FilterInfo>Topic</FilterInfo>
+            <FilterInfo>Replies</FilterInfo>
+          </ThreadInfo>
+        </FilterContainer>
   
         {accounts[0] ? <></> : 
         <WalletPlease>Please Connect Wallet</WalletPlease>}
   
-        <QuestionContainer>
+        <ThreadContainer>
   
         {[...questions].reverse()?.map((question) => 
-          <QuestionDiv key={question.id}>
-          <QuestionBox>
-            <MinorContainer><SubHeading>Question:</SubHeading><ViewContainer><ViewButton onClick={() => ViewQuestion(question)}>View</ViewButton></ViewContainer></MinorContainer>
-            <Inquiry>{String(question[2])}</Inquiry>
-          </QuestionBox>
-        </QuestionDiv>
+          <ThreadDiv  onClick={() => ViewQuestion(question)} key={question.id}>
+            <ThreadContent>
+              <ThreadText>
+                <ThreadTitle>Enter your title</ThreadTitle>
+                <ThreadDesc>{String(question[2])}</ThreadDesc>
+              </ThreadText>
+              <ThreadInfo>
+                <TopicDiv>Topic</TopicDiv>               
+                <InfoDiv> 100</InfoDiv>
+              </ThreadInfo>
+            </ThreadContent>
+        </ThreadDiv>
         )}
-        </QuestionContainer>
-        </Container>
-      </Section>
+        </ThreadContainer>
+        </NewContainer>
+      </NewSection>
     )
   }
   
-  const Section = styled.section`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: ${props => props.theme.textColor};
-  background-color: ${props => props.theme.backgroundColor};
-  `
-  const Container = styled.div`
-  width: 60%;
-  height: 90%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  `
-  const Title = styled.div`
-  width: 95%;
-  margin: 1vw 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: ${props => props.theme.fontHeading_large};
-  font-weight: ${props => props.theme.fontBold};
-  `
-  const SearchContainer = styled.div`
-  margin: 1vw 0;
-  width: 95%;
-  height: 4vw;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  `
-  const SearchBox = styled.input`
-  margin-left: 2.5%;
-  border: 0.15vw solid ${props => props.theme.textColor};
-  display: flex;
-  width: 90%;
-  height: 90%;
-  color: ${props => props.theme.textColor};
-  font-size: ${props => props.theme.fontSubheading_small};
-  `
   const IconContainer = styled.div`
   display: flex;
   margin-left: auto;
   margin-right: 1.5%;
   img{
-    width: 3vw;
-    height: 3vw;
+    width: 2vw;
+    height: 2vw;
   
     &:hover{
       cursor: pointer;
@@ -159,93 +154,178 @@ const Myquestions = () => {
     }
   }
   `
-  const QuestionContainer = styled.div`
-  margin: 1vw 0;
-  width: 95%;
-  height: 100%;
+  const WalletPlease = styled.div`
+  font-size: ${props => props.theme.fontSubheading_large};
+  text-align: center;
+  font-weight: ${props => props.theme.fontBold};
+  margin: 8vw 0;
+  `
+  const NewSection = styled.div`
   display: flex;
-  align-items: center;
   justify-content: center;
+  `
+  const NewContainer = styled.div`
+  width: 97%;
+  margin-bottom: 4vw;
   flex-direction: column;
   `
-  const QuestionDiv = styled.div`
-  margin: 1vw 0;
-  width: 95%;
-  min-height: 12vw;
-  height: auto;
-  display: flex;
-  border-radius: 1vw;
-  border: 0.5vw double ${props => props.theme.textColor};
-  justify-content: center;
-  align-items: center;
-  `
-  const QuestionBox = styled.div`
-  width: 95%;
-  height: 100%;
-  margin: 1vw 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  `
-  const MinorContainer = styled.div`
-  height: auto;
+  const SearchBarsContainer = styled.div`
   width: 100%;
+  height: 10vw;
   display: flex;
-  flex-direction: row;
-  `
-  const SubHeading = styled.div`
-  display: flex;
+  justify-content: space-between;
+  height: 8vw;
   align-items: center;
-  font-size: ${props => props.theme.fontHeading_small};
+  `
+  const TitleContainer = styled.div`
+  width: 100%;
+  margin-top: 2vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: ${props => props.theme.textColor};
+  font-size: ${props => props.theme.fontTitle_default};
   font-weight: ${props => props.theme.fontBold};
   `
-  const Inquiry = styled.div`
-  width: 100%;
-  height: 100%;
-  max-height: 30vw;
-  overflow-y: scroll;
-  margin-top: 1vw;
-  font-size: ${props => props.theme.fontSubheading_small};
-  margin-bottom: auto;
+  const Form = styled.div`
   display: flex;
-  text-align: left;
-  
-  &::-webkit-scrollbar {
-    width: 1vw;
-  }
-  
-  &::-webkit-scrollbar-thumb {
-    background: ${props => props.theme.textColor}; 
-  }
-  
-  `
-  const ViewContainer = styled.div`
-  width: 30%;
-  height: 6vw;
-  flex-direction: row;
-  display: flex;
-  margin-bottom: auto;
-  margin-left: auto;
-  justify-content: center;
+  color: ${props => props.theme.textColor};
+  background-color: gainsboro;
   align-items: center;
+  height: 3.5vw;
   `
-  const ViewButton = styled.button`
-  margin-top: auto;
-  margin-bottom: auto;
-  margin-left: auto;
+  const Input = styled.input`
+  font-size: ${props => props.theme.fontParagraph_medium};
+  background-color: transparent;
+  width: 60vw;
+  margin-left: 1vw;
   border: none;
-  font-size: ${props => props.theme.fontButton_large};
-  padding: ${props => props.theme.buttonPadding_small};
-  font-weight: ${props => props.theme.fontBold};
+  color: ${props => props.theme.textColor};
+  &:focus,
+  &:active {
+    outline: none;
+  }
+  &::placeholder {
+    color: ${props => props.theme.textColor};
+  }
+  `
+  const SecondForm = styled.div`
+  display: flex;
+  color: ${props => props.theme.textColor};
+  background-color: gainsboro;
+  align-items: center;
+  height: 3.5vw;
+  `
+  const SecondInput = styled.input`
+  font-size: ${props => props.theme.fontParagraph_medium};
+  background-color: transparent;
+  width: 20vw;
+  margin-left: 1vw;
+  border: none;
+  color: ${props => props.theme.textColor};
+  &:focus,
+  &:active {
+    outline: none;
+  }
+  &::placeholder {
+    color: ${props => props.theme.textColor};
+  }
+  `
+  const FilterContainer = styled.div`
+  display: flex;
+  height: 5vw;
+  width: 100%;
+  align-items: center;
   background-color: ${props => props.theme.textColor};
   color: ${props => props.theme.backgroundColor};
-  &: hover{
+  `
+  const QuestionText = styled.div`
+  font-size: ${props => props.theme.fontParagraph_large};
+  margin-right: auto;
+  margin-left: 2.5%;
+  font-weight: ${props => props.theme.fontBold};
+  `
+  const ThreadContainer = styled.div`
+  width: 100%;
+  flex-direction: column;
+  `
+  const ThreadDiv = styled.div`
+  display: flex;
+  width: 100%;
+  height: 10vw;
+  align-items: center;
+  box-shadow: 0.5vw 0.5vw 1vw gainsboro;
+  &:hover{
+    box-shadow: none;
+    background-color: azure;
     cursor: pointer;
   }
   `
-  const WalletPlease = styled.div`
-  font-size: ${props => props.theme.fontSubheading_large};
+  const ThreadContent = styled.div`
+  display: flex;
+  width: 100%;
+  margin-left: 2.5%;
+  height: 80%;
+  align-items: center;
   `
-
+  const ThreadInfo = styled.div`
+  display: flex;
+  width: 12vw;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: auto;
+  margin-right: 2.5%;
+  `
+  const TopicDiv = styled.div`
+  display: flex;
+  font-size: ${props => props.theme.fontParagraph_small};
+  font-weight: ${props => props.theme.fontBold};
+  justify-content: center;
+  align-items: center;
+  background-color: gainsboro;
+  color: black;
+  width: 6vw;
+  height: 2.5vw;
+  `
+  const InfoDiv = styled.div`
+  display: flex;
+  font-size: ${props => props.theme.fontParagraph_small};
+  font-weight: ${props => props.theme.fontBold};
+  justify-content: center;
+  align-items: center;
+  width: 6vw;
+  `
+  const FilterInfo = styled.div`
+  display: flex;
+  font-size: ${props => props.theme.fontParagraph_small};
+  font-weight: ${props => props.theme.fontBold};
+  justify-content: center;
+  color: ${props => props.theme.backgroundColor};
+  width: 6vw;
+  `
+  const ThreadText = styled.div`
+  display: flex;
+  font-weight: ${props => props.theme.fontBold};
+  width: 50vw;
+  height: 90%;
+  flex-direction: column;
+  `
+  const ThreadTitle = styled.text`
+  font-size: ${props => props.theme.fontParagraph_large};
+  font-weight: ${props => props.theme.fontBold};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  `
+  const ThreadDesc = styled.text`
+  font-size: ${props => props.theme.fontParagraph_medium};
+  height: 3.5vw;
+  margin: auto 0;
+  font-weight: ${props => props.theme.fontLight};
+  overflow: hidden;
+  text-align: justify;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  `
 export default Myquestions

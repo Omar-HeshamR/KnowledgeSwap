@@ -168,7 +168,7 @@ const Section = styled.div`
 display: flex;
 background-color:  ${props => props.theme.textColor};
 color: ${props => props.theme.backgroundColor};
-height: 6vw;
+height: 10.5vh;
 width: 100%;
 justify-content: center;
 align-items: center;
