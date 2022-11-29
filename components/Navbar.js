@@ -8,6 +8,7 @@ import "@fontsource/red-hat-display"
 import Account from './Account';
 import { useRouter } from 'next/router'
 import { toast } from "react-hot-toast";
+import { motion } from "framer-motion"
 
 const Navbar = () => {
 
@@ -15,6 +16,75 @@ const Navbar = () => {
   const isConnected = Boolean(accounts[0]);
   const router = useRouter()
 
+  const hiddenNavItems = {
+    hidden: {
+      opacity: 0
+    },
+    visible: {
+      opacity: 1,
+      // transition: {
+      //   delay: 0
+      // }
+    }
+  }
+
+  const itemDelay = {
+    hidden: {
+      opacity: 0
+    },
+    visible: {
+      opacity: 1,
+      transition: {
+        delay: 0.25
+      }
+    }
+  }
+  const itemDelay1 = {
+    hidden: {
+      opacity: 0
+    },
+    visible: {
+      opacity: 1,
+      transition: {
+        delay: 0.5
+      }
+    }
+  }
+  const itemDelay2 = {
+    hidden: {
+      opacity: 0
+    },
+    visible: {
+      opacity: 1,
+      transition: {
+        delay: 0.75
+      }
+    }
+  }
+
+  const itemDelay3 = {
+    hidden: {
+      opacity: 0
+    },
+    visible: {
+      opacity: 1,
+      transition: {
+        delay: 1
+      }
+    }
+  }
+
+  const itemDelay4 = {
+    hidden: {
+      opacity: 0
+    },
+    visible: {
+      opacity: 1,
+      transition: {
+        delay: 1.25
+      }
+    }
+  }
  
 
   function ask(){
@@ -47,13 +117,47 @@ const Navbar = () => {
         <LogoContainer><IconContainer><Link  href="/"><Image src={Logo} /></Link></IconContainer>
           <LogoText><Link  href="/">KnowledgeSwap</Link></LogoText>
         </LogoContainer>
-        <MenuContainer>
-          <MenuItem onClick={learn}>Learn</MenuItem>
-          <MenuItem onClick={solve}>Solve</MenuItem>
-          <MenuItem onClick={ask}>Ask</MenuItem>
-          <MenuItem><Link href="/about">About</Link></MenuItem>
-          {isConnected ? <CurrentWallet  onClick={() => setShowAccount(true)}>{accounts[0].substring(0,6)}....{accounts[0].substr(-5)}</CurrentWallet> : <ConnectWalletButton  onClick={connectAccount}>Connect Wallet</ConnectWalletButton>}
+
+
+        <MenuContainer
+        as={motion.div} 
+        variants={hiddenNavItems}
+        animate="visible"
+        initial="hidden"
+        >
+
+
+          <MenuItem onClick={learn} 
+          as={motion.div} 
+          variants={itemDelay}
+          > Learn</MenuItem>
+
+
+          <MenuItem onClick={solve}
+          as={motion.div} 
+          variants={itemDelay1}
+          >Solve</MenuItem>
+
+
+          <MenuItem onClick={ask}
+          as={motion.div} 
+          variants={itemDelay2}
+          >Ask</MenuItem>
+
+
+          <MenuItem
+          as={motion.div} 
+          variants={itemDelay3}
+          ><Link href="/about">About</Link></MenuItem>
+
+
+          {isConnected ? <CurrentWallet  onClick={() => setShowAccount(true)}>{accounts[0].substring(0,6)}....{accounts[0].substr(-5)}</CurrentWallet> : <ConnectWalletButton as={motion.div} 
+          variants={itemDelay4} onClick={connectAccount}>Connect Wallet</ConnectWalletButton>}
+        
+        
         </MenuContainer>
+
+
       </MainContainer>
       {showAccount && < Account /> }
     </Section>
@@ -61,15 +165,13 @@ const Navbar = () => {
 }
 
 const Section = styled.div`
-
 display: flex;
 background-color:  ${props => props.theme.textColor};
 color: ${props => props.theme.backgroundColor};
-height: 6vw;
+height: 10.5vh;
 width: 100%;
 justify-content: center;
 align-items: center;
-z-index: 100;
 a{
   text-decoration: none;
   color:  ${props => props.theme.backgroundColor};
@@ -89,6 +191,7 @@ flex-direciton: row;
 `
 const LogoContainer = styled.div`
 display: flex;
+height: 90%; 
 justify-content: center;
 align-items: center;
 flex-direction: row;
@@ -96,6 +199,7 @@ margin-right: auto;
 &:hover{
   cursor: pointer;
   transform: scale(1.05);
+  cursor: pointer;
 }
 `
 const MenuContainer = styled.div`

@@ -93,5 +93,3 @@ border: none;
   cursor: pointer;
 }
 `
-
-export default MainSection1

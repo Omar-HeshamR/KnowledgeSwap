@@ -56,7 +56,7 @@ const Particle = () => {
                 color: "#A51C30",
                 distance: 150,  
                 enable: true,
-                opacity: 0.3,
+                opacity: 0.5,
                 width: 0.5,
             },
             collisions: {
@@ -80,7 +80,7 @@ const Particle = () => {
                 value: 80,
             },
             opacity: {
-                value: 0.08,
+                value: 0.00,
             },
             shape: {
                 type: "polygon",

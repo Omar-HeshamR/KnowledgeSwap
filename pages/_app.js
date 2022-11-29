@@ -8,6 +8,7 @@ import "@fontsource/red-hat-display"
 import { StateContext } from "../context/StateContext"
 import { Toaster } from 'react-hot-toast';
 
+
 const GlobalStyle = createGlobalStyle`
   * 
     {
@@ -18,21 +19,22 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-function MyApp({ Component, pageProps }) {
-  return (
+function MyApp({ Component, pageProps , ...appProps}) {
+
+  return ( 
     <>
     <StateContext>
       <GlobalStyle />
       <ThemeProvider theme = {light}>
-        <Layout>
+        <Layout appProps={appProps}>
           <Toaster />
           <Component {...pageProps} />
         </Layout>
       </ThemeProvider>
     </StateContext>
     </>
-  
   )
+  
 }
 
 export default MyApp
