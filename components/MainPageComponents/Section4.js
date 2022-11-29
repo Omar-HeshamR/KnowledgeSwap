@@ -11,7 +11,7 @@ const Section4 = () => {
       <Container>
 
         <StatDiv>
-          <TextDiv><StatText><p>Students who Actively Asked Questions Performed <b>200%</b> Better on Exams.</p></StatText></TextDiv>
+          <TextDiv><StatText><p>Learners who Actively Asked Questions Performed <b>200%</b> Better on Exams.</p></StatText></TextDiv>
           <ImageDiv><Image src={Exams} alt="Exams" /></ImageDiv>
         </StatDiv>
 

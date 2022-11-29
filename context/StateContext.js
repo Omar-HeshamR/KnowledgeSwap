@@ -5,8 +5,10 @@ import ERC20abi from "../contracts/abi.json"
 import KStokenABI from "../contracts/KStoken.json"
 import KSquestionABI from "../contracts/KSquestionNFT.json"
 import KnowledgeSwapCredibilityToken from "../contracts/KnowledgeSwapCredibilityToken.json"
+import makeStorageClient from "../pages/api/web3storage"
 import { useRouter } from 'next/router'
-const keccak256 = require('keccak256')
+
+const { createHash } = require("crypto")
 
 const KStokenContractAddress = "0x164A5B05F1C10a3D6ebd48dc6f3949Dbb4102034"
 const KScredibilityContractAddress = "0xEaD7A0Cb8372B3F7B066a9859350D95Dc3678b73"
@@ -188,14 +190,39 @@ async function awardCredibility(_userToBeRewarded){
 }
 
 
-function Test(){
-  // let stringfier ="";
-  // let creator = "0x7bE28279812e86B6b449a22D2272561A7bBe5311" ;
-  // let question = "How do levers create energy if the conservation of energy does not allow energy to be created?";
-  // let encodePacked =  ethers.utils.concat([ ethers.utils.toUtf8Bytes(stringfier),
-  //    ethers.utils.toUtf8Bytes(creator), ethers.utils.toUtf8Bytes(question) ])
-  // let digest = parseInt((ethers.utils.keccak256(encodePacked))) % (10**16)
-  // console.log(digest) 
+// Uploading functionalties
+
+function makeQuestionJson(_asker, _title, _topic, _description, _bounty){
+
+  const ToBeHashed = _asker + _title + _topic + _description;
+  const _ID = createHash('sha256').update(ToBeHashed).digest('hex');
+
+  let question;
+  question = {
+      "questionID": _ID,
+      "asker":  _asker,
+      "bounty": _bounty,
+      "topic": _topic,
+      "title": _title,
+      "description" : _description,
+  }
+  return question
+}
+
+function makeFileObjects (obj){
+  const blob = new Blob([JSON.stringify(obj)], { type: 'application/json' })
+  const files = [
+    new File(['contents-of-file-1'], 'plain-utf8.txt'),
+    new File([blob], 'hello.json')
+  ] 
+  return files
+}
+
+async function storeFiles (files) {
+  const client = makeStorageClient()
+  const cid = await client.put(files)
+  console.log('stored files with cid:', cid)
+  return cid
 }
 
     return(
@@ -223,6 +250,11 @@ function Test(){
              awardCredibility,
              Test,
              
+            // UPLOADING TO IPFS:
+            makeQuestionJson,
+            makeFileObjects,
+            storeFiles,
+            
             // CONTRACT ADDRESSES
             KStokenContractAddress,
             KScredibilityContractAddress ,

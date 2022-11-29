@@ -15,7 +15,7 @@ const Section5 = () => {
 
       <Container>
 
-        <Heading><p>We Understand Your Struggle: <b>Today's Education Just Isn't It</b></p></Heading>
+        <Heading><p>We Understand Your Struggle: <b>Today&apos;s Education Just Isn&apos;t It</b></p></Heading>
 
         <Grid>
 
