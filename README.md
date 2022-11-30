@@ -3,7 +3,7 @@
 KnowledgeSwap Live Repository. 
 * We are striving to create a platform that securely incentivizes knowledge globally. We want to allow anyone with an inquiry to get a fast response while rewarding those who share their knowledge with the inquirer, all through an extremely simple and good user interface.
 * MATIC TESTNET Version: https://knowledgeswap.vercel.app [ Test Instructions below ]
-* Project will be tested on the BTTC and MATIC testnets before going live untill a merge of all EVM compatible chains!
+* Project will be tested on the BTTC and MATIC testnets before going live untill a merge of all EVM compatible chains! Including Eth, Polygon, BNB, and BTTC.
 
 ## Project Info 
 Meet KnowledgeSwap, the solution to all your problems and inquiries. In essence, KnowledgeSwap is a decentralized application in which users can ask questions, solve asked questions, and learn by viewing previously asked questions on the blockchain. Whenever a user creates an inquiry, a bounty of KnowledgeSwap Tokens (the token of the platform) is attached to that specific inquiry. The most compelling answer (which is determined by the inquirer) is awarded that bounty; this in return, incentives users all across the blockchain to share information in the most compelling and engaging way, creating a self-sustaining decentralized platform.
