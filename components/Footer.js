@@ -7,16 +7,47 @@ import DiscordLogo from '../assets/FooterAssets/discord-icon.svg'
 import EmailLogo from '../assets/FooterAssets/mail-icon.svg'
 import GitHubLogo from '../assets/FooterAssets/github-icon.svg'
 import TwitterLogo from '../assets/FooterAssets/twitter-color-icon.svg'
+import Account from './Account'
 import { useRouter } from 'next/router'
+import { toast } from 'react-hot-toast'
+import { useStateContext } from '../context/StateContext'
 
 const Footer = () => {
 
-
+  const { accounts, connectAccount, showAccount, setShowAccount } = useStateContext();
+  const isConnected = Boolean(accounts[0]);
   const router = useRouter()
   function goToHomePage() {
     router.push("/")
   }
 
+  function ask(){
+    if(isConnected){
+      router.push("/Ask");
+    }else{
+      toast.error(" Must Connect Wallet To Ask Questions!")
+    }
+  }
+
+  function solve(){
+    if(isConnected){
+      router.push("/Solve");
+    }else{
+      toast.error(" Must Connect Wallet To Solve Questions!")
+    }
+  }
+
+  function learn(){
+    if(isConnected){
+      router.push("/learn");
+    }else{
+      toast.error(" Must Connect Wallet To Learn!")
+    }
+  }
+
+  function about(){
+    router.push("./about")
+  }
 
   return (
     <Section>
@@ -59,17 +90,20 @@ const Footer = () => {
               </IconDiv>
             </MinorContainer>
             <MinorContainer>
-              <SmallCTA>Connect Wallet</SmallCTA>
-              <SmallCTA>About</SmallCTA>
-              <SmallCTA>Learn</SmallCTA>
-              <SmallCTA>Solve</SmallCTA>
-              <SmallCTA>Ask</SmallCTA>
+              {isConnected ? <SmallCTA onClick={() => setShowAccount(true)}>Account</SmallCTA> :
+              <SmallCTA onClick={connectAccount}>Connect Wallet</SmallCTA>}
+              <SmallCTA onClick={about}>About</SmallCTA>
+              <SmallCTA onClick={learn}>Learn</SmallCTA>
+              <SmallCTA onClick={solve}>Solve</SmallCTA>
+              <SmallCTA onClick={ask}>Ask</SmallCTA>
             </MinorContainer>
           </MinorDiv>
 
         </ThirdDiv>
           
       </Container>
+
+      {showAccount && < Account /> }
     </Section>
   )
 }

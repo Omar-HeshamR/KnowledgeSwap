@@ -5,39 +5,25 @@ import { useStateContext } from '../context/StateContext';
 import KSquestionABI from "../contracts/KSquestionNFT.json"
 import {ethers, BigNumber} from "ethers";
 import { useRouter } from 'next/router'
+import KSanswerABI from "../contracts/KSanswerNFT.json"
 import SearchIcon from '../assets/SearchIcon.png'
 
 const Myquestions = () => {
 
-    const SearchRef = useRef()
     const router = useRouter()
     const { accounts , isActive, questionToBeViewed, setQuestionToBeViewed, 
-      KSquestionNFTContractAddress} = useStateContext();
-    const [searchInput, setSearchInput] = useState("");
+      KSquestionNFTContractAddress, KSanswerNFTContractAddress} = useStateContext();
     const [ totalQuestions, setTotalQuestions] = useState([]);
+    const [ replyCount, setReplyCount] = useState([]);
     const [ questions, setQuestions] = useState([]);
 
-    const [input, setInput] = useState("");
-    const formRef = useRef();
-    const inputFocus = useRef();
-
-    const [secondinput, setsecondInput] = useState("");
-    const secondformRef = useRef();
-    const secondinputFocus = useRef();
+    const [titleSearch, setTitleSearchTerm] = useState("");
+    const [topicSearch, setTopicSearchTerm] = useState("");
 
     function ViewQuestion(question){
       setQuestionToBeViewed(question)
-      router.push(`/question/${question[0]}`)
+      router.push(`/question/${question.questionID}`)
     }
-    function goToQuestionReply(question){
-      setQuestionToBeAnswered(question)
-      router.push(`./answer/${question[0]}`);
-    }
-
-    // function goToQuestionReply(question){
-    //   setQuestionToBeAnswered(question)
-    //   router.push(`./answer/${question[0]}`);
-    // }
 
     async function VeiwAllQuestions(){
       if(accounts[0]){
@@ -51,59 +37,102 @@ const Myquestions = () => {
       )
       let response;
       response = await KSquestionsContract.getAllQuestions()
+
       let finalResponses = []
       let i = 0;
+
       for(i=0;i<response.length;i++){
-        if(String(response[i][1]) === String(accounts[0])){
-          finalResponses.push(response[i])
+
+        const TokenURI = `https://${response[i]}.ipfs.w3s.link/question.json`;
+        const tokenURIResponse = await fetch(TokenURI)
+          .then(res => res.json())
+          .then(data => { return data})
+
+        if(tokenURIResponse.asker == accounts[0]){
+          finalResponses.push(tokenURIResponse)
         }
       }
-      console.log(response[0][1])
+      getRepliesNumber(finalResponses)
       setQuestions(finalResponses);
       setTotalQuestions(finalResponses);
       }
     }
-  
-    function searchedFor(questionText, string){
-      return Boolean(String(questionText.toLowerCase()).indexOf(string.toLowerCase()) >= 0)
+
+    async function getRepliesNumber(questionsArray){
+      if(accounts[0]){
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        const contract = new ethers.Contract(
+            KSanswerNFTContractAddress,
+            KSanswerABI.abi,
+            signer
+          );
+          try{
+          let i = 0;
+          for(i=0; i < questionsArray.length; i++){
+            const response = await contract.getRepliesByID(questionsArray[i].questionID);
+            setReplyCount([...replyCount, [questionsArray[i].questionID, response.length]]);
+          }}catch(err){
+            console.log(err)
+          }
+      }
     }
 
     
+  function findReplyCountByID(questionID){
+    let i = 0;
+    for(i=0; i < replyCount.length; i++){
+      if(replyCount[i][0] == questionID){
+        return replyCount[i][1];
+      }
+    }
+    return 0;
+  }
   
-    useEffect(() => {
+  useEffect(() => {
       VeiwAllQuestions()
       setInterval(function() {
         VeiwAllQuestions()
       }, 60000);
-    }, [accounts[0]])
-    
-    function Search(searchTerm){
-      if(searchTerm.length > 1){
-        let newQuestions = [];
-          let i = 0;
-          for(i=0;i<totalQuestions.length;i++){
-            if(searchedFor(totalQuestions[i][2],searchTerm)){
-              newQuestions.push(totalQuestions[i])
-            }
+  }, [accounts[0]])
+
+  // Searching Functionalties
+
+  useEffect(() => {
+    SearchByTitle()
+  }, [titleSearch])
+
+  function SearchByTitle(){
+    if(titleSearch.length >= 1){
+      let newQuestions = [];
+        let i = 0;
+        for(i=0;i<totalQuestions.length;i++){
+          if(searchedFor(totalQuestions[i].title, titleSearch)){
+            newQuestions.push(totalQuestions[i])
           }
-          setQuestions(newQuestions) 
-      }else{
-        setQuestions(totalQuestions) 
-      }
-    }
-  
+        }
+        setQuestions(newQuestions) 
+  }else{
+    setQuestions(totalQuestions)
+  }
+  }
+
+  function searchedFor(questionText, string){
+    return Boolean(String(questionText.toLowerCase()).indexOf(string.toLowerCase()) >= 0)
+}
+
     return (
       <NewSection>
         <NewContainer>
           <TitleContainer>My Questions</TitleContainer>
           <SearchBarsContainer>
           <Form>
-            <Input onChange={e => setInput(e.target.value)} ref={inputFocus} value={input} placeholder= "Search by title....." />
-            <IconContainer onClick={() => Search(SearchRef.current.value)}><Image src={SearchIcon} alt="search icon"/></IconContainer>
+            <Input onChange={e => setTitleSearchTerm(e.target.value)} value={titleSearch} placeholder= "Search by title....." />
+            <IconContainer ><Image src={SearchIcon} alt="search icon"/></IconContainer>
           </Form>
           <SecondForm>
-            <SecondInput onChange={e => setsecondInput(e.target.value)} ref={secondinputFocus} value={secondinput} placeholder= "Filter by topic....."/>
-            <IconContainer onClick={() => Search(SearchRef.current.value)}><Image src={SearchIcon} alt="search icon"/></IconContainer>
+            <SecondInput onChange={e => setTopicSearchTerm(e.target.value)} value={topicSearch} placeholder= "Filter by topic....."/>
+            <IconContainer><Image src={SearchIcon} alt="search icon"/></IconContainer>
           </SecondForm>
         </SearchBarsContainer>
 
@@ -124,12 +153,14 @@ const Myquestions = () => {
           <ThreadDiv  onClick={() => ViewQuestion(question)} key={question.id}>
             <ThreadContent>
               <ThreadText>
-                <ThreadTitle>Enter your title</ThreadTitle>
-                <ThreadDesc>{String(question[2])}</ThreadDesc>
+              {question.description ? 
+                      <><ThreadTitle >{question.title}</ThreadTitle>
+                      <ThreadDesc>{question.description}</ThreadDesc> </>
+                      :<ThreadTitle2>{question.title}</ThreadTitle2>}
               </ThreadText>
               <ThreadInfo>
-                <TopicDiv>Topic</TopicDiv>               
-                <InfoDiv> 100</InfoDiv>
+                <TopicDiv>{question.topic}</TopicDiv>               
+                <InfoDiv>{findReplyCountByID(question.questionID)}</InfoDiv>
               </ThreadInfo>
             </ThreadContent>
         </ThreadDiv>
@@ -284,9 +315,11 @@ const Myquestions = () => {
   align-items: center;
   background-color: gainsboro;
   color: black;
+  text-align: center;
   width: 6vw;
   height: 2.5vw;
   `
+
   const InfoDiv = styled.div`
   display: flex;
   font-size: ${props => props.theme.fontParagraph_small};
@@ -317,6 +350,16 @@ const Myquestions = () => {
   overflow: hidden;
   text-overflow: ellipsis;
   `
+  const ThreadTitle2 = styled.text`
+  font-size: ${props => props.theme.fontParagraph_large};
+  font-weight: ${props => props.theme.fontBold};
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  `
+  
   const ThreadDesc = styled.text`
   font-size: ${props => props.theme.fontParagraph_medium};
   height: 3.5vw;

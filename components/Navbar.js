@@ -15,78 +15,7 @@ const Navbar = () => {
   const { accounts, connectAccount, showAccount, setShowAccount } = useStateContext();
   const isConnected = Boolean(accounts[0]);
   const router = useRouter()
-
-  const hiddenNavItems = {
-    hidden: {
-      opacity: 0
-    },
-    visible: {
-      opacity: 1,
-      // transition: {
-      //   delay: 0
-      // }
-    }
-  }
-
-  const itemDelay = {
-    hidden: {
-      opacity: 0
-    },
-    visible: {
-      opacity: 1,
-      transition: {
-        delay: 0.25
-      }
-    }
-  }
-  const itemDelay1 = {
-    hidden: {
-      opacity: 0
-    },
-    visible: {
-      opacity: 1,
-      transition: {
-        delay: 0.5
-      }
-    }
-  }
-  const itemDelay2 = {
-    hidden: {
-      opacity: 0
-    },
-    visible: {
-      opacity: 1,
-      transition: {
-        delay: 0.75
-      }
-    }
-  }
-
-  const itemDelay3 = {
-    hidden: {
-      opacity: 0
-    },
-    visible: {
-      opacity: 1,
-      transition: {
-        delay: 1
-      }
-    }
-  }
-
-  const itemDelay4 = {
-    hidden: {
-      opacity: 0
-    },
-    visible: {
-      opacity: 1,
-      transition: {
-        delay: 1.25
-      }
-    }
-  }
  
-
   function ask(){
     if(isConnected){
       router.push("/Ask");
@@ -205,7 +134,7 @@ margin-right: auto;
 const MenuContainer = styled.div`
 display: flex;
 height: 90%;
-width: 50%;
+width: 40%;
 justify-content: center;
 align-items: center;
 flex-direction: row;
@@ -277,5 +206,74 @@ margin-right: auto;
   cursor: pointer;
 }
 `
+const hiddenNavItems = {
+  hidden: {
+    opacity: 0
+  },
+  visible: {
+    opacity: 1,
+    // transition: {
+    //   delay: 0
+    // }
+  }
+}
+
+const itemDelay = {
+  hidden: {
+    opacity: 0
+  },
+  visible: {
+    opacity: 1,
+    transition: {
+      delay: 0.25
+    }
+  }
+}
+const itemDelay1 = {
+  hidden: {
+    opacity: 0
+  },
+  visible: {
+    opacity: 1,
+    transition: {
+      delay: 0.5
+    }
+  }
+}
+const itemDelay2 = {
+  hidden: {
+    opacity: 0
+  },
+  visible: {
+    opacity: 1,
+    transition: {
+      delay: 0.75
+    }
+  }
+}
+
+const itemDelay3 = {
+  hidden: {
+    opacity: 0
+  },
+  visible: {
+    opacity: 1,
+    transition: {
+      delay: 1
+    }
+  }
+}
+
+const itemDelay4 = {
+  hidden: {
+    opacity: 0
+  },
+  visible: {
+    opacity: 1,
+    transition: {
+      delay: 1.25
+    }
+  }
+}
 
 export default Navbar

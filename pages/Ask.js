@@ -9,11 +9,13 @@ import {ethers, BigNumber} from "ethers";
 
 const Ask = () => {
 
-  const QuestionRef = useRef();
+  const TitleRef = useRef();
+  const TopicRef = useRef();
+  const DescriptionRef = useRef();
   const BountyRef = useRef();
   const router = useRouter()
   const { accounts, userKStokenCount, onLoad, HoldBounty , KSquestionNFTContractAddress, 
-    Test} = useStateContext();
+    makeQuestionJson, makeFileObjects, storeFiles } = useStateContext();
   const [loading, setLoading] = useState(false);
   const [checker, setChecker] = useState();
   
@@ -22,8 +24,6 @@ const Ask = () => {
   }, [accounts[0]])
 
   async function handleMint(){
-    // console.log(userKStokenCount)
-    // console.log(BountyRef.current.value)
     if(BountyRef.current.value < 0){toast.error("Bounty cant be below 0, LOL.")}else{
       if(parseInt(userKStokenCount) < parseInt(BountyRef.current.value)){
         toast.error("Not Enough KnowledgeSwap Tokens")
@@ -38,10 +38,6 @@ const Ask = () => {
         try{
           var currentDateTime = new Date();
           const timeStamp = currentDateTime.getTime() / 1000;
-          // console.log("account: ", accounts[0])
-          // console.log("Question: ", QuestionRef.current.value)
-          // console.log("Bounty: ", BountyRef.current.value)
-          // console.log("timeStamp: ", timeStamp)
 
           // get the question ID
           const myQuestionID = await contract.getQuestionID(accounts[0],QuestionRef.current.value) 
@@ -62,42 +58,6 @@ const Ask = () => {
             toast.error("Cancelled!")
             router.push("/");
           }
-
-          // setTimeout(async function () {
-          //   setChecker(undefined)
-          //   console.log(checker)
-          //   }, 3000)
-
-          // let i = 0;
-          // while(checker === undefined){
-          //   console.log("mistake")
-          //   if(i >= 1000){router.push("/about")}
-          //   i++;
-          // }
-          // OLD METHOD
-          // setTimeout(async function () {
-            // console.log(String(response2[response2.length-1][1]))
-            // console.log(String(response2[response2.length-1][2]))
-            // console.log(accounts[0])
-            // console.log(String(QuestionRef.current.value))
-            // console.log(String(response2[response2.length-1][1]) !== String(accounts[0]))
-            // console.log(String(response2[response2.length-1][2]) !== String(QuestionRef.current.value))
-          //   while(String(response2[response2.length-1][1]) != accounts[0] ||
-          //     String(response2[response2.length-1][2]) != QuestionRef.current.value ){
-          //      response2 = await contract.getAllQuestions()
-          //       if(String(response2[response2.length-1][1]) === String(accounts[0]) &&
-          //       String(response2[response2.length-1][2]) === String(QuestionRef.current.value) ){
-          //         console.log("OUT")
-          //         break;
-          //       }
-          //       console.log("still fetching...")
-          //     }
-          //     setTimeout(function(){
-          //       HoldBounty(parseInt(response2[response2.length -1][0]),parseInt(BountyRef.current.value))
-          //     }, 1500)    
-          // // setLoading(false)
-          //   }, 2000)
-
         }catch (err) {
               toast.error('Error Occured ', err);
             }
@@ -105,46 +65,85 @@ const Ask = () => {
     }
   }
 
+  async function AskQuestion(){
+
+    // Condtions of Approval
+    if(TitleRef.current.value === undefined){
+      toast.error("Must Include Title"); return;
+    }
+    if(TopicRef.current.value === undefined){
+      toast.error("Must Pick a Topic"); return;
+    }
+    if(BountyRef.current.value <= -1){
+      toast.error("Bounty cannot be negative!"); return;
+    }
+    if(DescriptionRef.current.value === undefined){
+      DescriptionRef.current.value = ""
+    }
+    if(parseInt(userKStokenCount) < parseInt(BountyRef.current.value)){
+        toast.error("Not Enough KnowledgeSwap Tokens"); return;
+    }
+
+    setLoading(true)
+
+    // creating the question object
+    const _asker = accounts[0];
+    const _title = TitleRef.current.value;
+    const _topic = TopicRef.current.value;
+    const _description = DescriptionRef.current.value;
+    const _bounty = BountyRef.current.value;
+    const questionObj = makeQuestionJson(_asker, _title, _topic, _description, _bounty);
+
+    // Uploading to IPFS
+    let CID;
+    try{
+    const files = makeFileObjects(questionObj, "question");
+    CID = await storeFiles(files);
+    }catch(err){
+      toast.error(`Failed to upload your question!`)
+      return;
+    }
+
+    // Interacting with the blockchain
+    let response;
+    try{
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const contract = new ethers.Contract(
+        KSquestionNFTContractAddress,
+        KSquestionABI.abi,
+        signer
+      );
+
+      response = await contract.AskMyQuestion(CID);
+      HoldBounty(questionObj.questionID,questionObj.bounty);
+
+    }catch(err){
+      toast.error(`Failed to proccess your question!`)
+      return;
+    }
+  }
+
   return (
     <>
-{/* <Section>
-  <Heading onClick={Test}>Ask A Question:</Heading>
-  {accounts[0] 
-  ? <>{userKStokenCount > 300 
-    ? <>
-          <InputContainer>
-            <InputText>Question: </InputText>
-            <QuestionInput  type={"text"} ref={QuestionRef}/>
-          </InputContainer>
-
-          <InputContainer>
-          {/* <SubHeading>How much do you want to reward the solver?</SubHeading> */}
-          {/* <InputText>Bounty: </InputText>
-            <Input  type={"number"} ref={BountyRef} defaultValue="1"/>
-          </InputContainer>
-          {loading ? <PleaseWait>Signing Transaction... </PleaseWait>:  
-          <MintButton onClick={handleMint} >Submit Question !</MintButton>}
-      </> 
-    : <><Heading2>Must Hold a minimum of 300 Tokens To Ask Questions!</Heading2>
-    </>}</>
-  : <Heading> Please Connect Wallet first !</Heading>}
-</Section> */}
-
     <NewSection>
       <MainDiv>
         {accounts[0] 
         ? <>{userKStokenCount > 300 
           ? <>
+
+          <TitleContainer>Post Inquiry</TitleContainer>
+
           <Indicator><p><b>Enter Title: </b>(required)</p></Indicator>
-          <TitleInput type={"text"} ref={QuestionRef}/>
-          <Indicator><p><b>Enter Topic and/or Keyword: </b>(required)</p> </Indicator>
-          <MinorInput />
+          <TitleInput type={"text"} ref={TitleRef}/>
+          <Indicator><p><b>Enter Topic and/or Keyword: </b>(required, limited to one)</p> </Indicator>
+          <MinorInput type={"text"} ref={TopicRef}/>
           <Indicator><p><b>Enter Description: </b>(optional)</p></Indicator>
-          <DescInput />
+          <DescInput  type={"text"} ref={DescriptionRef}/>
           <Indicator><p><b>Set Bounty: </b>(Enter any value including 0; make sure to adjust it based on your desired engagement level)</p></Indicator>
           <MinorInput  type={"number"} ref={BountyRef} defaultValue="1"/>
                 {loading ? <PleaseWait>Signing Transaction... </PleaseWait>:  
-                <AskButton onClick={handleMint} >Ask</AskButton>}
+                <AskButton onClick={AskQuestion} >Ask</AskButton>}
             </> 
           : <><Heading2>Must Hold a Minimum of 300 Tokens to Ask Questions!</Heading2>
           </>}</>
@@ -154,6 +153,17 @@ const Ask = () => {
     </>
   )
 }
+
+const TitleContainer = styled.div`
+width: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+color: ${props => props.theme.textColor};
+font-size: ${props => props.theme.fontTitle_default};
+font-weight: ${props => props.theme.fontBold};
+`
+
 const Heading = styled.div`
 height: 60vh;
 display: flex;
@@ -180,7 +190,7 @@ const NewSection = styled.div`
 `
 const MainDiv = styled.div` 
 display: flex;
-margin: 5vw auto;
+margin: 2vw auto;
 width: 80%;
 height: 100%;
 flex-direction: column;
@@ -193,7 +203,7 @@ width: 90%;
 height: 2.5vw;
 font-size: ${props => props.theme.fontParagraph_medium};
 font-weight: ${props => props.theme.fontLight};
-color:  ${props => props.theme.textColor};
+color: black;
 padding-left: 0.5vw;
 `
 const TitleInput = styled.textarea`
@@ -202,7 +212,9 @@ width: 90%;
 height: 4vw;
 font-size: ${props => props.theme.fontParagraph_medium};
 font-weight: ${props => props.theme.fontLight};
-color:  ${props => props.theme.textColor};
+color: black;
+padding-left: 0.5vw;
+padding-top: 0.5vw;
 `
 const DescInput = styled.textarea`
 border: 0.15vw solid  ${props => props.theme.textColor};
@@ -210,7 +222,9 @@ width: 90%;
 height: 12vw;
 font-size: ${props => props.theme.fontParagraph_medium};
 font-weight: ${props => props.theme.fontLight};
-color:  ${props => props.theme.textColor};
+color: black;
+padding-left: 0.5vw;
+padding-top: 0.5vw;
 `
 const Indicator = styled.div`
 font-size: ${props => props.theme.fontParagraph_medium};

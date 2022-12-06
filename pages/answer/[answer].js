@@ -16,30 +16,46 @@ const AsnweringDetails = () => {
 
   const router = useRouter()
   const { accounts, questionToBeAnswered, setQuestionToBeAnswered, KSanswerNFTContractAddress
-  ,  KSquestionNFTContractAddress} = useStateContext();
+  ,  KSquestionNFTContractAddress, makeReplyJson, makeFileObjects, storeFiles} = useStateContext();
   const AsnwerRef = useRef();
 
-  async function handleMint(){
+  async function postReply(){
+
+    // create the reply object
+    const _questionID = String(router.asPath).slice(8)
+    const _replier = accounts[0];
+    const _reply = AsnwerRef.current.value;
+    const replyObject = makeReplyJson(_questionID, _replier, _reply);
+
+    // Upload to IPFS
+    let CID;
+    try{
+    const files = makeFileObjects(replyObject, "reply");
+    CID = await storeFiles(files);
+    }catch(err){
+      toast.error(`Failed to upload your reply!`)
+      return;
+    }
+
+    // Interacting with the blockchain
+    try{
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const contract = new ethers.Contract(
         KSanswerNFTContractAddress,
         KSanswerABI.abi,
         signer
-      );
-      try{
-        console.log(parseInt(parseFloat(String(questionToBeAnswered[0]))))
-        console.log(AsnwerRef.current.value)
-        console.log(accounts[0])
-        const response = await contract.answerTheQuestion(parseInt(parseFloat(String(questionToBeAnswered[0]))), accounts[0],String(AsnwerRef.current.value));
-        router.push("/Solve");
-        toast.success("Thank you for answering the question! Best gets rewarded!",   {
-            duration: 3000,
-          });
-    }catch(err){
-        toast.error('Error Occured ', err);
+    );
+    const response = await contract.answerTheQuestion( CID, _questionID, replyObject.replyID );
+    router.push("/Solve");
+    toast.success("Thank you for answering the question! Best gets rewarded!",   {
+        duration: 3000,});}
+    catch(err){
+        toast.error('Signing Canclled');
       }
+
   }
+
 
   async function VeiwMyQuestions(){
     if(accounts[0]){  
@@ -54,16 +70,18 @@ const AsnweringDetails = () => {
     let response;
     response = await KSquestionsContract.getAllQuestions()
     const Path = String(router.asPath).slice(8)
-
     let i = 0;
     for(i=0;i<response.length;i++){
-      if(String(response[i][0]) === Path){
-        setQuestionToBeAnswered(response[i])
+      const TokenURI = `https://${response[i]}.ipfs.w3s.link/question.json`;
+      const tokenURIResponse = await fetch(TokenURI)
+        .then(res => res.json())
+        .then(data => { return data})
+      if(tokenURIResponse.questionID == Path){
+        setQuestionToBeAnswered(tokenURIResponse)
       }
     }
     }
   }
-
 
   useEffect(() => {
     VeiwMyQuestions()
@@ -82,14 +100,14 @@ const AsnweringDetails = () => {
                 <TextContainer>          
                   <HeaderBox>
                     <TextQuestion>Question:</TextQuestion>
-                    <TopicDiv>Topic</TopicDiv>
-                    <BountyValue>{String(questionToBeAnswered[3])}<Image src={RedLogo} alt="KS token"/></BountyValue>
+                    <TopicDiv>{questionToBeAnswered.topic}</TopicDiv>
+                    <BountyValue>{questionToBeAnswered.bounty}<Image src={RedLogo} alt="KS token"/></BountyValue>
                   </HeaderBox>
-                  <Title>{String(questionToBeAnswered[2])}</Title>             
-                  <Description>test</Description>
+                  <Title>{questionToBeAnswered.title}</Title>             
+                  <Description>{questionToBeAnswered.description}</Description>
                   <Indicator><p><b>Enter your reply:</b> (required)</p></Indicator>
                   <ReplyBox type={"text"} ref={AsnwerRef}/>
-                  <ReplyButton onClick={handleMint}>Reply</ReplyButton>
+                  <ReplyButton onClick={postReply}>Reply</ReplyButton>
                 </TextContainer>
                 </>
               : 
@@ -101,6 +119,7 @@ const AsnweringDetails = () => {
     </>
   )
 }
+
 const SubHeading = styled.div`
 display: flex;
 margin-bottom: 5vw;
@@ -114,7 +133,7 @@ display: flex;
 justify-content: center;
 `
 const NewContainer = styled.div`
-margin-top: 5vw;
+margin-top: 2vw;
 display: flex;
 align-items: center;
 width: 97%;
@@ -167,8 +186,10 @@ align-items: center;
 margin-top: 0.5vw;
 margin-right: auto;
 margin-left: 1vw;
-width: 4vw;
-height: 2.5vw;
+padding-left: 1vw;
+padding-right: 1vw;
+width: auto;
+height: 2.25vw;
 font-size: ${props => props.theme.fontParagraph_small};
 font-weight: ${props => props.theme.fontBold};
 `
@@ -194,7 +215,8 @@ border: none;
 font-size: 5vw;
 width: 100%;
 height: 8vw;
-margin: 2vw 0;
+margin-top: 2vw;
+margin-bottom: 5vw;
 &:hover{
   cursor: pointer;
   transform: scale(0.95);

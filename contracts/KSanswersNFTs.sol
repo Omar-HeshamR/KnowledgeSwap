@@ -8,28 +8,30 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract KSanswerNFT is ERC721, Ownable {
 
     constructor()
-    ERC721("Knowledge Swap Answer", "KSA")
+    ERC721("Knowledge Swap Reply", "KSR")
     {}
 
     struct KSanswer {
-        uint256 dna;
-        uint256 questionID;
-        string creator;
-        string asnwer;
+        string tokenURI;
+        string questionID;
+        string replyID;
     }
 
     KSanswer[] public answers;
+    mapping(string => KSanswer[]) public QuestionReplies;
+    mapping(string => uint256) public ReplyUpVotes;
+    mapping(string => address[]) public UpVoteChecker;
     uint256 COUNTER = 1;
 
-    event NewAnswer(address indexed owner, uint256 dna, uint256 _questionID, string creator, 
-    string answer);
+    event NewAnswer(address indexed owner, string tokenURI, string questionID, string replyID);
 
-    function _createAnswer(uint256 _dna, uint256 _questionID, string memory _creator, string memory _answer) internal
+    function _createAnswer(string memory tokenURI, string memory QuestionID, string memory ReplyID) internal
     {
-        KSanswer memory newKSanswer = KSanswer(_dna, _questionID, _creator, _answer);
+        KSanswer memory newKSanswer = KSanswer(tokenURI, QuestionID, ReplyID);
         answers.push(newKSanswer);
+        QuestionReplies[QuestionID].push(newKSanswer);
         _safeMint(msg.sender,COUNTER); 
-        emit NewAnswer(msg.sender, _dna, _questionID, _creator, _answer );
+        emit NewAnswer(msg.sender, tokenURI, QuestionID, ReplyID );
         COUNTER ++;
     }
 
@@ -38,18 +40,31 @@ contract KSanswerNFT is ERC721, Ownable {
         return answers;
     }
 
-    // To Make DNA, Hashing asker and question
-    function _createRandomNum(uint256 _questionID, string memory _creator, string memory _answer) internal view returns (uint256) {
-        string memory Stringfier = "";
-        Stringfier = string(bytes.concat(bytes(Stringfier), bytes(Strings.toString(_questionID)),bytes(_creator), bytes(_answer)));
-        uint256 randomNum = uint256(
-        keccak256(abi.encodePacked(Stringfier))
-        );
-        return randomNum % 10**16;
+    function getUpvotesByReplyID(string memory ReplyID) public view returns(uint256){
+        return ReplyUpVotes[ReplyID];
     }
 
-    function answerTheQuestion(uint256 _questionID, string memory _creator, string memory _answer) public payable{
-        uint256 randDNA = _createRandomNum(_questionID, _creator, _answer);
-        _createAnswer(randDNA, _questionID, _creator, _answer);
+    function getRepliesByID(string memory questionID) public view returns(KSanswer[] memory){
+        return QuestionReplies[questionID];
     }
+
+    function answerTheQuestion(string memory tokenURI, string memory QuestionID, string memory ReplyID) public payable{
+        _createAnswer(tokenURI, QuestionID, ReplyID);
+    }
+
+    function upvoteReply(string memory ReplyID) public {
+        require( _find(ReplyID, msg.sender) == false, "already voted");
+        ReplyUpVotes[ReplyID] += 1;
+        UpVoteChecker[ReplyID].push(msg.sender);
+    }
+
+    function _find(string memory ReplyID, address toBeFound) internal returns(bool){
+        uint arrayLength = UpVoteChecker[ReplyID].length;
+        for (uint i=0; i<arrayLength; i++) {
+            if(UpVoteChecker[ReplyID][i] == toBeFound){
+                return true;
+            }
+        }
+        return false;
+   }
 }

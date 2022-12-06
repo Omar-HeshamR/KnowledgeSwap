@@ -11,25 +11,18 @@ import Particle from "../components/Particle"
 
 const Learn = () => {
   
-  const SearchRef = useRef()
   const router = useRouter()
   const { accounts , isActive, questionToBeViewed, onLoad, userKStokenCount, 
     setQuestionToBeViewed, KSquestionNFTContractAddress} = useStateContext();
-  const [searchInput, setSearchInput] = useState("");
   const [ totalQuestions, setTotalQuestions] = useState([]);
   const [ questions, setQuestions] = useState([]);
 
-  const [input, setInput] = useState("");
-  const formRef = useRef();
-  const inputFocus = useRef();
-
-  const [secondinput, setsecondInput] = useState("");
-  const secondformRef = useRef();
-  const secondinputFocus = useRef();
+  const [titleSearch, setTitleSearchTerm] = useState("");
+  const [topicSearch, setTopicSearchTerm] = useState("");
 
   function ViewQuestion(question){
     setQuestionToBeViewed(question)
-    router.push(`/question/${question[0]}`)
+    router.push(`/question/${question.questionID}`)
   }
 
   async function VeiwAllQuestions(){
@@ -47,17 +40,22 @@ const Learn = () => {
     let finalResponses = []
     let i = 0;
     for(i=0;i<response.length;i++){
-      if(isActive(response[i][4],response[i][3]) == false){
-        finalResponses.push(response[i])
-      }
+      
+      const TokenURI = `https://${response[i]}.ipfs.w3s.link/question.json`;
+      const tokenURIResponse = await fetch(TokenURI)
+        .then(res => res.json())
+        .then(data => { return data})
+
+      finalResponses.push(tokenURIResponse)
+
+      // SYSTEM OF WHEN SOMETHING GOES TO LEARN
+      // if(isActive(tokenURIResponse.timeStamp, tokenURIResponse.bounty) == false){
+      //   finalResponses.push(tokenURIResponse)
+      // }
     }
     setQuestions(finalResponses);
     setTotalQuestions(finalResponses);
     }
-  }
-
-  function searchedFor(questionText, string){
-    return Boolean(String(questionText.toLowerCase()).indexOf(string.toLowerCase()) >= 0)
   }
 
   useEffect(() => {
@@ -69,20 +67,31 @@ const Learn = () => {
     }, 60000);
   }, [accounts[0]])
 
-  function Search(searchTerm){
-    if(searchTerm.length > 1){
+  // Searching Functionalties
+
+  useEffect(() => {
+    SearchByTitle()
+  }, [titleSearch])
+
+  function SearchByTitle(){
+    if(titleSearch.length >= 1){
       let newQuestions = [];
         let i = 0;
         for(i=0;i<totalQuestions.length;i++){
-          if(searchedFor(totalQuestions[i][2],searchTerm)){
+          if(searchedFor(totalQuestions[i].title, titleSearch)){
             newQuestions.push(totalQuestions[i])
           }
         }
         setQuestions(newQuestions) 
-    }else{
-      setQuestions(totalQuestions) 
-    }
+  }else{
+    setQuestions(totalQuestions)
   }
+  }
+  
+  function searchedFor(questionText, string){
+    return Boolean(String(questionText.toLowerCase()).indexOf(string.toLowerCase()) >= 0)
+}
+
 
   return (
     <>
@@ -92,12 +101,12 @@ const Learn = () => {
         <TitleContainer>Explore Inquiries</TitleContainer>
         <SearchBarsContainer>
           <Form>
-            <Input onChange={e => setInput(e.target.value)} ref={inputFocus} value={input} placeholder= "Search by title....." />
-            <IconContainer onClick={() => Search(SearchRef.current.value)}><Image src={SearchIcon} alt="search icon"/></IconContainer>
+            <Input onChange={e => setTitleSearchTerm(e.target.value)} value={titleSearch} placeholder= "Search by title....." />
+            <IconContainer><Image src={SearchIcon} alt="search icon"/></IconContainer>
           </Form>
           <SecondForm>
-            <SecondInput onChange={e => setsecondInput(e.target.value)} ref={secondinputFocus} value={secondinput} placeholder= "Filter by topic....."/>
-            <IconContainer onClick={() => Search(SearchRef.current.value)}><Image src={SearchIcon} alt="search icon"/></IconContainer>
+            <SecondInput onChange={e => setTopicSearchTerm(e.target.value)} value={topicSearch} placeholder= "Filter by topic....."/>
+            <IconContainer><Image src={SearchIcon} alt="search icon"/></IconContainer>
           </SecondForm>
         </SearchBarsContainer>
 
@@ -116,11 +125,13 @@ const Learn = () => {
         <ThreadDiv onClick={() => ViewQuestion(question)} key={question.id}>
         <ThreadContent>
           <ThreadText>
-            <ThreadTitle>Insert your title</ThreadTitle>
-            <ThreadDesc>{String(question[2])}</ThreadDesc>
+          {question.description ? 
+                      <><ThreadTitle >{question.title}</ThreadTitle>
+                      <ThreadDesc>{question.description}</ThreadDesc> </>
+                      :<ThreadTitle2>{question.title}</ThreadTitle2>}
           </ThreadText>
           <ThreadInfo>
-            <TopicDiv>Topic</TopicDiv>
+            <TopicDiv>{question.topic}</TopicDiv>
           </ThreadInfo>
         </ThreadContent>
       </ThreadDiv>
@@ -294,7 +305,7 @@ background-color: gainsboro;
 color: black;
 width: 6vw;
 height: 2.5vw;
-
+text-align: center;
 `
 const FilterInfo = styled.div`
 font-size: ${props => props.theme.fontParagraph_small};
@@ -308,14 +319,24 @@ width: 50vw;
 height: 90%;
 flex-direction: column;
 `
+
 const ThreadTitle = styled.text`
 font-size: ${props => props.theme.fontParagraph_large};
 font-weight: ${props => props.theme.fontBold};
 white-space: nowrap;
 overflow: hidden;
 text-overflow: ellipsis;
-
 `
+const ThreadTitle2 = styled.text`
+font-size: ${props => props.theme.fontParagraph_large};
+font-weight: ${props => props.theme.fontBold};
+display: -webkit-box;
+-webkit-line-clamp: 3;
+-webkit-box-orient: vertical;
+overflow: hidden;
+text-overflow: ellipsis;
+`
+
 const ThreadDesc = styled.text`
 font-size: ${props => props.theme.fontParagraph_medium};
 height: 3.5vw;

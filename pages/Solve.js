@@ -7,30 +7,26 @@ import { useRouter } from 'next/router'
 import Logo from '../assets/KnowledgeSwapLogo.png'
 import KSquestionABI from "../contracts/KSquestionNFT.json"
 import {ethers, BigNumber} from "ethers";
-import KSLogo from '../assets/KnowledgeSwapLogo.png'
+import KSanswerABI from "../contracts/KSanswerNFT.json"
 import RedLogo from '../assets/RedLogo.png'
 
 const Solve = () => {
 
-  const SearchRef = useRef()
   const router = useRouter()
-  const { accounts, questionToBeAnswered, setQuestionToBeAnswered, 
-    KSquestionNFTContractAddress} = useStateContext();
-  const [searchInput, setSearchInput] = useState("");
+  const { accounts, setQuestionToBeAnswered, KSquestionNFTContractAddress, 
+    KSanswerNFTContractAddress} = useStateContext();
+
+  const [ replyCount, setReplyCount] = useState([]);
   const [ totalQuestions, setTotalQuestions] = useState([]);
+
   const [ questions, setQuestions] = useState([]);
 
-  const [input, setInput] = useState("");
-  const formRef = useRef();
-  const inputFocus = useRef();
+  const [titleSearch, setTitleSearchTerm] = useState("");
+  const [topicSearch, setTopicSearchTerm] = useState("");
 
-  const [secondinput, setsecondInput] = useState("");
-  const secondformRef = useRef();
-  const secondinputFocus = useRef();
-
-  function goToQuestionReply(question){
-    setQuestionToBeAnswered(question)
-    router.push(`./answer/${question[0]}`);
+  function goToQuestionReply(questionID){
+    setQuestionToBeAnswered(questionID)
+    router.push(`./answer/${questionID}`);
   }
 
   async function VeiwAllQuestions(){
@@ -46,52 +42,129 @@ const Solve = () => {
     let response;
     response = await KSquestionsContract.getAllQuestions()
 
-    setQuestions(response);
-    setTotalQuestions(response);
+    let i;
+    let questionsResponse = [];
+    for(i = 0;i < response.length;i++){
 
-    // console.log(questions[0][2]);
+      const TokenURI = `https://${response[i]}.ipfs.w3s.link/question.json`;
+      const tokenURIResponse = await fetch(TokenURI)
+        .then(res => res.json())
+        .then(data => { return data})
+      questionsResponse.push(tokenURIResponse)
     }
+    getRepliesNumber(questionsResponse)
+    setQuestions(questionsResponse);
+    setTotalQuestions(questionsResponse);
+    }
+  }
+
+  async function getRepliesNumber(questionsArray){
+    if(accounts[0]){
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const contract = new ethers.Contract(
+          KSanswerNFTContractAddress,
+          KSanswerABI.abi,
+          signer
+        );
+        try{
+        let i = 0;
+        for(i=0; i < questionsArray.length; i++){
+          const response = await contract.getRepliesByID(questionsArray[i].questionID);
+          setReplyCount([...replyCount, [questionsArray[i].questionID, response.length]]);
+        }}catch(err){
+          console.log(err)
+        }
+    }
+  }
+
+  function findReplyCountByID(questionID){
+    let i = 0;
+    for(i=0; i < replyCount.length; i++){
+      if(replyCount[i][0] == questionID){
+        return replyCount[i][1];
+      }
+    }
+    return 0;
+  }
+
+  useEffect(() => {
+    VeiwAllQuestions()
+  }, [accounts[0]])
+
+  // Searching Functionalties
+
+  useEffect(() => {
+    SearchByTitle()
+  }, [titleSearch])
+
+  function SearchByTitle(){
+    if(titleSearch.length >= 1){
+      let newQuestions = [];
+        let i = 0;
+        for(i=0;i<totalQuestions.length;i++){
+          if(searchedFor(totalQuestions[i].title, titleSearch)){
+            newQuestions.push(totalQuestions[i])
+          }
+        }
+        setQuestions(newQuestions) 
+  }else{
+    setQuestions(totalQuestions)
+  }
   }
 
   function searchedFor(questionText, string){
     return Boolean(String(questionText.toLowerCase()).indexOf(string.toLowerCase()) >= 0)
   }
 
-  useEffect(() => {
-    VeiwAllQuestions()
-    setInterval(function() {
-      VeiwAllQuestions()
-      // if(SearchRef.current.value.length > 1) {
-      //   let newQuestions = [];
-      //   let i = 0;
-      //   for(i=0;i<questions.length;i++){
-      //     if(searchedFor(questions[i][2],SearchRef.current.value)){
-      //       newQuestions.push(questions[i])
-      //     }
-      //   }
-      //   setQuestions(newQuestions) 
-      // }else{
-      //   // setInterval(function() {
-      //     // VeiwAllQuestions()
-      //   // }, 3000); // 60000
-      // }      
-    }, 60000);
-  }, [accounts[0]])
+  // UTILS FUNCTIONS
 
-  function Search(searchTerm){
-    if(searchTerm.length > 1){
-      let newQuestions = [];
-        let i = 0;
-        for(i=0;i<totalQuestions.length;i++){
-          if(searchedFor(totalQuestions[i][2],searchTerm)){
-            newQuestions.push(totalQuestions[i])
-          }
-        }
-        setQuestions(newQuestions) 
-    }else{
-      setQuestions(totalQuestions) 
+  function bountyFilter(value){
+    const bountyValue = parseInt(value);
+    if (bountyValue > 999999){
+        var mCount = bountyValue / 1000000;
+        var mDisplay =  mCount.toFixed(2) + ("M");
+        return mDisplay;
+    } else if (bountyValue > 999){
+        var kCount = bountyValue / 1000;
+        var kDisplay = kCount.toFixed(2) + ("K");
+        return kDisplay;
+    } else{
+        return bountyValue.toFixed(0);
     }
-  }
+    }
+
+  function timeFilter(seconds){
+      var currentDateTime = new Date();
+      const currentTimeInSec = currentDateTime.getTime() / 1000;
+      let elapsedTime = currentTimeInSec - parseInt(seconds);
+    
+      if (elapsedTime < 3600){
+          var m = Math.floor(elapsedTime % 3600 / 60);
+          var mDisplay = m > 0 ? m + (m === 1 ? " min ago" : " mins ago") : "";
+          if(m < 1){
+            return "secs ago"
+          }
+          return mDisplay;
+      } else if (elapsedTime < 86400){
+          var h = Math.floor(elapsedTime % (3600*24) / 3600);
+          var hDisplay = h > 0 ? h + (h === 1 ? " hr ago" : " hrs ago") : "";
+          return hDisplay;
+      } else if (elapsedTime < 2592000){
+          var d = Math.floor(elapsedTime / (3600*24));
+          var dDisplay = d > 0 ? d + (d === 1 ? " day ago" : " days ago") : "";
+          return dDisplay;
+      } else if (elapsedTime < 31536000){
+          var ms = Math.floor(elapsedTime / (3600*24*30));
+          var msDisplay = ms > 0 ? ms + (ms === 1 ? " month ago" : " months ago") : "";
+          return msDisplay;
+      } else{
+          var y = Math.floor(elapsedTime / (3600*24*365));
+          var yDisplay = y > 0 ? y + (y === 1 ? " yr ago " : " yrs ago") : "";
+          return yDisplay;
+      }
+    } 
+  
 
   return (
     <>
@@ -100,12 +173,12 @@ const Solve = () => {
       <TitleContainer>Solve Inquiries</TitleContainer>
         <SearchBarsContainer>
           <Form>
-            <Input onChange={e => setInput(e.target.value)} ref={inputFocus} value={input} placeholder= "Search by title....." />
-            <IconContainer onClick={() => Search(SearchRef.current.value)}><Image src={SearchIcon} alt="search icon"/></IconContainer>
+            <Input onChange={e => setTitleSearchTerm(e.target.value)} value={titleSearch} placeholder= "Search by title....." />
+            <IconContainer><Image src={SearchIcon} alt="search icon"/></IconContainer>
           </Form>
           <SecondForm>
-            <SecondInput onChange={e => setsecondInput(e.target.value)} ref={secondinputFocus} value={secondinput} placeholder= "Filter by topic....."/>
-            <IconContainer onClick={() => Search(SearchRef.current.value)}><Image src={SearchIcon} alt="search icon"/></IconContainer>
+            <SecondInput onChange={e => setTopicSearchTerm(e.target.value)} value={topicSearch} placeholder= "Filter by topic....."/>
+            <IconContainer ><Image src={SearchIcon} alt="search icon"/></IconContainer>
           </SecondForm>
         </SearchBarsContainer>
 
@@ -124,19 +197,22 @@ const Solve = () => {
 
       <ThreadContainer>
         {[...questions].reverse()?.map((question) => 
-                <ThreadDiv onClick={() => goToQuestionReply(question)} key={question.id}>
+                <ThreadDiv onClick={() => goToQuestionReply(question.questionID)} key={question.id}>
                 <ThreadContent>
                     <ThreadText>
-                      <ThreadTitle >Enter your title</ThreadTitle>
-                      <ThreadDesc>{String(question[2])}</ThreadDesc>
+                      {question.description ? 
+                      <><ThreadTitle >{question.title}</ThreadTitle>
+                      <ThreadDesc>{question.description}</ThreadDesc> </>
+                      :<ThreadTitle2>{question.title}</ThreadTitle2>}
                     </ThreadText>
                     <ThreadInfo>
-                      <TopicDiv>Topic</TopicDiv>
-                      <BountyDiv>{String(question[3])}
+                      <TopicDiv>{question.topic}</TopicDiv>
+                      <BountyDiv>
+                        {bountyFilter(question.bounty)}
                         <KSLogoDiv><Image src={RedLogo}/></KSLogoDiv>
                       </BountyDiv>
-                      <InfoDiv> 100</InfoDiv>
-                      <InfoDiv>24 Hrs</InfoDiv>
+                      <InfoDiv>{findReplyCountByID(question.questionID)}</InfoDiv>
+                      <TimeDiv>{timeFilter(question.timeStamp)}</TimeDiv>
                     </ThreadInfo>
                 </ThreadContent>
               </ThreadDiv>
@@ -152,7 +228,11 @@ const Solve = () => {
 
 const WalletPlease = styled.div`
 font-size: ${props => props.theme.fontSubheading_large};
-
+display: flex;
+margin-top: 8vw;
+margin-bottom: 8vw;
+justify-content: center;
+align-items: center;
 `
 const IconContainer = styled.div`
 display: flex;
@@ -285,10 +365,12 @@ font-size: ${props => props.theme.fontParagraph_small};
 font-weight: ${props => props.theme.fontBold};
 justify-content: center;
 align-items: center;
+text-align: center;
 background-color: gainsboro;
 color: black;
-width: 25%;
+width: 27%;
 height: 2.5vw;
+overflow: hidden;
 `
 const BountyDiv = styled.div`
 display: flex;
@@ -315,6 +397,16 @@ justify-content: center;
 align-items: center;
 width: 15%;
 `
+const TimeDiv = styled.div`
+display: flex;
+font-size: ${props => props.theme.fontParagraph_small};
+text-align: center;
+font-weight: ${props => props.theme.fontLight};
+justify-content: center;
+align-items: center;
+width: 15%;
+`
+
 const FilterInfo = styled.div`
 display: flex;
 font-size: ${props => props.theme.fontParagraph_small};
@@ -333,8 +425,9 @@ width: 15%;
 `
 const ThreadText = styled.div`
 display: flex;
+justify-content: center;
 font-weight: ${props => props.theme.fontBold};
-width: 50vw;
+width: 60%;
 height: 90%;
 flex-direction: column;
 `
@@ -344,8 +437,18 @@ font-weight: ${props => props.theme.fontBold};
 white-space: nowrap;
 overflow: hidden;
 text-overflow: ellipsis;
-
 `
+
+const ThreadTitle2 = styled.text`
+font-size: ${props => props.theme.fontParagraph_large};
+font-weight: ${props => props.theme.fontBold};
+display: -webkit-box;
+-webkit-line-clamp: 3;
+-webkit-box-orient: vertical;
+overflow: hidden;
+text-overflow: ellipsis;
+`
+
 const ThreadDesc = styled.text`
 font-size: ${props => props.theme.fontParagraph_medium};
 height: 3.5vw;

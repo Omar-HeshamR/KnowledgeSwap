@@ -10,10 +10,10 @@ import { useRouter } from 'next/router'
 
 const { createHash } = require("crypto")
 
-const KStokenContractAddress = "0x164A5B05F1C10a3D6ebd48dc6f3949Dbb4102034"
+const KStokenContractAddress = "0x74357674cE37Eaf090785007FC9322caCBA0dF0a"
 const KScredibilityContractAddress = "0xEaD7A0Cb8372B3F7B066a9859350D95Dc3678b73"
-const KSquestionNFTContractAddress = "0x90f78e92798E00D6e5527664A98A6949f9074480"
-const KSanswerNFTContractAddress = "0xB4Feb20Ab47944Fd82c25FAc8688B4f3ec110a52"
+const KSquestionNFTContractAddress = "0x801eFd7091BCEfA2F4192eF6CCac913e68FCe4cE"
+const KSanswerNFTContractAddress = "0xa4f6d93c19C0C5d49D92bA0eD3AA29c6Ee7736e8"
 
 const ERC20ABI = ERC20abi
 
@@ -42,7 +42,7 @@ export const StateContext = ({ children }) => {
     }
 }
 
-  const onLoad = async () =>{
+  const onLoad = async () => {
     if(accounts[0]){
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
@@ -192,10 +192,30 @@ async function awardCredibility(_userToBeRewarded){
 
 // Uploading functionalties
 
+function makeReplyJson(_questionID, _replier, _reply){
+
+  const ToBeHashed = _questionID + _replier + _reply;
+  const _replyID = createHash('sha256').update(ToBeHashed).digest('hex');
+
+  let reply;
+  reply = {
+    "questionID": _questionID,
+    "replier":  _replier,
+    "reply": _reply,
+    "replyID": _replyID,
+}
+return reply
+}
+
 function makeQuestionJson(_asker, _title, _topic, _description, _bounty){
 
+  // ID Creation
   const ToBeHashed = _asker + _title + _topic + _description;
   const _ID = createHash('sha256').update(ToBeHashed).digest('hex');
+
+  // Time Stamp in seconeds
+  var currentDateTime = new Date();
+  const _timeStamp = String(currentDateTime.getTime() / 1000);
 
   let question;
   question = {
@@ -205,24 +225,33 @@ function makeQuestionJson(_asker, _title, _topic, _description, _bounty){
       "topic": _topic,
       "title": _title,
       "description" : _description,
+      "timeStamp" : _timeStamp
   }
   return question
 }
 
-function makeFileObjects (obj){
+function makeFileObjects (obj, extension){
   const blob = new Blob([JSON.stringify(obj)], { type: 'application/json' })
   const files = [
-    new File(['contents-of-file-1'], 'plain-utf8.txt'),
-    new File([blob], 'hello.json')
+    new File([blob], `${extension}.json`)
   ] 
   return files
 }
 
 async function storeFiles (files) {
-  const client = makeStorageClient()
+  const client = makeStorageClient();
   const cid = await client.put(files)
   console.log('stored files with cid:', cid)
   return cid
+}
+
+async function fetchQuestionDetails(CID){
+  const TokenURI = `https://${CID}.ipfs.w3s.link/question.json`;
+  console.log(TokenURI)
+  const tokenURIResponse = await fetch(TokenURI)
+    .then(res => res.json())
+    .then(data => { return data})
+  console.log(tokenURIResponse);
 }
 
     return(
@@ -248,13 +277,14 @@ async function storeFiles (files) {
              HoldBounty,
              AwardBounty,
              awardCredibility,
-             Test,
              
             // UPLOADING TO IPFS:
             makeQuestionJson,
+            makeReplyJson,
             makeFileObjects,
             storeFiles,
-            
+            fetchQuestionDetails,
+
             // CONTRACT ADDRESSES
             KStokenContractAddress,
             KScredibilityContractAddress ,

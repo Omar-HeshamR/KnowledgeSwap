@@ -176,7 +176,7 @@ contract KStoken is ERC20 {
     
     address public Owner;
     mapping(address => uint) public staked;
-    mapping(uint256 => uint256) public holdings;
+    mapping(string => uint256) public holdings;
     mapping(address => uint) private stakedFromTS;
 
     constructor() ERC20("Knowledge Swap Token T1", "KS-TOKEN T1") {
@@ -197,19 +197,19 @@ contract KStoken is ERC20 {
         _burn(msg.sender, amount);
     }
 
-    function bountyLeftOnQuestion(uint256 _questionID) public view returns(uint256){
+    function bountyLeftOnQuestion(string memory _questionID) public view returns(uint256){
         return holdings[_questionID];
     }
 
     //  still need to add requiring msg.sender to be question asker
-    function holdBounty(uint256 _questionID, uint256 bountyAmount) external{
+    function holdBounty(string memory _questionID, uint256 bountyAmount) external{
         bountyAmount = bountyAmount * 1000000000000000000;
         require(balanceOf(msg.sender) >= bountyAmount, "balance is <= bountyAmount");
         _transfer(msg.sender, address(this), bountyAmount);
         holdings[_questionID] = bountyAmount;
     }
 
-    function awardBounty(uint256 _questionID, address _userToBeRewarded) external{
+    function awardBounty(string memory _questionID, address _userToBeRewarded) external{
         _transfer(address(this), _userToBeRewarded, holdings[_questionID]);
         holdings[_questionID] = 0;
     }

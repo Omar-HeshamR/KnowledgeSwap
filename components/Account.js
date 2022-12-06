@@ -25,6 +25,11 @@ const { accounts, showAccount, setShowAccount, userKStokenCount, userKScredibili
     router.push("/myquestions")
   }
 
+  const goToMyPortofolio = () => {
+    setShowAccount(false)
+    router.push("/portofolio")
+  }
+
 useEffect(() => {
   onLoad()
 }, [])
@@ -55,7 +60,7 @@ useEffect(() => {
 
      
             <MyQuestionsHeader onClick={goToMyQuestion}>Questions I Asked</MyQuestionsHeader>
-            <MyQuestionsHeader>Portfolio Awards</MyQuestionsHeader>
+            <MyQuestionsHeader onClick={goToMyPortofolio}>Portfolio Awards</MyQuestionsHeader>
 
           <LogOutButton onClick={disconnectAccount}>LOG OUT</LogOutButton>
         </InfoBox>
@@ -124,7 +129,6 @@ const AccountContainer = styled.div`
     width: 33.5vw;
     float: right;
     padding: 4vw 1vw;
-    overflow: auto;
     position: relative;
     animation: ${OpenUp} 1.25s ease;
     a{
@@ -139,27 +143,6 @@ const AccountContainer = styled.div`
     @media (max-width: 480px){
       width: 50vw;
     } 
-    &::-webkit-scrollbar {
-      width: 1vw;
-    }
-    
-    &::-webkit-scrollbar-thumb {
-      background: black; 
-    }
-    
-    &::-webkit-scrollbar-button:vertical:increment {
-      height: 1vw;
-      border-bottom: 0.2vw solid black;
-      border-left: 0.2vw solid black;
-      border-right: 0.2vw solid black; 
-    }
-    
-    &::-webkit-scrollbar-button:vertical:decrement {
-      height: 1vw;
-      border-top: 0.2vw solid black;
-      border-left: 0.2vw solid black;
-      border-right: 0.2vw solid black; 
-    }
 `
 const HeadBack = styled.button`
 display: flex;
@@ -291,14 +274,10 @@ text-align: left;
 overflow-wrap: break-word;
 border-bottom: 0.5vw double ${props => props.theme.textColor};
 width: 100%;
-.text {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 1; /* number of lines to show */
-          line-clamp: 2; 
-  -webkit-box-orient: vertical;
-}
+display: -webkit-box;
+-webkit-line-clamp: 2; /* number of lines to show */
+        line-clamp: 2; 
+-webkit-box-orient: vertical;
 `
 
 export default Account

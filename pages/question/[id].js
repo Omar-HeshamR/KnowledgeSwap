@@ -16,13 +16,13 @@ const QuestionDetails = () => {
   const { accounts, questionToBeViewed, setQuestionToBeViewed, awardCredibility, getUserCredibility, 
     AwardBounty, KStokenContractAddress, KSanswerNFTContractAddress,KSquestionNFTContractAddress
    } = useStateContext();
-
+  
   const [awardedAlready, setAwardedAlready ] = useState(false)
   const [tempLoader, setTempLoader] = useState(false)
   const [allRepliersAddresses, setAllRepliersAddressses] = useState([]);
   const [repliesDictionary, setRepliesDictionary] = useState({});
   const [questionReplies, setQuestionReplies] = useState([]);
-  
+
   function convertToNormalTime(seconeds){
     let result;
     const temp = new Date( seconeds * 1000).toISOString()
@@ -39,29 +39,29 @@ const QuestionDetails = () => {
         signer
       );
       try{
-        const response = await contract.getAllAnswers();
-        // console.log("Response", response)
-        // console.log("ID 1 ", String(questionToBeViewed[0]))
-        // console.log("ID 2 ", String(response[0][1]))
-        // console.log("Compare", Boolean(parseInt(String(response[0][1])) === parseInt(String(questionToBeViewed[0]))))
+
+        const questionID = String(router.asPath).slice(10)
+        const response = await contract.getRepliesByID(questionID);
+
         let i = 0;
-        let questionResponses = [];
+        let replies = [];
         for(i = 0; i < response.length;i++){
-          if(parseInt(String(response[i][1])) == parseInt(String(questionToBeViewed[0]))){
-            questionResponses.push(response[i]);
-          }
+          const TokenURI = `https://${response[i][0]}.ipfs.w3s.link/reply.json`;
+          const tokenURIResponse = await fetch(TokenURI)
+            .then(res => res.json())
+            .then(data => { return data})
+            replies.push(tokenURIResponse);
         }
-        // console.log(questionResponses);
 
         let j = 0;
         let repliersAddresses = [];
-        for(j = 0; j < questionResponses.length; j++){
-          repliersAddresses.push(questionResponses[j][2]);
+        for(j = 0; j < replies.length; j++){
+          repliersAddresses.push(replies[j].replier);
         }
         repliersAddresses = [...new Set(repliersAddresses)];
 
         setAllRepliersAddressses(repliersAddresses);
-        setQuestionReplies(questionResponses);
+        setQuestionReplies(replies);
 
       }catch(err){
         console.log(err);
@@ -128,9 +128,13 @@ const QuestionDetails = () => {
 
     let i = 0;
     for(i=0;i<response.length;i++){
-      if(String(response[i][0]) === Path){
-        setQuestionToBeViewed(response[i])
-      }
+      const TokenURI = `https://${response[i]}.ipfs.w3s.link/question.json`;
+      const tokenURIResponse = await fetch(TokenURI)
+        .then(res => res.json())
+        .then(data => { return data})
+        if(tokenURIResponse.questionID == Path){
+          setQuestionToBeViewed(tokenURIResponse)
+        }
     }
     refresh();
     }
@@ -186,11 +190,11 @@ async function checkIFAwardedAlready(_questionID){
 
       <TextContainer>
         <HeaderBox>
-          <WalletID><p><b>Asker:</b> {questionToBeViewed[1]}</p></WalletID>
-          <DateOfInquiry>Asked On: {convertToNormalTime(questionToBeViewed[4])}</DateOfInquiry>
+          <WalletID><p><b>Asker:</b> {questionToBeViewed.asker}</p></WalletID>
+          <DateOfInquiry>Asked On: {convertToNormalTime(questionToBeViewed.timeStamp)}</DateOfInquiry>
         </HeaderBox>
-        <Title>Insert Your Title</Title>
-        <Description>{questionToBeViewed[2]} </Description>
+        <Title>{questionToBeViewed.title}</Title>
+        <Description>{questionToBeViewed.description}</Description>
       </TextContainer>
 
       {questionReplies.length === 0 ? <Heading>No Answers yet !</Heading> : <></>}
@@ -200,15 +204,15 @@ async function checkIFAwardedAlready(_questionID){
           <ThreadContent>
             <ThreadText>
               <InfoRow>
-                  <ReplierID>Replier: {String(reply[2])} 
+                  <ReplierID>Replier: {reply.replier} 
                   <BountyDiv>
-                    {String(repliesDictionary[reply[2]])}
+                    {String(repliesDictionary[reply.replier])}
                     <CredLogoDiv><Image src={RedCredLogo} alt="Credibility Icon"/></CredLogoDiv>
                   </BountyDiv> 
                   </ReplierID>  
                       
               </InfoRow>
-              <ThreadDesc>{String(reply[3])}</ThreadDesc>
+              <ThreadDesc>{reply.reply}</ThreadDesc>
             </ThreadText>
             
             </ThreadContent> 
