@@ -8,6 +8,7 @@ import Image from 'next/image'
 import KSquestionABI from "../../contracts/KSquestionNFT.json"
 import { useRouter } from 'next/router'
 import RedCredLogo from '../../assets/RedCredibilityIcon.png'
+import toast from 'react-hot-toast'
 
 const QuestionDetails = () => {
 
@@ -142,7 +143,7 @@ const QuestionDetails = () => {
 
   
 async function checkIFAwardedAlready(_questionID){
-
+  let response;
   try{
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
@@ -151,14 +152,13 @@ async function checkIFAwardedAlready(_questionID){
       KStokenABI.abi,
       signer
     )
-    const response = await KStokensContract.bountyLeftOnQuestion(_questionID);
-    // console.log(String(response))
+    response = await KStokensContract.bountyLeftOnQuestion(_questionID);
+    // console.log(parseInt(String(response)))
     if(parseInt(String(response)) == 0 ){
       setAwardedAlready(true)
     }else{
       setAwardedAlready(false)
     }
-
     }catch(err){}
   }
 
@@ -166,15 +166,13 @@ async function checkIFAwardedAlready(_questionID){
    function onClickBountyAward(_replier){
     setTempLoader(true)
 
-    setTimeout(function () {
+    setTimeout(async function () {
     try{
-    console.log(tempLoader)
     const questionID = String(router.asPath).slice(10);
-    AwardBounty(questionID,_replier)
-    awardCredibility(_replier)
-    // router.reload()
+    await AwardBounty(questionID , _replier)
+    await awardCredibility(_replier)
 }
-    catch(err){console.log(err)}
+    catch(err){toast.error("Cancelled Awarding Proccess !")}
     setAwardedAlready(true)
     }, 1000)
   }
@@ -216,13 +214,13 @@ async function checkIFAwardedAlready(_questionID){
             </ThreadText>
             
             </ThreadContent> 
-            {String(accounts[0]) === String(questionToBeViewed[1]) && 
+            {String(accounts[0]) === String(questionToBeViewed.asker) && 
                     <LeftLeanerDiv>
                     {awardedAlready ? <></> : 
                     <>
       {tempLoader ?
       <ReplyHeaderItem>Loading ...</ReplyHeaderItem>
-      : <AwardButton onClick={() => onClickBountyAward(String(reply[2]))}>Award Bounty !</AwardButton>}
+      : <AwardButton onClick={() => onClickBountyAward(String(reply.replier))}>Award Bounty !</AwardButton>}
                     </>
       }
                     </LeftLeanerDiv>            
@@ -254,9 +252,7 @@ display: flex;
 font-size: ${props => props.theme.fontParagraph_large};
 font-weight: ${props => props.theme.fontBold};
 `
-const ExtraMargin = styled.div`
 
-`
 const LeftLeanerDiv = styled.div`
 margin-bottom: 1vw;
 `

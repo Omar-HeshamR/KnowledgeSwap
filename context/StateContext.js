@@ -168,7 +168,7 @@ async function AwardBounty(_questionID, _userToBeRewarded){
       signer
     )
     const response = await KStokensContract.awardBounty(_questionID, _userToBeRewarded);
-    }catch(err){}
+    }catch(err){console.log(err)}
 
   }
 
@@ -182,10 +182,10 @@ async function awardCredibility(_userToBeRewarded){
     KnowledgeSwapCredibilityToken.abi,
     signer
   )
-  KScredibility = await KScredibilityContract.mint(_userToBeRewarded, 1000000000000000000);
-  }catch(err){}
-
+  let mintAmount = BigInt(10 ** 18);
+  KScredibility = await KScredibilityContract.mint(_userToBeRewarded, mintAmount);
   toast.success(`Succesfully Awarded!`);   
+  }catch(err){console.log(err)}
 
 }
 

@@ -1,4 +1,4 @@
-import React, {useRef, useEffect}  from 'react'
+import React, {useRef, useEffect, useState}  from 'react'
 import styled from 'styled-components'
 import Logo from '../../assets/RedLogo.png'
 import KSanswerABI from "../../contracts/KSanswerNFT.json"
@@ -18,8 +18,11 @@ const AsnweringDetails = () => {
   const { accounts, questionToBeAnswered, setQuestionToBeAnswered, KSanswerNFTContractAddress
   ,  KSquestionNFTContractAddress, makeReplyJson, makeFileObjects, storeFiles} = useStateContext();
   const AsnwerRef = useRef();
+  const [loading, setLoading] = useState();
 
   async function postReply(){
+
+    setLoading(true)
 
     // create the reply object
     const _questionID = String(router.asPath).slice(8)
@@ -34,6 +37,7 @@ const AsnweringDetails = () => {
     CID = await storeFiles(files);
     }catch(err){
       toast.error(`Failed to upload your reply!`)
+      setLoading(false)
       return;
     }
 
@@ -52,6 +56,7 @@ const AsnweringDetails = () => {
         duration: 3000,});}
     catch(err){
         toast.error('Signing Canclled');
+        setLoading(false)
       }
 
   }
@@ -107,7 +112,8 @@ const AsnweringDetails = () => {
                   <Description>{questionToBeAnswered.description}</Description>
                   <Indicator><p><b>Enter your reply:</b> (required)</p></Indicator>
                   <ReplyBox type={"text"} ref={AsnwerRef}/>
-                  <ReplyButton onClick={postReply}>Reply</ReplyButton>
+                  {loading ? <Signing> Signing ...  </Signing>
+                  :<ReplyButton onClick={postReply}>Reply</ReplyButton>}
                 </TextContainer>
                 </>
               : 
@@ -128,6 +134,17 @@ align-items: center;
 font-size: ${props => props.theme.fontHeading_small};
 font-weight: ${props => props.theme.fontBold};
 `
+const Signing = styled.div`
+display: flex;
+align-items: center;
+justify-content: center;
+align-items: center;
+margin-top: 2vw;
+margin-bottom: 2vw;
+font-size: ${props => props.theme.fontHeading_small};
+font-weight: ${props => props.theme.fontBold};
+`
+
 const NewSection = styled.div`
 display: flex;
 justify-content: center;

@@ -6,8 +6,7 @@ import KSquestionABI from "../contracts/KSquestionNFT.json"
 import {ethers, BigNumber} from "ethers";
 import { useRouter } from 'next/router'
 import SearchIcon from '../assets/SearchIcon.png'
-import RedLogo from '../assets/RedLogo.png'
-import Particle from "../components/Particle"
+import TopicSelector from '../components/Utils/TopicSelector';
 
 const Learn = () => {
   
@@ -18,7 +17,7 @@ const Learn = () => {
   const [ questions, setQuestions] = useState([]);
 
   const [titleSearch, setTitleSearchTerm] = useState("");
-  const [topicSearch, setTopicSearchTerm] = useState("");
+  const [topic, setTopic] = useState([]);
 
   function ViewQuestion(question){
     setQuestionToBeViewed(question)
@@ -70,11 +69,13 @@ const Learn = () => {
   // Searching Functionalties
 
   useEffect(() => {
-    SearchByTitle()
-  }, [titleSearch])
+    Search()
+  }, [titleSearch, topic])
 
-  function SearchByTitle(){
-    if(titleSearch.length >= 1){
+  function Search(){
+
+    if(titleSearch.length >= 1 && topic.length != 0){
+      let finalQuestions = []
       let newQuestions = [];
         let i = 0;
         for(i=0;i<totalQuestions.length;i++){
@@ -82,15 +83,56 @@ const Learn = () => {
             newQuestions.push(totalQuestions[i])
           }
         }
-        setQuestions(newQuestions) 
-  }else{
-    setQuestions(totalQuestions)
+        i = 0;
+        for(i=0;i<newQuestions.length;i++){
+            if(isASelectedTopic(newQuestions[i].topic)){
+              finalQuestions.push(newQuestions[i])
+            }
+          }
+          setQuestions(finalQuestions) 
   }
+
+    if(titleSearch.length >= 1 && topic.length == 0){
+    let newQuestions = [];
+    let i = 0;
+    for(i=0;i<totalQuestions.length;i++){
+      if(searchedFor(totalQuestions[i].title, titleSearch)){
+        newQuestions.push(totalQuestions[i])
+      }
+    }
+      setQuestions(newQuestions) 
+  }
+
+    if(titleSearch.length == 0 && topic.length != 0){
+    let newQuestions = [];
+    let i = 0;
+    for(i=0;i<totalQuestions.length;i++){
+      if(isASelectedTopic(totalQuestions[i].topic)){
+        newQuestions.push(totalQuestions[i])
+      }
+    }
+      setQuestions(newQuestions) 
   }
   
+    if( titleSearch.length == 0&& topic.length == 0){
+    setQuestions(totalQuestions)
+  }
+
+  }
+
   function searchedFor(questionText, string){
     return Boolean(String(questionText.toLowerCase()).indexOf(string.toLowerCase()) >= 0)
-}
+  }
+
+  function isASelectedTopic(toBeChecked){
+    let i = 0;
+    for(i=0;i<topic.length;i++){
+      if(toBeChecked == topic[i]){
+        return true;
+      }
+    }
+    return false;
+  }
 
 
   return (
@@ -105,8 +147,7 @@ const Learn = () => {
             <IconContainer><Image src={SearchIcon} alt="search icon"/></IconContainer>
           </Form>
           <SecondForm>
-            <SecondInput onChange={e => setTopicSearchTerm(e.target.value)} value={topicSearch} placeholder= "Filter by topic....."/>
-            <IconContainer><Image src={SearchIcon} alt="search icon"/></IconContainer>
+            <TopicSelector topic={topic} setTopic={setTopic}/>
           </SecondForm>
         </SearchBarsContainer>
 
@@ -189,10 +230,9 @@ flex-direction: column;
 `
 const SearchBarsContainer = styled.div`
 width: 100%;
-height: 10vw;
 display: flex;
 justify-content: space-between;
-height: 8vw;
+min-height: 8vw;
 align-items: center;
 `
 const TitleContainer = styled.div`
@@ -229,25 +269,14 @@ color: ${props => props.theme.textColor};
 `
 const SecondForm = styled.div`
 display: flex;
+justify-content: center;
+min-height: 1.5vw;
+height: 100%;
+width: 30%;
+margin-bottom: 1vw;
+margin-top: 1vw;
 color: ${props => props.theme.textColor};
-background-color: gainsboro;
 align-items: center;
-height: 3.5vw;
-`
-const SecondInput = styled.input`
-font-size: ${props => props.theme.fontParagraph_medium};
-background-color: transparent;
-width: 20vw;
-margin-left: 1vw;
-border: none;
-color: ${props => props.theme.textColor};
-&:focus,
-&:active {
-  outline: none;
-}
-&::placeholder {
-  color: ${props => props.theme.textColor};
-}
 `
 const FilterContainer = styled.div`
 display: flex;

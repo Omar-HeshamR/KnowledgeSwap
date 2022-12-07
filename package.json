@@ -30,6 +30,7 @@
     "react-hot-toast": "^2.4.0",
     "react-icons": "^4.6.0",
     "react-promise": "^3.0.2",
+    "react-select": "^5.7.0",
     "react-tsparticles": "^2.5.3",
     "react-use": "^17.4.0",
     "styled-components": "^5.3.6",
